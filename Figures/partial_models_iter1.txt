@@ -1,0 +1,102 @@
+include("BK_functions/bk_setup_script_highV.jl"); outp_highV = MBAM(BK_simulator, phi0, x_grid, model_iters=[30],
+       move_dir=[-1], boundary_time=10, verbose=1, reduce_func=BK_reduce);
+  0.109781 seconds (121.72 k allocations: 5.568 MB)
+Model iteration 30, Single g_cost call takes:
+  0.025487 seconds (40.05 k allocations: 1.842 MB)
+Model iteration 30, initial values:
+      D = [  2.70e-11,   2.82e-10,   5.51e-08,   3.53e-06,   7.81e-06,   5.76e-03,   6.85e-03,   7.85e-01]
+   cost = 3.697785493223493e-32
+phi_cur = [    -13.03,      -0.87,      -2.28,      -0.54,     -10.15,       1.82,       3.41,       0.69]
+      v = [  9.71e-01,  -1.10e-02,  -1.45e-02,  -4.71e-03,   2.97e-02,  -6.75e-03,  -2.31e-01,   3.80e-02]
+
+
+Model iteration 30, final values:
+      D = [  9.43e-15,   2.76e-10,   7.29e-08,   3.60e-06,   7.73e-06,   6.15e-03,   6.89e-03,   7.90e-01]
+   cost = 2.9923781439049815e-10
+phi_cur = [    -27.35,      -0.83,      -2.22,      -0.53,     -10.25,       1.84,       6.95,       0.57]
+      v = [ -9.70e-01,   2.29e-04,   3.67e-04,   1.10e-04,  -5.43e-04,   1.28e-04,   2.42e-01,  -7.00e-04]
+
+
+
+julia> include("BK_functions/bk_setup_script_lowV.jl"); outp_lowV = MBAM(BK_simulator, phi0, x_grid, model_iters=[30],
+       move_dir=[-1], boundary_time=10, verbose=1, reduce_func=BK_reduce);
+  0.101461 seconds (121.72 k allocations: 5.568 MB)
+Model iteration 30, Single g_cost call takes:
+  0.022640 seconds (40.05 k allocations: 1.842 MB)
+Model iteration 30, initial values:
+      D = [  5.91e-13,   6.43e-11,   1.06e-09,   1.81e-07,   6.29e-07,   4.63e-05,   7.96e-05,   6.65e-02]
+   cost = 4.785558416542591e-34
+phi_cur = [    -13.03,      -0.87,      -2.28,      -0.54,     -10.15,       1.82,       3.41,       0.69]
+      v = [  8.74e-01,   3.75e-01,   1.74e-02,  -6.75e-03,   1.74e-03,   3.78e-02,  -3.06e-01,   1.58e-02]
+
+
+Model iteration 30, final values:
+      D = [  5.02e-19,   2.77e-11,   5.21e-10,   1.20e-07,   6.20e-07,   4.69e-05,   1.12e-04,   8.58e-02]
+   cost = 2.649214236149489e-11
+phi_cur = [    -15.34,      -8.66,      -2.38,      -0.49,     -10.16,       1.72,       4.22,       0.69]
+      v = [ -9.43e-04,  -1.00e+00,  -5.71e-05,   3.41e-05,  -2.09e-06,  -3.88e-05,   3.25e-04,   7.68e-06]
+
+
+
+julia> include("BK_functions/bk_setup_script_lowCa.jl"); outp_lowCa = MBAM(BK_simulator, phi0, x_grid, model_iters=[30],
+       move_dir=[-1], boundary_time=10, verbose=1, reduce_func=BK_reduce);
+  0.104524 seconds (121.70 k allocations: 5.566 MB)
+Model iteration 30, Single g_cost call takes:
+  0.024832 seconds (40.02 k allocations: 1.837 MB)
+Model iteration 30, initial values:
+      D = [ -1.87e-16,  -3.32e-18,   0.00e+00,   3.29e-08,   3.30e-05,   4.09e-03,   5.00e-02,   4.84e+00]
+   cost = 1.2105976997691909e-31
+phi_cur = [    -13.03,      -0.87,      -2.28,      -0.54,     -10.15,       1.82,       3.41,       0.69]
+      v = [ -1.41e-11,   4.07e-12,   3.47e-12,   2.30e-13,   2.91e-02,   1.00e+00,   0.00e+00,   0.00e+00]
+
+
+ERROR: Base.LinAlg.SingularException(5)
+ in \ at linalg/factorization.jl:25
+ in \ at linalg/dense.jl:448
+ in geodesic_ode at /Users/gergobohner/Dropbox/Gatsby/Research/gaurav/MBAM_temp/BK_functions/../MBAM.ipynb:In[12]:47
+ in anonymous at /Users/gergobohner/Dropbox/Gatsby/Research/gaurav/MBAM_temp/BK_functions/../MBAM.ipynb:In[1]:81
+ in hinit at /Users/gergobohner/.julia/v0.4/ODE/src/ODE.jl:70
+ in oderk_adapt at /Users/gergobohner/.julia/v0.4/ODE/src/runge_kutta.jl:279
+ in ode23 at /Users/gergobohner/.julia/v0.4/ODE/src/runge_kutta.jl:210
+ in MBAM at /Users/gergobohner/Dropbox/Gatsby/Research/gaurav/MBAM_temp/BK_functions/../MBAM.ipynb:In[1]:81
+
+julia> include("BK_functions/bk_setup_script_lowCa.jl"); outp_lowCa = MBAM(BK_simulator, phi0, x_grid, model_iters=[30],
+       move_dir=[-1], boundary_time=10, verbose=1, reduce_func=BK_reduce);
+  0.107790 seconds (121.73 k allocations: 5.574 MB, 4.30% gc time)
+Model iteration 30, Single g_cost call takes:
+  0.026356 seconds (40.05 k allocations: 1.845 MB)
+Model iteration 30, initial values:
+      D = [  3.52e-08,   8.51e-08,   3.62e-06,   6.07e-05,   1.01e-02,   6.12e-02,   1.02e-01,   9.38e+00]
+   cost = 1.338199169568841e-31
+phi_cur = [    -13.03,      -0.87,      -2.28,      -0.54,     -10.15,       1.82,       3.41,       0.69]
+      v = [  6.28e-02,   1.21e-02,   4.94e-03,   3.38e-03,  -8.13e-01,  -2.19e-01,  -2.74e-02,  -5.36e-01]
+
+
+Model iteration 30, final values:
+      D = [  2.46e-12,   8.09e-08,   4.91e-06,   5.69e-05,   1.04e-02,   5.87e-02,   9.74e-02,   9.46e+00]
+   cost = 1.1286623909128743e-7
+phi_cur = [    -13.14,      -0.89,      -2.29,      -0.55,      -4.87,       2.07,       3.47,       5.67]
+      v = [ -5.81e-04,  -1.08e-04,  -4.45e-05,  -2.87e-05,   7.08e-01,   7.66e-04,   2.48e-04,   7.07e-01]
+
+
+
+julia> include("BK_functions/bk_setup_script_highCa.jl"); outp_highCa = MBAM(BK_simulator, phi0, x_grid, model_iters=[30],
+       move_dir=[-1], boundary_time=10, verbose=1, reduce_func=BK_reduce);
+  0.104219 seconds (121.75 k allocations: 5.575 MB)
+Model iteration 30, Single g_cost call takes:
+  0.021563 seconds (40.08 k allocations: 1.849 MB)
+Model iteration 30, initial values:
+      D = [  2.29e-08,   1.17e-07,   3.95e-06,   5.20e-05,   9.11e-04,   6.50e-03,   2.14e-01,   1.15e+01]
+   cost = 2.9956824657824343e-31
+phi_cur = [    -13.03,      -0.87,      -2.28,      -0.54,     -10.15,       1.82,       3.41,       0.69]
+      v = [  7.71e-01,   3.67e-01,   2.93e-01,  -1.87e-02,   2.44e-02,   3.13e-02,  -4.17e-01,  -9.58e-02]
+
+
+Model iteration 30, final values:
+      D = [  4.62e-14,   3.30e-08,   1.01e-06,   1.54e-05,   6.70e-04,   6.78e-03,   3.18e-01,   1.33e+01]
+   cost = 2.062832054360353e-7
+phi_cur = [    -14.97,      -8.63,      -3.14,      -0.47,     -10.22,       1.71,       4.51,       1.04]
+      v = [ -7.64e-04,  -1.00e+00,  -4.08e-04,   4.11e-05,  -3.18e-05,  -5.64e-05,   4.52e-04,   1.98e-04]
+
+
+
