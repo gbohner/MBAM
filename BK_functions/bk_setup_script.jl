@@ -1,3 +1,5 @@
+# Create the base parameter vector and the calcium-voltage grid to evaluate open probabilities over
+
 using NBInclude
 nbinclude("../MBAM.ipynb")
 nbinclude("BK_functions.ipynb")
@@ -16,4 +18,5 @@ for j1 in product(Ca, V)
 end
 size(x_grid[1])
 
+# Base parameter set
 phi0 = [2.2e-6, 0.42, 0.1026, 0.58, 39*1e-6, 6.16,30.4,2.0];
