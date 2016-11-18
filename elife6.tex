@@ -1,0 +1,302 @@
+\documentclass[10pt]{amsart}
+
+\usepackage{amssymb}
+%\input{macros}
+
+\setlength{\textwidth}{\paperwidth}
+\addtolength{\textwidth}{-2in}
+\calclayout
+
+\newcommand\Ld{\sqrt[1/4]{L_0}D}
+
+\newcommand\Lc{\sqrt[1/4]{L_0}C}
+
+
+\newcommand\Le{\frac{E}{\sqrt[1/4]{L_0}}}
+
+\newcommand\Po{P_o}
+
+\newcommand\po{P_o}
+
+\newcommand\lpo{\log(\Po)}
+
+\newcommand\ca{\rm{Ca}^{2+}}
+
+\newcommand\kk{\rm{K}^+}
+
+\newcommand\kd{K_D}
+
+\newcommand\pio{p(\mathcal{I},\mathcal{O})}
+
+\newcommand{\ltwo}{\log_2}
+
+\newcommand{\no}{N_{open}}
+\newcommand{\ono}{\overline{\no}}
+\newcommand{\var}{\sigma^2_{\rm N_{open}}}
+\newcommand{\lo}{L_o}
+\newcommand{\jo}{J_o}
+\newcommand{\zl}{z_L}
+\newcommand{\zj}{z_J}
+%\\renewcommand{\b}[1]{\left( #1 \right)
+
+\begin{document}
+
+\title{Identifiability, reducibility, and evolvability in allosteric macromolecules}
+
+%\author{Gerg\H{o} Bohner, \ Laurence Aitchison\and Gaurav Venkataraman}
+
+\date{\vspace{-.1in}}
+
+\maketitle
+
+\begin{abstract}
+Cell signaling relies crucially on the ability of macromolecules to transduce stimulus information into conformational changes.
+These conformational changes are often allosteric: one region of the molecule undergoes structural rearrangement in response to stimulus applied at a different region of the same molecule.  Here, we address the issue of sensitivity of allosteric macromolecules to their underlying biophysical parameters.  
+%
+%
+A canonical Monod-Wyman-Changeux (MWC) model of  the {\it mSlo} large-conductance $\ca$-activated $\kk$ (BK) ion channel is observed to have `non-identifiable' parameters with respect to two common functional assays: neither experimentation provides sufficient constraining power to uniquely estimate model parameter values.  
+%
+%
+We address this non-identifiability by constructing a `reduced' allosteric BK model for each of the two assays, using the recently developed Model Boundary Approximation Method (MBAM).  Each reduced model has fewer total parameters than the original MWC model, but fits its data equally well.  Crucially, the parameters of these reduced models are identifiable, and explicitly expressed as emergent combinations of the original MWC parameters.
+%
+The reduced models thereby identify which coordinated changes in parameter values leave the model output unchanged.  We predict that these coordinated changes are evolutionarily relevant `neutral spaces,' which the protein can use to explore new functions without sacrificing its current behavior.  We argue that the biophysical parameters of allosteric macromolecules should be non-identifiable in order to facilitate their evolvability, and discuss how this idea can be interrogated experimentally.
+
+%The emergent parameters are therefore a relevant prediction about the macromolecule, if the assay from which they arose is physiologically relevant.
+
+ % We  argue that emergent parameters of the type found here are an important prediction of allosteric models, endowed with mechanistic meaning.  
+
+%the critical question in fitting allosteric models to data is not: `Are the parameters identifiable by the data?,' but rather: 'Which combinations of parameters are constrained by the data?' 
+
+
+%Each reduced model fits its functional data as well as the original model, and has parameters which are both identifiable and explicitly expressed as emergent combinations of the original, mechanistic MWC parameters.  These results ... 
+
+
+%have parameters which are both identifiable and explicitly expressed in terms 
+
+% can be addressed by transforming the MWC model into a model which   to a model which does have identifiable parameters, with respect to each of the two assays.  
+
+% but can be reduced to models which have fewer, identifiable parameters which are explicitly expressed as emergent combinations of the original mechanistic parameters.  These emergent parameters represent   
+
+%We compare datasets from two common assays of BK function, each of which yields non-identifiable model parameters, when fit to a canonical model of BK function.
+
+
+%Yes, this is the key.  You start with what you DID, which is to COMPARE two different assays.  You saw that they were both non-identifiable to different degrees.  You reduced them to identifiable params.  They had different reductions.  The reductions were interpreted as robustness of underlying parameters to the assay, and allowed the biological relevance of the two assays to be compared from a robustness perspective.  You observed that a 
+
+%A. We use MBAM to show how a non-identifiable allosteric model can be reduced to an identifiable model.
+%B. These reduced models are observed to be particular to the dataset.
+%C. Therefore, non-identifiable models are seen to produce predictions about which parameters compensate for each other to produce a given dataset.
+%D. The reduced models therefore allow us to asses the biological relevance of a given dataset from a robustness perspective.  This perspective is compared to 
+%E. We compare two common assays of BK function, and find that the more `biologically relevant' one from a robustness perspective is also the one more relevant from an information-theory perspective.  Overall, we argue that thinking about emergent combinations of biophysical parameters rather than individual mechanistic parameters solves the non-identifiability problem with respect to a dataset, and 
+
+%We propose that non-identifiability of model parameters with respect to a dataset may be treated as a mechanistically relevant prediction about the robustness of the macromolecule to the experimental assay, rather than a model failing.  
+
+%I don't like the below because it is TOO much detail.  I don't need to say `how,'  I just need to say `what.'
+%Using the recently developed MBAM method, we demonstrate that a non-identifiable model of BK gating can be reduced into a model with identifiable parameters, which are expressed as emergent combinations of the original, mechanistically relevant parameters.  Like non-identifiability itself, the reduced 
+
+%We argue that the recently observed non-identifiability of biophysical parameters with respect to available data may be a mechanistically relevant prediction of the model [which model?].   Using a canonical model of the BK ion channel, we show how a model suffering from parameter non-identifiability may be reduced into a model whose parameters are identifiable, and expressed in terms of the original, biophysically relevant parameters.  We argue that the makeup of these `emergent' parameters constitutes a prediction of the model about the robustness of the measured output to underlying biophysical mechanisms.  By treating different datasets as competing hypotheses about how the channel tranduces information in its enviornment, we are able to compare robustness to discrimnability.  Overall, we argue that the emergent, identifiable parameters we describe here are a very profitable way to understand mechanisms that give rise to the data.  We discuss how the reducibility we observe here could guide experiments towards understanding a possible evolutionary role of allostery.
+
+%Want to say something like: here, we argue that the emergent parameters constitute a prediction about the robustness of the activity curve to the underlying parameters.  Because BK admits both po and log(po), we are able to compare 
+
+% Recall my `prediction:' you should be able to find mutations that fuck up one curve but not the other.  Just do a screen; but not a ligand-binding screen, a AAA screen!  Then  
+
+
+\end{abstract}
+
+
+
+
+\section{Introduction}
+
+The mechanisms by which a small stimulus is able to regulate macromolecular behavior at locations structurally distant from the active site of stimulation, termed `allostery,' has been the subject of considerable study.  A widely used tool for investigating allosteric regulatory mechanisms is the Monod-Wyman-Changeux (MWC) model, which provides a physical-chemical interpretation of indirect regulation in terms of the geometry of the regulatory molecule. Operationally, any given MWC model represents a candidate hypothesis for how allosteric conformational change occurs.  If a model is not able to quantitatively fit available data, it is rejected.  For models that agree with the data, the model parameter values provide estimates of biophysically meaningful properties that cannot be measured directly.  Because the parameters of MWC models are mechanistically meaningful, much effort has gone towards determining which parameters best fit available data.  Despite this intense interest in accurate parameter estimation, it has only recently been observed that even simple MWC models suffer from parameter non-identifiability: the data in commonly used `activity' (or `binding') curves do not provide sufficient constraining power to find unique values of the parameters, even if perfectly noiseless.  Multiple combinations of mechanistic parameters will therefore fit the functional data equally well.
+
+%The issue of parameter non-identifiability has also been the subject of much recent work in the statistical physics and systems biology communities, where a large number of biological models have been observed to exhibit `sloppy' sensitivity of their parameters to model output: some combinations of parameters constrain model behavior severely, and others hardly at all.
+
+Here, we study the consequences of parameter non-identifiability using a canonical MWC model of the {\it mSlo} large-conductance $\ca$-activated $\kk$ (BK) ion channel. We show that this model has non-identifiable parameters with respect to two commonly used assays of functional activity.  We show that this insensitivity does not arise because the model contains irrelevant parameters, but rather due to the compensatory nature of the parameters.  In particular, we demonstrate that parameter non-identifiability is due to `sloppy' sensitivity of parameters to model output: the model output is sensitive to particular nonlinear combinations of parameters, rather than the individual parameters themselves.%%FIX THIS so that 'combinations' implies functional relationships
+
+We address the issue of parameter non-identifiability by constructing `reduced' models of the channel for each of the two functional assays; each reduced model has fewer parameters than the original model, but describe its functional data equally well.  Crucially, the parameters of these reduced models are: (1) identifiable with respect to the model output and (2) explicitly expressed as emergent combinations of the original, biophysically relevant MWC parameters.  The parameters of the reduced models are therefore interpreted as predictions of the original MWC model about the robustness of a given functional output to variations in its underlying biophysical parameters.  In particular, we predict that the compensatory nature of the parameters may facilitate evolvability.  Experiments to verify this idea are discussed.
+
+%Because the physiological relevance of the reduced model depends on the physiological relevance of the assay from which it was constructed, we investigate the relative relevance of the two assays through the lens of information theory.  Interestingly, we find that that the functional assay which is preferable from an information theory perspective is also the more `reducible' assay, requiring fewer emergent parameters.
+%We argue that mechanistic insight into allosteric macrmolecules may be gleaned by a shift away from the question: ``What are the true biophysical parameters of the model?" and instead towards: ``Which combinations of biophysical parameters are constrained by a given functional assay?"
+
+\section{Results}
+
+%To illustrate the utility of treating parameter non-identifiability as a prediction rather than pitfall, we will consider the {\it mSlo} large-conductance $\ca$-activated $\kk$ (BK) ion channel.  These channels are crucially involved in diverse processes in both excitable and non-excitable tissues.  They have been studied extensively, due both to their physiological relevance and the advantages they possess as a model system for studying the allosteric interactions between sensors and gates.
+
+The BK channel primarily senses two stimulus signals: membrane voltage and intracellular $\ca$ concentration.  In response to these signals, BK opens its channel gate, allowing $\kk$ to permeate.  We consider a canonical model of BK gating, shown schematically in Figure 1A.  The model consists of three functional domains: the channel gate, voltage sensing domain, and $\ca$ sensing domain.  The channel gate is regulated by four identical and independent voltage and $\ca$ domains, denoted by the subscripts in the Figure.  Consistent with the MWC framework, each domain can be in one of two conformations: C-O, R-A, X-X$\cdot\ca$ for the gate, voltage, and $\ca$ subunits, respectively. The function of each domain is defined by an equilibrium constant $(L, J, K),$ and the coupling between domains is mediated by allosteric factors $(C, D, E)$.   Formally, the model is given by:
+\begin{equation}\label{aldrich}
+\po(v) = \frac{L(1+KC+JD+JKCDE)^4}{L(1+KC+JD+JKCDE)^4+(1+J+K+JKE)^4},
+\end{equation}
+the equilibrium constants $(J,K,L)$ are given by:
+\[
+L = \lo\exp\left(\frac{-\zl v}{kT}\right); \ J = \jo\exp\left(\frac{-\zj v}{kT}\right); \ K = \frac{[\ca]}{\kd},
+\]
+where $\zl$ and $\zj$ are the partial charges associated with channel opening and voltage sensor activation, respectively.
+
+These biophysical parameters $(\zl, \zj,  \kd,  \lo,  \jo, C,  D,  E)$ are routinely estimated by fitting the model to 
+steady-state open probabilities of BK at various voltages and $\ca$ concentrations (Fig 1B).  In the language of MWC models, this `$\po$' curve corresponds to the ubiquitous `activity' or `binding' curve.  Because voltage can be precisely administered to the channel at extremely negative values for which the steady-state open probability of the channel is small, the model can also be fit to a $\lpo$ curve (Fig 1C).  Our analysis centers on these two functional assays.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{BK parameters are non-identifiable, due to sloppiness}
+
+We begin by asking: how identifiable are the BK model parameters, with respect to each of the $\po$ and $\lpo$ assays?  The problem of non-identifiability is illustrated with the $\po$ assay.  Two curves both pass within error bars of the data ($10\%$ error, Fig 2A), despite being generated by dramatically different parameters (Fig 2B).  We addressed identifiability by analytically computing a lower bound for the error of each parameter (methods).  It is clear many parameters are non-identifiable: lower bounds on parameter error is extremely large for several parameters, in each of the assays (Figure 3A).
+
+It has been previously demonstrated that several non-identifiable multi-parameter models are non-identifiable due to a phenomena termed `sloppiness.'  We therefore begin by asking: do either of the $\po$, $\lpo$ assays exhibit sloppiness with respect to the underlying BK model parameters?  
+
+Sloppiness is a feature of a model's approximate `surface of constant model behavior.'  Therefore, to understand sloppiness it is useful to consider an ellipsoid of constant model behavior for a toy two-parameter model (Figure 1).  Note first the general features of constant model behavior ellipsoids: (1) It is defined in parameter space (see axes, bottom left Fig 1a); (2) It is centered around the presumed 'best-fit' parameters; (3) It has dimension equal to the number of model parameters.  
+
+ and illustrates the key features of sloppiness: (1) One axis of the ellipse is much longer than the other $(l_1>>l_2)$; one direction of parameter space therefore constrains model behavior much more than the other.  (2) The ellipse is `tilted' rather than aligned with the parameter axes, so each ellipse axis corresponds to a combination of the two parameters.  The toy ellipse therefore asserts that some combinations of parameters constrain the model behavior much more than others.  The degree to which a parameter combination constrains the model output is encoded in the length of its axis ($l_i$).  The error bars for the toy parameters $\theta_1, \theta_2$ are given by $\Sigma_1, \Sigma_2.$  Even though the model is constrained by the combination of the two parameters in the `stiff' direction of parameter space, neither individual parameter is well constrained.
+
+%These surfaces are high-dimensional ellipses (called ellipsoids) in parameter space, centered around the presumed `best-fit' parameter values, and having dimensionality equal to the number of model parameters. 
+
+Because BK has many more than two parameters, we cannot easily visualize its ellipsoid of constant behavior.  We instead assessed the BK model sloppiness by computing a quantity proportional to the lengths of the axes ($1/{w_i}^2$) of the BK model constant behavior ellipsoid (Fig 2B).  Each assay exhibits the striking signature of sloppy models: the widths $(1/{w_i}^2)$ are exponentially spaced.  This corresponds to a linear spacing in logarithm (Fig 2B).  We observe that the $\po$ assay (red points, Fig 1B) exhibits a greater degree of sloppiness than the $\lpo$ assay (black marks, Figure 2B).  For both assays, we observed a visible gap (represented by the dashed line, Fig 1B) between the more sloppy (below dashed line) and more stiff (above dashed line) widths.  Later, will see that the number of `perfect' model reductions is equal to the number of axes having widths below this dashed line; the existence of such a predictive gap is not likely true, in general.  Note that the $\lpo$ assay has fewer `very sloppy' widths than the $\po$ assay, consistent with the $\lpo$ assay having more identifiable parameters than the $\po$ assay.
+
+\subsection{A reduced model for the $\po$ assay solves the parameter identifiability problem}
+
+%Need a better segway, here.
+
+Given that both assays have non-identifiable parameters, we now ask: which {\it combinations} of mechanistic parameters are identifiable, with respect to each of the assays?
+
+To determine identifiable combinations of parameters, we employ the recently developed Manifold Boundary Approximation Method (MBAM).  The MBAM proceeds via the four following steps: (1) The algorithm searches through parameter space, along a trajectory which minimizes the effect on model output.  (2) The search terminates when the algorithm reaches a location where one or more parameters diverge towards $0$ or $\infty.$  (3) At this termination point, the model is re-parameterized such that no parameters equal to $0$ or $\infty$ remain.  To achieve this re-parameterization, existing parameters are either eliminated, joined to form an `emergent' parameter, or left unchanged.  (4) The newly parameterized model is then re-fit to the data, and the process repeats until no further reductions can be found.  In this manner, MBAM produces a reduced phenomenological model whose parameters are emergent combinations of mechanistically meaningful parameters of interest.
+
+An overview of our MBAM output with respect to the the $\po$ curve is shown in Figure 3.  The algorithm was terminated after five iterations, each of which reduced the number of model parameters by one.  Calculations of root-mean-squared error to each of the reduced models (Fig 3A) reveal that the first three iterations produce $\po$ curves that fit the data essentially exactly.  At the third iteration of the algorithm, the voltage dependence of the channel gate ($\zl$) has been eliminated, the allosteric coupling parameters $C$ and $E$ have been joined to form an emergent parameter $\phi_4=CE,$ and the equilibrium constant for the channel gate has been joined with the allosteric factor $D$ to form the emergent parameter $\sqrt[4]{L_0}D$ (Fig 3B).  This reduced model has three fewer parameters than the full model, but fits the data essentially as well (Fig 3C). 
+
+The fourth reduction couples together the equilibrium constant $J_0$ and the emergent parameter $\phi_4,$ into $\phi_5=J_0\sqrt[4]{L_0}D$ (Fig 3D).  This reduced model fits the data very well at most calcium concentrations, but does not fit the data well at extremely low calcium concentrations (Fig 3E).  The fifth reduction does not fit the data well (Fig 3A).
+
+To better understand how these reduced models arose, we plotted the numerical values of the model parameters during MBAM searches (Fig 4).  Because MBAM searches along a direction of essentially equivalent model behavior, each x-axis `timepoint' corresponds to a distinct set of parameter values which produce essentially equivalent model output.  The algorithm continues searching until two or more parameters diverge to zero or infinity (red lines in Fig 4).  These diverging parameters are either eliminated from the model (as is the case of $\zl$, which is eliminated in the first step), or joined together into an emergent parameter.  It is important to note that emergent parameters can `drop' mechanistic parameters.  For example: the second reduced model has emergent parameters $\phi_2=\sqrt[4]{L_0}C, \ \phi_3=E/\sqrt[4]{L_0}$ which are both functions of $L_0;$ the subsequent reduction eliminates these parameters and creates the new emergent parameter $\phi_4=\phi_2\cdot\phi_3=CE,$ which is independent of $L_0.$  Both of these models are valid descriptions of the data; the latter is preferable because it describes the data with fewer parameters.
+
+Armed with reduced models, we next ask: to what extent are these new, emergent parameters identifiable?  To address this issue, we calculated the relative error for each of the reduced models (Fig 5).  We found that each reduction step lead to a model with fewer unidentifiable parameters: four non-identifiable parameters after the first reduction step(Fig 5a); two non-identifiable parameters after the second step (Fig 5b); zero non-identifiable parameters after the third step (Fig 5c).  It is important to note that although each model reduction step leads to a smaller number of non-identifiable parameters, it is not the case that each parameter becomes more identifiable after each reduction step.  For example, in the model produced by the first reduction step, $\lo, C, D, E$ all have far greater relative errors than in the original model (compare the table in Fig 5A to the top row of Fig 2C).  Great care must therefore be taken in interpreting these intermediate models.
+
+In contrast, interpreting the third reduced model (Fig 5c) is clear: it fits the data extremely well (Fig 3A); its parameters are all expressed in terms of mechanistically meaningful parameters; all of its parameters are identifiable (relative error $<1\%$).  We confirmed this remarkable parameter identifiability with simulations (Supplementary Figure).  The parameter identifiability problem is effectively solved.
+
+\subsection{Reduced models for the $\lpo$ assay reveal that the model is not over-parameterized}
+
+Having found a reduced, identifiable model describes the $\po$ data well, we next ask: to what extent can we interpret this reduced model's emergent parameters mechanistically?  For example, a first interpretation of the emergent parameter $\phi_4=CE$ may be that the coupling between the channel gate and calcium sensing domain (C) can compensate for the coupling between the voltage and calcium sensing domain (E), with respect to the $\po$ assay; only their ratio matters for data.  However, our identifiable model (Fig 5C) is only as valid as the model with which we began (Fig 1A).  The existence of our reduced models implies that the original model was over-parameterized with respect to the $\po$ data; in some sense, the model is a `bad' representation of the data.  Of course, this does not imply that the model is a bad representation of the channel itself.  To argue that the model is a good representation of the channel, we turn to the $\lpo$ assay.
+
+Given that only one of the original model parameters was non-identifiable with respect to the $\lpo$ assay ($\lo$, Fig 2C), we expected the $\lpo$ assay to be   less reducible than the $\po$ assay.  Indeed, we found that all model parameters are identifiable with respect to the $\lpo$ assay after only one MBAM reduction step (Fig 6C).  Subsequent reduction steps cause an uptick in the RMS error (Fig 6A).
+
+
+
+
+
+%he reduced models fit the data poorly after only three iterations; the first two iterations fit the data well.  Interestingly, the maximally reduced model for the $\lo$ assay is complimentary to the maximally reduced model for the $\po$ assay; the $\lpo$ model is able to couple $J$ and $D$ together, which is exactly where the $\po$ reduction failed.
+
+%In both cases, MBAM has arrived at reduced parameters which are identifiable with respect to the available data.  Because these reduced parameters are expressed in terms of the mechanistically relevant parameters, the MBAM identifies the combinations of mechanistic variables that are effectively constrained by the available data.
+
+
+
+\section{Discussion}
+
+The major role of quantitative models in ion-channel biophysics has been to accurately account for a given dataset.  Modelers strive to find the most biophysically parsimonious and quantitatively accurate representation of the data.  The modeling procedure thereby provides estimates of unobservable, biophysically relevant quantities, and insights into the scheme by which a channel transduces stimulus information into activity.  A lack of parameter identifiability dooms both of theses efforts.  Here, we have demonstrated that the MBAM algorithm may be employed to effectively solve the parameter identifiably problem.
+
+Beyond accounting for a given dataset, a quantitative model can make useful predictions about unobserved data.  To this end, the reduced models produced by MBAM may be interpreted as predictions about how biophysical properties may compensate for each other, with respect to a given assay.  If an assay and MWC model are physiologically relevant, these predictions deserve to be taken seriously.
+
+For what purposes would MBAM-elucidated compensatory effects be relevant?  We conclude the paper by proposing experiments to test two purposes which have been previously connected to sloppiness: functional robustness, and evolvability.  In order to test for the presence of a compensatory effect upon experimental manipulation, an experimentalist needs two assays. (1) The experimentalist needs a `physiologically relevant' assay from which to extract the compensatory effects, via model reduction.  By definition, this assay's output should not change upon manipulation.  (2) The experimentalist needs a `physiologically irrelevant' assay, from which the individual compensatory parameters can be estimated.  The experimenter can thereby determine if the relevant parameters compensate for each other in the way that reduced models for the `relevant assay' predict.  Our results demonstrate that in BK, the $\lpo$ assay serves as a good `irrelevant' assay relevant for testing predictions made from the $\po$ assay; all of the parameters involved in potential compensate for $\po$ are individually identifiable via $\lpo.$ 
+
+\subsection{Reduced models may link structural and functional robustness}
+
+It is well known that macromolecules exhibit some amount of functional robustness with respect to experimental perturbations of temperature, pH, salt conditions, and sequence mutations.  We propose that this functional robustness may arise from compensatory mechanisms of the type identified here.  This could be tested by making the appropriate experimental manipulations.
+
+Such experiments would be particularly interesting in light of recent work demonstrating that a Markov state model of protein folding dynamics is sloppy.  The authors of this study demonstrated that the slow-timescale dynamics most important for folding were effected by perturbations much less severely than the less important, fast-timescale dynamics.  The authors argued that sloppiness is why 'protein folding is mechanistically robust,' in particular to experimental perturbations like those listed above.  If functional compensations of MWC model parameters are observed experimentally, comparing them to changes in fast-timescale dynamics of Markov state models may provide new insight into protein structure-function relationships.
+
+\subsection{Reduced models may identify evolutionary relevant `neutral spaces'}
+
+The relationship between robustness and evolvability has been the subject of much recent work.  There has been particular focus on the evolutionary utility of `neutral mutations:' mutations which have no effect on function in the current genetic or environmental background, but may confer an advantage upon changes in the genome or environment.  Theoretical work has demonstrated that neutral mutations can (but do not necessarily) facilitate adaptation; experimentally, neutral mutations have been demonstrated to facilitate adaption in RNA enzymes.  These neutral mutations are commonly referred to as `cryptic,' because their effects are hidden until the correct setting arises.
+
+We propose that these 'cryptic' mutations may give rise to 'cryptic' parameter variations of the type identified here.
+
+
+
+
+
+
+\end{document}
+
+
+\subsection{The information tranduction scheme implied by $\po$ can maximize mutual information with a biologically accurate number of subunits; the $\lpo$ scheme cannot.}
+
+The emergent parameters identified in the previous section may be thought of as potential compensatory mechanisms.  For instance, etc.  It is therefore interesting to ask: which set of emergent parameters is more relevant physiologically?  
+
+%Having shown that the $\po$ and $\lpo$ admit different reductions, we next ask: which of these curves is more relevant physiologically?  
+
+%In the previous section, we observed that the mechanistic parameters were more constrained by the $\lpo$ curve than by the $\po$ curve.  Equivalently: fitting $\lpo$ data requires more precise parameter fine-tuning than fitting $\po$ data.  Models of biological function which do not require precise parameter tuning are often argued to correspond to biological functions which are robust with respect to molecular variability.  A reasonable interpretation of the results in the previous section is that the BK model is more robust with respect to the $\po$ curve than to the $\lpo$ curve.  Which of these curves is representative of BK's physiological function?
+
+To address this issue, we treat each of the $\po, \ \lpo$ curves as a hypothesis about how the channel transduces voltage and $\ca$ information into open probability.  A salient difference between the two curves is the sensitivity range of channel's response to voltage: the range at which the channel is sensitive to small changes in voltage is more negative in the $\lpo$ transduction scheme, relative to the $\po$ scheme (Figure x).  
+
+We therefore reason that 
+
+
+
+
+In order to test 
+
+
+
+In particular, we showed that the $\po$ assay is controlled by the parameters , and the $\lpo$ assay is controlled by .  The differences in these two assays provides an interesting opportunity to make forward-predictions from the BK model.
+
+
+If these compensatory mechanisms are at work in nature, one would expect that an appropriately nature-mimicking experimental manipulation to produce parameter values which vary such that the assay's behavior doesn't change.  A 
+
+
+By definition, such compensatory mechanisms cannot be tested with the assay from which they were discovered.
+
+Testing such a prediction will require a second assay, 
+
+To test if these compensations are employed upon an experimental manipulation, a second assay is needed.
+
+
+
+
+    One assay will be the physiologically relevant assay, whose parameter compensations are of interest, 
+
+
+Such predictions can be tested in the following way: (1) identify an assay which is thought to be physiologically relevant, and its biophysical compensations; (2) identify a second assay which allows one to uniquely identify  
+
+It is important to note that in order to experimentally test the compensations implied by a given assay, a second assay is needed.
+
+
+In order to experimentally test MBAM-predicted compensatory mechanisms, an experimenter needs to be equipped with a second 
+
+In order to test any such prediction experimentally, it is necessary to have a reducible assay which the experimenter believes is physiologically relevant, and a second assay which is allows you to 
+
+
+We therefore conclude the paper by asking: what predictions about BK can be made from its sloppiness?
+
+
+
+ In both cases,  
+
+
+MBAM allows for experimentally falsifiable predictions .  
+
+It is important to note that in order to test 
+
+We conclude the paper by proposing two possible roles for 
+
+
+
+MBAM is crucial for producing experimentally testable predictions because in order to test 
+
+
+ 
+
+How much such a compensatory prediction be tested?  First, one needs some experimental condition under which the compensation is expected to occur.  Necessarily, such an experimental condition will leave the physiologically relevant assay unchanged.  Therefore, one also needs a secondary assay which does change under the experimental condition, for which the parameters of interest can be identified individually.  It can then be determined if the parameters of interest compensate for each other in the way that the reduced models predict.  Our results demonstrate that for BK, the $\lpo$ assay is a good 'second assay' to test compensations predicted from the $\po$ assay: all of the parameters which compensate in $\po$ are individually identifiable via $\lpo.$  We therefore take as a hypothesis that the $\po$ assay is physiologically relevant and conclude the paper by asking: what predictions can be made from BK's sloppiness, and how can they be tested?
+
+
+It has been argued that `cryptic mutations' which do not change a biological system's primary function may nonetheless have important effects upon subsequent, new functions dictated by the environment.  These cryptic mutations occur in `neutral spaces,' which are areas of mutational space in which functional behavior remains unchanged.  
+
+
+Subsequently, it was argued that 
+
+It is straightforward to interpret our reduced models for the $\po$ assay as potentially evolutionarily relevant cryptic mutations.  For example, increases in the strength of the $C$ and decreases in the $E$ would not effect a channel which needs to transduce stimulus information according to the $\po$ scheme, but might become important if the channel needs to transduce information via the $\lpo$ scheme.
+
+The evolutionary relevance of the compensatory mechanisms reported here may be tested by functionally characterizing ion channel variations within individuals of a population.  If the identified compensatory effects really are cryptic mutations, we expect 
+
+In summary, 
+
+
+
+
+
+
+
+

@@ -1,0 +1,137 @@
+\documentclass[10pt]{amsart}
+
+\usepackage{amssymb}
+%\input{macros}
+
+\setlength{\textwidth}{\paperwidth}
+\addtolength{\textwidth}{-2in}
+\calclayout
+
+
+\newcommand\Ld{\sqrt[1/4]{L_0}D}
+
+\newcommand\Lc{\sqrt[1/4]{L_0}C}
+
+
+\newcommand\Le{\frac{E}{\sqrt[1/4]{L_0}}}
+
+\newcommand\Po{P_o}
+
+\newcommand\po{P_o}
+
+\newcommand\lpo{\log(\Po)}
+
+\newcommand\ca{\rm{Ca}^{2+}}
+
+\newcommand\kk{\rm{K}^+}
+
+\newcommand\kd{K_D}
+
+\newcommand\pio{p(\mathcal{I},\mathcal{O})}
+
+\newcommand{\ltwo}{\log_2}
+
+\newcommand{\no}{N_{open}}
+\newcommand{\ono}{\overline{\no}}
+\newcommand{\var}{\sigma^2_{\rm N_{open}}}
+\newcommand{\lo}{L_o}
+\newcommand{\jo}{J_o}
+\newcommand{\zl}{z_L}
+\newcommand{\zj}{z_J}
+%\\renewcommand{\b}[1]{\left( #1 \right)
+
+\begin{document}
+
+\title{Identifiability, reducibility, and evolvability in allosteric macromolecules}
+
+%\author{Gerg\H{o} Bohner, \ Laurence Aitchison\and Gaurav Venkataraman}
+
+\date{\vspace{-.1in}}
+
+\maketitle
+
+\begin{abstract}
+Cell signaling relies crucially on the ability of macromolecules to transduce stimulus information into conformational changes.
+These conformational changes are often allosteric: one region of the molecule undergoes structural rearrangement in response to stimulus applied at a different region of the same molecule.  Here, we address the issue of sensitivity of allosteric macromolecules to their underlying biophysical parameters.  
+%
+%
+A canonical Monod-Wyman-Changeux (MWC) model of  the {\it mSlo} large-conductance $\ca$-activated $\kk$ (BK) ion channel is observed to have `non-identifiable' parameters with respect to two common functional assays: neither experimentation provides sufficient constraining power to uniquely estimate model parameter values.  
+%
+%
+We address this non-identifiability by constructing a `reduced' allosteric BK model for each of the two assays, using the recently developed Model Boundary Approximation Method (MBAM).  Each reduced model has fewer total parameters than the original MWC model, but fits its data equally well.  Crucially, the parameters of these reduced models are identifiable, and explicitly expressed as emergent combinations of the original MWC parameters.
+%
+The reduced models thereby identify which coordinated changes in parameter values leave the model output unchanged.  We predict that these coordinated changes are evolutionarily relevant `neutral spaces,' which the protein can use to explore new functions without sacrificing its current behavior.  We argue that the biophysical parameters of allosteric macromolecules should be non-identifiable in order to facilitate their evolvability, and discuss how this idea can be interrogated experimentally.
+
+%The emergent parameters are therefore a relevant prediction about the macromolecule, if the assay from which they arose is physiologically relevant.
+
+ % We  argue that emergent parameters of the type found here are an important prediction of allosteric models, endowed with mechanistic meaning.  
+
+%the critical question in fitting allosteric models to data is not: `Are the parameters identifiable by the data?,' but rather: 'Which combinations of parameters are constrained by the data?' 
+
+
+%Each reduced model fits its functional data as well as the original model, and has parameters which are both identifiable and explicitly expressed as emergent combinations of the original, mechanistic MWC parameters.  These results ... 
+
+
+%have parameters which are both identifiable and explicitly expressed in terms 
+
+% can be addressed by transforming the MWC model into a model which   to a model which does have identifiable parameters, with respect to each of the two assays.  
+
+% but can be reduced to models which have fewer, identifiable parameters which are explicitly expressed as emergent combinations of the original mechanistic parameters.  These emergent parameters represent   
+
+%We compare datasets from two common assays of BK function, each of which yields non-identifiable model parameters, when fit to a canonical model of BK function.
+
+
+%Yes, this is the key.  You start with what you DID, which is to COMPARE two different assays.  You saw that they were both non-identifiable to different degrees.  You reduced them to identifiable params.  They had different reductions.  The reductions were interpreted as robustness of underlying parameters to the assay, and allowed the biological relevance of the two assays to be compared from a robustness perspective.  You observed that a 
+
+%A. We use MBAM to show how a non-identifiable allosteric model can be reduced to an identifiable model.
+%B. These reduced models are observed to be particular to the dataset.
+%C. Therefore, non-identifiable models are seen to produce predictions about which parameters compensate for each other to produce a given dataset.
+%D. The reduced models therefore allow us to asses the biological relevance of a given dataset from a robustness perspective.  This perspective is compared to 
+%E. We compare two common assays of BK function, and find that the more `biologically relevant' one from a robustness perspective is also the one more relevant from an information-theory perspective.  Overall, we argue that thinking about emergent combinations of biophysical parameters rather than individual mechanistic parameters solves the non-identifiability problem with respect to a dataset, and 
+
+%We propose that non-identifiability of model parameters with respect to a dataset may be treated as a mechanistically relevant prediction about the robustness of the macromolecule to the experimental assay, rather than a model failing.  
+
+%I don't like the below because it is TOO much detail.  I don't need to say `how,'  I just need to say `what.'
+%Using the recently developed MBAM method, we demonstrate that a non-identifiable model of BK gating can be reduced into a model with identifiable parameters, which are expressed as emergent combinations of the original, mechanistically relevant parameters.  Like non-identifiability itself, the reduced 
+
+%We argue that the recently observed non-identifiability of biophysical parameters with respect to available data may be a mechanistically relevant prediction of the model [which model?].   Using a canonical model of the BK ion channel, we show how a model suffering from parameter non-identifiability may be reduced into a model whose parameters are identifiable, and expressed in terms of the original, biophysically relevant parameters.  We argue that the makeup of these `emergent' parameters constitutes a prediction of the model about the robustness of the measured output to underlying biophysical mechanisms.  By treating different datasets as competing hypotheses about how the channel tranduces information in its enviornment, we are able to compare robustness to discrimnability.  Overall, we argue that the emergent, identifiable parameters we describe here are a very profitable way to understand mechanisms that give rise to the data.  We discuss how the reducibility we observe here could guide experiments towards understanding a possible evolutionary role of allostery.
+
+%Want to say something like: here, we argue that the emergent parameters constitute a prediction about the robustness of the activity curve to the underlying parameters.  Because BK admits both po and log(po), we are able to compare 
+
+% Recall my `prediction:' you should be able to find mutations that fuck up one curve but not the other.  Just do a screen; but not a ligand-binding screen, a AAA screen!  Then  
+
+
+\end{abstract}
+
+
+
+
+\section{Methods}
+
+
+\subsection{Manifold Boundary Approximation Method}
+MBAM attempts to find a simplified parameterisation of a model given an assay. In our context the model is the canonical MWC model of the BK ion channel described in \eqref{aldrich}. The assay consists of two concepts: (1) which voltages and calcium concentrations do we take measurements at and (2) how do we evaluate the model output - in our case either looking at the open probabilities or the base 10 logarithms thereof.
+
+Let our model be a function $f()$. As input it takes an $M\times 1$ vector of parameters $\theta$ and an $N\times D$ array of measurements locations $\mathbf{X}$, with $N$ being the number of measurements and $D$ being the types of measurements, 2 for our assays.
+The model's output is an $Nx1$ vector of measurements $\mathbf{y}$.
+
+Given a measured data vector $\mathbf{y^*}$, we can find the best fit parameters $\theta^*$ by various optimization methods. In this paper we ask the question whether or not you can trust those optimzied paremeters, and the answer is often no. However, we do not stop at this disappointing finding, but go a step further, and attempt to find a set of parameters that can be reliably estimated.
+
+In each iteration MBAM reduces the number of parameters by one, resulting in an $(M-1) \times 1$ vector $\Phi$, while still fitting the data well: $\|f(\Phi, \mathbf{X}) - \mathbf{y^*}\|$ is small. Even in the absence of data, the properties of models can be investigated by minimising the discrepency between the full and the reduced model: $\mathcal{C} = \|f(\Phi, \mathbf{X}) - f(\theta^*, \mathbf{X})\|$.
+
+
+
+Armed with a \textit{goal} of reducing the number of parameters as well as a \textit{cost} for increasing discrepency, we can now write down the MBAM algorithm as follows: 
+(1) Let $\mathbf{r} = f(\theta_t, \mathbf{X}) - f(\theta^*, \mathbf{X})$ be the vector of residuals given $\theta_t$. 
+(2) Let $\mathbf{H}_t = \frac{d^2}{d\theta_t^2}\mathcal{C}$ be the Hessian of the cost function evaluated at the parameters $\theta_t$.
+(3) MBAM attempts to find regions of the parameters space where one or more of the parameters are diverging in a coordinated way, while the cost is not. This is achieved by following a geodesic - a curve that locally increases the cost minimally - described by this ODE system:
+	\begin{align}
+		\frac{d}{d\tau}\theta_t&=\mathbf{v_t} \\
+		\frac{d^2}{d\tau^2}\theta_t&=[(\nabla \mathbf{r}) (\nabla \mathbf{r})^\top]^{-1} (\nabla \mathbf{r}) \frac{\mathbf{v_t}^\top \mathbf{H}_t \mathbf{v_t}}{\|\mathbf{v_t}\|^2}
+	\end{align}
+
+	with initial point is given by $\theta_0 = \theta^*$ and the initial direction $\mathbf{v_0}$ is the eigenvector belonging to the smallest eigenvalue of $\mathbf{H}_0$. That is, we start from the best fit point - the lowest point on our cost surface, and always choose the direction that goes uphill as little as possible.
+
+	We then follow this geodesic until (1) either the cost reaches a threshold and we claim that the set of parameters cannot be reduced further without sacrificing the quality of it; (2) or some of the parameters diverge in a coordinated way. This can be monitored by following the evolution of the eigenvalues and eigenvectors of the local metric $[(\nabla \mathbf{r}) (\nabla \mathbf{r})^\top]$. In the latter case we can write down a reduced model $\Phi$ by appropriate elimination or combination of the diverging parameters and proceed with the next iteration of MBAM.
+
+\end{document}
