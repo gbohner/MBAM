@@ -1,0 +1,1931 @@
+\documentclass{article}
+
+\usepackage{verbatim}
+\usepackage{amssymb}
+%\input{macros}
+
+%\setlength{\textwidth}{\paperwidth}
+%\addtolength{\textwidth}{-2in}
+%\calclayout
+
+\newcommand\Ld{\sqrt[1/4]{L_0}D}
+
+\newcommand\Lc{\sqrt[1/4]{L_0}C}
+
+
+\newcommand\Le{\frac{E}{\sqrt[1/4]{L_0}}}
+
+\newcommand\Po{P_o}
+
+\newcommand\po{P_o}
+
+\newcommand\lpo{\log(\Po)}
+
+\newcommand\ca{\rm{Ca}^{2+}}
+
+\newcommand\kk{\rm{K}^+}
+
+\newcommand\kd{K_D}
+
+\newcommand\pio{p(\mathcal{I},\mathcal{O})}
+
+\newcommand{\ltwo}{\log_2}
+
+\usepackage{tikz}
+%\usepackage{tikz-cd}
+\usepackage{pgfplots}
+\usepackage[utf8]{inputenc}
+\usepackage[upright]{fourier}
+\usetikzlibrary{arrows,automata,positioning,matrix,cd,babel,matrix,arrows,decorations.pathmorphing,intersections}
+\usetikzlibrary{intersections}
+
+\usepackage[many]{tcolorbox}
+
+\usepackage{graphicx,subcaption}
+
+
+
+
+\pgfplotsset{compat=1.12}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows,positioning,calc}
+\usepackage{tikz}
+\usepackage{cancel}
+\usepackage{color}
+\usetikzlibrary{shapes.geometric, arrows}
+%\usepackage{subfigure}
+
+\newcommand{\zj}{z_J}
+\newcommand{\zl}{z_L}
+\newcommand{\Lo}{L_0}
+\newcommand{\Jo}{J_0}
+%\newcommand{\kd}{K_d}
+
+\usetikzlibrary{plotmarks}
+
+
+
+
+%\newcommand{\ca}{[\rm Ca^{2+}]}
+
+
+%% http://tex.stackexchange.com/questions/55068/is-there-a-tikz-equivalent-to-the-pstricks-ncbar-command
+\tikzset{
+    ncbar angle/.initial=90,
+    ncbar/.style={
+        to path=(\tikztostart)
+        -- ($(\tikztostart)!#1!\pgfkeysvalueof{/tikz/ncbar angle}:(\tikztotarget)$)
+        -- ($(\tikztotarget)!($(\tikztostart)!#1!\pgfkeysvalueof{/tikz/ncbar angle}:(\tikztotarget)$)!\pgfkeysvalueof{/tikz/ncbar angle}:(\tikztostart)$)
+        -- (\tikztotarget)
+    },
+    ncbar/.default=0.5cm,
+}
+
+\tikzset{square left brace/.style={ncbar=0.5cm}}
+\tikzset{square right brace/.style={ncbar=-0.5cm}}
+
+\tikzset{round left paren/.style={ncbar=0.5cm,out=120,in=-120}}
+\tikzset{round right paren/.style={ncbar=0.5cm,out=60,in=-60}}
+
+\newtcolorbox{cross}{blank,breakable,parbox=false,
+  overlay={\draw[red,line width=5pt] (interior.south west)--(interior.north east);
+    \draw[red,line width=5pt] (interior.north west)--(interior.south east);}}
+
+
+\newcommand\hcancel[2][black]{\setbox0=\hbox{#2}
+\rlap{\raisebox{.45\ht0}{\textcolor{#1}{\rule{\wd0}{2pt}}}}#2}
+
+%\newcommand{\kd}{K_d}
+
+\usetikzlibrary{arrows,positioning} 
+
+\newcommand\rcancel[2][red]{\renewcommand\CancelColor{\color{#1}}\xcancel{#2}}
+
+\newcommand{\no}{N_{open}}
+\newcommand{\ono}{\overline{\no}}
+\newcommand{\var}{\sigma^2_{\rm N_{open}}}
+\newcommand{\lo}{L_o}
+\newcommand{\jo}{J_o}
+%\newcommand{\zl}{z_L}
+%\newcommand{\zj}{z_J}
+%\\renewcommand{\b}[1]{\left( #1 \right)
+
+ \definecolor{mediumcandyapplered}{rgb}{0.89, 0.02, 0.17}
+
+
+% Definition for Calcium concentrations and appropriate labels to be used in foreach loops over generated CSV files
+ \edef\CaSTR{{0.0um}/0,{0.7um}/0.7,{4.0um}/4,{12.0um}/12,{22.0um}/22,{55.0um}/55,{70.0um}/70,{95.0um}/95}
+
+ \input{figures_macros.tex}
+
+\pgfplotsset{
+    every axis plot post/.style={
+        line join=round
+    }
+}
+
+\begin{document}
+
+\title{Reducibility, identifiability, and evolvability in allosteric macromolecules}
+
+\maketitle
+
+\begin{abstract}
+Cell signaling relies crucially on the ability of macromolecules to transduce stimulus information into conformational changes.
+These conformational changes are often allosteric: one region of the molecule undergoes structural rearrangement in response to stimulus applied at a different region of the same molecule.  Here, we address the issue of sensitivity of allosteric macromolecules to their underlying biophysical parameters.  
+%
+%
+A canonical Monod-Wyman-Changeux (MWC) model of  the {\it mSlo} large-conductance $\ca$-activated $\kk$ (BK) ion channel is observed to have `non-identifiable' parameters with respect to two common functional assays: neither experimentation provides sufficient constraining power to uniquely estimate model parameter values.  
+%
+%
+We address this non-identifiability by constructing a `reduced' allosteric BK model for each of the two assays, using the recently developed Model Boundary Approximation Method (MBAM).  Each reduced model has fewer total parameters than the original MWC model, but fits its data equally well.  Crucially, the parameters of these reduced models are identifiable, and explicitly expressed as emergent combinations of the original MWC parameters.
+%
+The reduced models thereby identify which coordinated changes in parameter values leave the model output unchanged.  We predict that these coordinated changes are evolutionarily relevant `neutral spaces,' which the protein can use to explore new functions without sacrificing its current behavior.  We argue that the biophysical parameters of allosteric macromolecules should be non-identifiable in order to facilitate their evolvability, and discuss how this idea can be interrogated experimentally.
+%
+%
+
+%The emergent parameters are therefore a relevant prediction about the macromolecule, if the assay from which they arose is physiologically relevant.
+
+ % We  argue that emergent parameters of the type found here are an important prediction of allosteric models, endowed with mechanistic meaning.  
+
+%the critical question in fitting allosteric models to data is not: `Are the parameters identifiable by the data?,' but rather: 'Which combinations of parameters are constrained by the data?' 
+
+
+%Each reduced model fits its functional data as well as the original model, and has parameters which are both identifiable and explicitly expressed as emergent combinations of the original, mechanistic MWC parameters.  These results ... 
+
+
+%have parameters which are both identifiable and explicitly expressed in terms 
+
+% can be addressed by transforming the MWC model into a model which   to a model which does have identifiable parameters, with respect to each of the two assays.  
+
+% but can be reduced to models which have fewer, identifiable parameters which are explicitly expressed as emergent combinations of the original mechanistic parameters.  These emergent parameters represent   
+
+%We compare datasets from two common assays of BK function, each of which yields non-identifiable model parameters, when fit to a canonical model of BK function.
+
+
+%Yes, this is the key.  You start with what you DID, which is to COMPARE two different assays.  You saw that they were both non-identifiable to different degrees.  You reduced them to identifiable params.  They had different reductions.  The reductions were interpreted as robustness of underlying parameters to the assay, and allowed the biological relevance of the two assays to be compared from a robustness perspective.  You observed that a 
+
+%A. We use MBAM to show how a non-identifiable allosteric model can be reduced to an identifiable model.
+%B. These reduced models are observed to be particular to the dataset.
+%C. Therefore, non-identifiable models are seen to produce predictions about which parameters compensate for each other to produce a given dataset.
+%D. The reduced models therefore allow us to asses the biological relevance of a given dataset from a robustness perspective.  This perspective is compared to 
+%E. We compare two common assays of BK function, and find that the more `biologically relevant' one from a robustness perspective is also the one more relevant from an information-theory perspective.  Overall, we argue that thinking about emergent combinations of biophysical parameters rather than individual mechanistic parameters solves the non-identifiability problem with respect to a dataset, and 
+
+%We propose that non-identifiability of model parameters with respect to a dataset may be treated as a mechanistically relevant prediction about the robustness of the macromolecule to the experimental assay, rather than a model failing.  
+
+%I don't like the below because it is TOO much detail.  I don't need to say `how,'  I just need to say `what.'
+%Using the recently developed MBAM method, we demonstrate that a non-identifiable model of BK gating can be reduced into a model with identifiable parameters, which are expressed as emergent combinations of the original, mechanistically relevant parameters.  Like non-identifiability itself, the reduced 
+
+%We argue that the recently observed non-identifiability of biophysical parameters with respect to available data may be a mechanistically relevant prediction of the model [which model?].   Using a canonical model of the BK ion channel, we show how a model suffering from parameter non-identifiability may be reduced into a model whose parameters are identifiable, and expressed in terms of the original, biophysically relevant parameters.  We argue that the makeup of these `emergent' parameters constitutes a prediction of the model about the robustness of the measured output to underlying biophysical mechanisms.  By treating different datasets as competing hypotheses about how the channel tranduces information in its enviornment, we are able to compare robustness to discrimnability.  Overall, we argue that the emergent, identifiable parameters we describe here are a very profitable way to understand mechanisms that give rise to the data.  We discuss how the reducibility we observe here could guide experiments towards understanding a possible evolutionary role of allostery.
+
+%Want to say something like: here, we argue that the emergent parameters constitute a prediction about the robustness of the activity curve to the underlying parameters.  Because BK admits both po and log(po), we are able to compare 
+
+% Recall my `prediction:' you should be able to find mutations that fuck up one curve but not the other.  Just do a screen; but not a ligand-binding screen, a AAA screen!  Then  
+
+
+\end{abstract}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 1 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{figure}
+
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 1 A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	\begin{center}
+	\begin{subfigure}[b]{0.48\linewidth}
+	\centering
+	\resizebox{\linewidth}{!}{
+
+\begin{tikzpicture}
+    % Figure letter:
+    \node[draw=none, fill=none] at (0,10) {\Huge A};
+
+
+    \node[draw=none,fill=none] (R) at (.75,3.5) {\Huge R};
+    \node[draw=none,fill=none] (A) at (.75,0.5) {\Huge A};
+    \draw [<- >, very thick] (A) to node[anchor=west] {\huge{$J_0^{(z_J)}$}} (R);
+    %\draw[<->] (A) to {v} (RA);% {V};
+    %\draw[->, bend right=22.5] (\from) to node[fill=white] {$T_{\from \to}$}
+    \draw [black, very thick] (0,0) to [square left brace ] (0,4);
+    \draw [black, very thick] (1.5,0) to [square right brace] (1.5,4);
+
+    
+    \draw [black, very thick] (10,0) to [square left brace ] (10,4);
+    \draw [black, very thick] (11.5,0) to [square right brace] (11.5,4);
+        \node[draw=none,fill=none] (X) at (10.75,3.5) {\Huge X};
+    \node[draw=none,fill=none] (Xca) at (10.75,0.5) {{\huge{X}$\cdot\rm \large{Ca^{2+}}$}};
+    \draw [<->, very thick, name=K] (X) to node[anchor=west] {\huge{$K_d$}} (Xca);
+    
+    \draw [black, very thick] (5,5) to [square left brace ] (5,9);
+    \draw [black, very thick] (6.5,5) to [square right brace] (6.5,9);
+    
+    \node[draw=none,fill=none] (C) at (5.75,8.5) {\Huge C};
+    \node[draw=none,fill=none] (O) at (5.75,5.5) {\huge{O}};
+    \draw [<->, very thick, name=L] (C) to node[anchor=west] {\huge ${L}_0^{{{(z_L)}}}$} (O);
+        \node [draw=none,fill=none] (four) at (2.3,0) {\huge 4};
+    
+	    \node [draw=none,fill=none] (four) at (12.3,0) {\huge 4};
+    
+    %D should be at (2.5+.75,7) $5.75+2.5=8.25 10.75-2.5 = 
+    
+    %guide to locations:
+    	%J_v node is at (1.8,2)
+        %K node is at (10.8,2)
+        %L node is at (6.25,6.8)
+        %D node is at (2.5,6)
+        %C node is at (9,6)
+        %E node is at 5.75,2
+    
+    
+    \node[draw=none,fill=none,rotate=45] (D) at (2.5,6) {\Huge $ {D} $};
+    
+    \node[draw=none,fill=none,rotate=45, left of=D, xshift=.2cm] (<D) at (2.5,6) {\Huge $<$};
+    
+     \node[draw=none,fill=none,rotate=45, right of=D, xshift=-.2cm] (D>) at (2.5,6) {\Huge $>$};    
+     
+         \node[draw=none,fill=none,rotate=-45] (C) at (9,6) {\Huge $   {C} $};
+
+         
+    \node[draw=none,fill=none,rotate=45, above of=C, yshift=-.2cm] (<C) at (9,6) {\Huge $\wedge$};
+    
+     \node[draw=none,fill=none,rotate=45, below of=C, yshift=.2cm] (C>) at (9,6) {\Huge $\vee$};    
+
+    
+    \node[draw=none,fill=none] (E) at (5.75,2) {\Huge $ {E} $};
+    
+    
+        \node[draw=none,fill=none, left of=E, xshift=.2cm] (<E) at (5.75,2) {\Huge $<$};
+    
+     \node[draw=none,fill=none, right of=E, xshift=-.2cm] (E>) at (5.75,2) {\Huge $>$};    
+    
+ %   \draw [-, line width=0.7mm, red, bend left=15,dashed] (6.25,6.8) to node[anchor=east,font=\bf] {\huge$\phi_1=\sqrt[4]{L_0}E$} (5.75,2);
+    
+%    \draw [-, line width=0.7mm, red, dashed] (6.25,7.25) .. controls +(up:6cm) and +(left:1cm) .. node[above,sloped,font=\bf] {\huge$\mathbf \phi_2=\sqrt[4]{L_0}D$} (2.5,6);
+    
+ %       \draw [-, line width=0.7mm, red, dashed] (6.25,7.25) .. controls +(up:6cm) and +(right:1cm) .. node[above,sloped,font=\bf] {\huge$\phi_3=\sqrt[4]{L_0}C$} (9,6);
+\end{tikzpicture}
+}
+
+\end{subfigure}
+\end{center}
+
+
+\bigskip
+
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 1 B %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\begin{subfigure}[b]{0.48\linewidth}
+	\resizebox{\linewidth}{!}{
+\begin{tikzpicture}
+\node[draw=none, fill=none] at (0.3,5.8) {\Large B};
+\begin{axis}
+       [
+         axis line style = { draw = none },
+         xtick           = {-100,0,160}         ,
+         ytick           = {0,.5,1}         ,
+         tick pos        = left           ,
+         xlabel={V (mv)},
+         ylabel = {$P_o$},
+       ]
+
+
+\foreach \i/\j in \CaSTR
+{
+\addplot +[only marks] table [x index=0, y index=1, col sep=comma] {../CSV/figure_1b_panel1_ca\i.csv};\label{\j}
+}
+\pgfplotsset{cycle list set=0}
+\foreach \i/\j in \CaSTR
+{
+\addplot +[no markers] table [x index=0, y index=1, col sep=comma, mark=circle]{../CSV/figure_1b_panel2_ca\i.csv};
+}
+%\addplot table [x index=0, y index=0, col sep=comma] {figure_3b_panel1_paramzJ.csv};
+%\addplot table [x=trila, y=st]
+    %     \node [left] at (axis cs:  6,6) {$32hhhh$};
+\end{axis}
+
+\end{tikzpicture}
+}
+
+\end{subfigure}
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 1 C %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{subfigure}[b]{0.48\linewidth}
+	\resizebox{\linewidth}{!}{
+
+\begin{tikzpicture}
+\node[draw=none, fill=none] at (0.3,5.8) {\Large C};
+\begin{axis}
+       [
+         axis line style = { draw = none },
+         xtick           = {-100,0,160}         ,
+         ytick           = {0,-3,-6}         ,
+         tick pos        = left           ,
+         xlabel={V (mv)},
+         ylabel = {$\log(P_o)$},
+       ]
+
+\pgfplotsset{cycle list set=0}
+\foreach \i/\j in \CaSTR
+{
+\addplot +[only marks] table [x index=0, y index=1, col sep=comma] {../CSV/figure_1c_panel1_ca\i.csv};
+}
+\pgfplotsset{cycle list set=0}
+\foreach \i/\j in \CaSTR
+{
+\addplot +[no markers] table [x index=0, y index=1, col sep=comma, mark=circle]{../CSV/figure_1c_panel2_ca\i.csv};
+}
+
+%\addplot table [x index=0, y index=0, col sep=comma] {figure_3b_panel1_paramzJ.csv};
+%\addplot table [x=trila, y=st]
+    %     \node [left] at (axis cs:  6,6) {$32hhhh$};
+\end{axis}
+
+\end{tikzpicture}
+}
+
+\end{subfigure}
+
+\caption{Synthetic steady-state data.  (A) Schematic of the general allosteric gating mechanism used to generate synthetic data.  The steady state properties of this model are fully described by eight parameters, three of which define the allosteric interactions (C, D, E) and the remaining five define the equilibrium constants (J,K,L) via $J=f(J_0,\zj), \ K=f(\kd), \ L=f(\Lo, \ \zl).$  (B, C) $P_o-V$ and $\log(P_o)-V$ relationships generated from the scheme in (A) for different $\ca$(in $\mu m:$ 0 (\ref{0}); 0.7 (\ref{0.7}); 4 (\ref{4}); 12 (\ref{12}); 22 (\ref{22}); 55 (\ref{55}); 70 (\ref{70}); 95 (\ref{95})) using previously published best-fit parameters .  Each curve contains 26 data points, linearly connected for ease of visualization.}
+
+
+
+\end{figure}
+
+\pagebreak
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}
+
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 2 A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{subfigure}[b]{0.6\linewidth}
+	\resizebox{\linewidth}{!}{
+\begin{tikzpicture}
+\node[draw=none, fill=none] at (0.3,5.8) {\Large A};
+\begin{axis}
+       [
+         axis line style = { draw = none },
+         xtick           = {-100,0,160}         ,
+         ytick           = {0,.5,1}         ,
+         tick pos        = left           ,
+         xlabel={V (mv)},
+         ylabel = {$P_o$},
+       ]
+
+
+\pgfplotsset{cycle list set=0}
+\foreach \i/\j in \CaSTR
+{
+\addplot +[no markers] table [x index=0, y index=1, col sep=comma, mark=circle]{../CSV/figure_2a_panel2_ca\i.csv};
+}
+\pgfplotsset{cycle list set=0}
+\foreach \i/\j in \CaSTR
+{
+\addplot +[only marks] plot [error bars/.cd, y dir = both, y explicit] table [x index=0, y index=1, y error index=2, col sep=comma] {../CSV/figure_2a_panel1_ca\i.csv};\label{\j}
+}
+
+
+%\addplot table [x index=0, y index=0, col sep=comma] {figure_3b_panel1_paramzJ.csv};
+%\addplot table [x=trila, y=st]
+    %     \node [left] at (axis cs:  6,6) {$32hhhh$};
+\end{axis}
+
+\end{tikzpicture}
+}
+
+\end{subfigure}
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 2 B %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{subfigure}[b]{0.6\linewidth}
+\begin{tikzpicture}
+\node[draw=none, fill=none] at (-2,3.43) {\large B};
+    \matrix(dict)[matrix of nodes,%below=of game,
+        nodes={align=center,text width=1.5cm},
+        row 1/.style={anchor=south},
+        column 1/.style={nodes={text width=.9cm,align=right}}
+    ]{
+        $\theta_i$ & generating data & noisy fit\\
+        $L_0$ & $22\times 10^{-7}$ & $7.7\times 10^{-37}$\\
+        $z_L$ & 0.42 & $8.8 \times 10^{-33}$\\
+        $J_0$ & 0.10 & $.066$\\
+        $z_J$ & 0.58 & $.59$\\
+        $K_d$ & 39 & $2.7\times10^{-5}$\\
+        $C$ & 6.16 & $1.7\times 10^{8}$ \\
+        $D$ & 30.4 & $2.4\times10^{9}$\\
+        $E$ & 2.0 & $4.5\times 10^{-8}$\\
+    };
+    \draw(dict-1-1.south west)--(dict-1-3.south east);
+    \draw(dict-1-2.north west)--(dict-9-2.south west);
+    \draw(dict-1-2.north east)--(dict-9-2.south east);
+\end{tikzpicture}
+\end{subfigure}
+\caption{test}
+\end{figure}
+
+\pagebreak
+
+
+
+\bigskip
+
+\bigskip
+
+\bigskip
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 3 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}
+
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 3 A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\hspace{-2cm}
+\begin{subfigure}[b]{0.48\linewidth}
+\centering
+\begin{tikzpicture}
+    \node[draw=none, fill=none] at (-7.5, 1.2) {\Large A};
+    \matrix(dict)[matrix of nodes,%below=of game,
+        nodes={align=center,text width=1.25cm},
+        row 1/.style={anchor=south},
+        row 2/.style={color=red},
+        column 1/.style={nodes={text width=4.0cm,align=right}}
+    ]{
+        Parameter ($\theta_i)$ & $L_0$ & $z_L$ & $J_0$ & $z_J$ & $K_d$ & $C$ & $D$ & $E$\\
+         $P_o$ Relative error (\%)  & $9.0\times10^4$ & $63$ & $29$ & $0.40$ & $2.7$ &  $17$ & $270$ & $44$\\
+        $\log(P_o)$ Relative error (\%)  & $30.$ & $5.4$ & $2.3$ & $0.01$ & $.02$ &  $.11$ & $9.3$ & $.05$\\
+    };
+    \draw(dict-1-1.south west)--(dict-1-9.south east);
+    \draw(dict-1-1.north east)--(dict-3-1.south east);
+\end{tikzpicture}
+\end{subfigure}
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 3 B %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    \vspace{1cm}
+	\hspace{-2cm}
+	\begin{subfigure}[b]{0.6\linewidth}
+	\resizebox{\linewidth}{!}{
+
+\begin{tikzpicture}
+    \node[draw=none, fill=none] at (-3.65,4.55) {\LARGE B};
+        \draw[rotate=-45,very thick] (0,0) ellipse (4.5cm and 1.2cm);
+        \draw [very thick,decorate,decoration={brace,mirror,amplitude=10pt},xshift=-4pt,yshift=0pt]
+(3.5,-3.3) -- (3.5,3.3) node [black,midway,xshift=0.7cm] 
+{\footnotesize \resizebox{0.5cm}{!}{$\bf \Sigma_1$}};
+        \draw [very thick,decorate,decoration={brace,amplitude=10pt},xshift=-4pt,yshift=0pt]
+(-3.3,3.5) -- (3.3,3.5) node [black,midway,yshift=0.7cm] 
+{\footnotesize \resizebox{0.5cm}{!}{$\bf \Sigma_2$}};
+ 	\draw[very thick,-|] (0,0) - - (.8,.8)  node[rotate=45,pos=0.3,midway,fill=white] (stiff) {$w_1$} node[rotate=45,pos=0.3,midway,below] {\textbf{Stiff}};
+	%\draw[very thick,->] (0,0) - - (.5,.5) node[rotate=45,pos=0.3,below] {\textbf{Stiff} \resizebox{0.8cm}{!}{$\bold (w_1)$}};
+	%\draw[very thick,dashed,->] (0,0) - - (-2.5,2.5) node[rotate=-45,pos=0.3,below] {\textbf{Sloppy} \resizebox{0.8cm}{!}{$\bold (w_2)$}};
+	\draw[very thick,-|] (0,0) - - (-3.1,3.1) node[rotate=-45,pos=0.3,midway,fill=white]{$w_2$} node[rotate=-45,pos=0.3,midway,below] {\textbf{Sloppy}};
+	\draw[very thick, ->] (-3,-3) -- (-3,-2) node[pos=0.3,left] {$\log(\theta_1)$};
+	\draw[very thick, ->] (-3,-3) -- (-2,-3) node[pos=0.3,below] {$\log(\theta_2)$};
+	
+\end{tikzpicture}
+}
+
+\end{subfigure}
+\hspace{1cm}
+\vspace{1cm}
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 3 C %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{subfigure}[b]{0.7\linewidth}
+	\resizebox{\linewidth}{!}{
+		\begin{tikzpicture}
+            \node[draw=none, fill=none] at (-1.3,6.3) {\Large C};
+			\begin{axis}[
+			axis line style = { draw = none },
+				ylabel = {$\log\left(1/{w_i^2}\right)$},
+				xlabel = {Ellipsoid Axis Direction $\left(i: {\rm sloppy}\to{\rm stiff}\right)$},
+				xtick pos=left,
+				ytick={-10.6,-7.6,3.3,5.3},
+				ytick pos=left,
+				yticklabels={\textcolor{red}{-10.6},\textcolor{black}{-7.6},\textcolor{red}{3.3},\textcolor{black}{5.3}},
+				xmajorticks=false,
+				%yticklabels{}
+			]
+			\addplot[color=black,mark=*] table[x index=0, y index=1, col sep=comma, only marks] {../CSV/figure_3c_panel1_log10.csv};
+			\addplot[color=red,mark=*] table[x index=0, y index=1, col sep=comma, only marks] {../CSV/figure_3c_panel1_orig.csv};
+			\draw[scale=1,domain=0:8,dashed,variable=\x,black] plot ({\x},{-4.7+0*\x});
+			%\draw[scale=1,domain=0:8,smooth,variable=\x,red] plot ({\x},{.8488*\x-5.2838});
+			
+			
+			\end{axis}
+			
+	
+		\end{tikzpicture}
+	}
+	\end{subfigure}
+
+
+\caption{The BK model is sloppy.  (A) Ellipsoid of constant cost for a toy two-parameter model.  The parameters $\theta_{1,2}$ are constrained in the stiff direction, but have large error regions $\Sigma_{1,2}$ due to the presence of a large sloppy direction.  (B) Calculated $\log(1/{\rm width}^2$) values for the $P_o$ scheme (red) and $\log(P_o)$ scheme (black).  Both exhibit a roughly linear trend, which is the hallmark of a sloppy model.  (C) Parameter error (95\% confidence interval) for each of the schemes.  The $P_0$ scheme has most parameters with great errors (>10\%), whereas the parameters of the $\log(P_o)$ scheme are all identifiable except $L_0$.}
+
+\end{figure}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 4 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}
+
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 4 A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{center}
+	\begin{subfigure}[b]{0.48\linewidth}
+	\centering
+	\resizebox{\linewidth}{!}{
+
+\begin{tikzpicture}
+\node[draw=none, fill=none] at (-0.9,6.5) {\Large A};
+\begin{axis}
+       [
+         axis line style = { draw = none },
+         %ymode=log,
+        % xtick           = {-100,0,160}         ,
+         %ytick           = {0,.5,1}         ,
+         tick pos        = left           ,
+         xlabel={reduction step},
+         ylabel = {RMS error},
+       ]
+
+\pgfplotsset{cycle list set=0}
+\addplot table [x index=0, y index=1, col sep=comma] {../CSV/figure_4a_panel1.csv};
+
+\end{axis}
+
+\end{tikzpicture}
+}
+
+\end{subfigure}
+\end{center}
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 4 B left%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	\begin{subfigure}[b]{0.48\linewidth}
+	\resizebox{\linewidth}{!}{
+
+\begin{tikzpicture}
+    \node[draw=none, fill=none] at (0, 10) {\Huge B};
+    \node[draw=none,fill=none] (R) at (.75,3.5) {\Huge R};
+    \node[draw=none,fill=none] (A) at (.75,0.5) {\Huge A};
+    \draw [<- >, very thick] (A) to node[anchor=west] {\huge{${J}_0^{{(z_J)}}$}} (R);
+    %\draw[<->] (A) to {v} (RA);% {V};
+    %\draw[->, bend right=22.5] (\from) to node[fill=white] {$T_{\from \to}$}
+    \draw [black, very thick] (0,0) to [square left brace ] (0,4);
+    \draw [black, very thick] (1.5,0) to [square right brace] (1.5,4);
+    
+    \node[draw=none,fill=none,] (phione) at (.75,7.25) {\Huge $\phi_1 = \sqrt[4]{\Lo}D$};
+    
+%    \node[draw=none,fill=none,] (phione) at (10.75,7.25) {\Huge $\rcancel{\phi_2 = \sqrt[4]{\Lo}{C}}$};
+    
+ %   \node[draw=none,fill=none,] (phione) at (5.75,1) {\Huge $\rcancel{\phi_3 = \sqrt[4]{\Lo}{E}}$};
+    
+     \node[draw=none,fill=none,] (phione) at (6.9,3.75) {\Huge ${\phi_4 = {CE}}$};
+
+    
+    \draw [black, very thick] (10,0) to [square left brace ] (10,4);
+    \draw [black, very thick] (11.5,0) to [square right brace] (11.5,4);
+        \node[draw=none,fill=none] (X) at (10.75,3.5) {\Huge X};
+    \node[draw=none,fill=none] (Xca) at (10.75,0.5) {{\huge{X}$\cdot\rm \large{Ca^{2+}}$}};
+    \draw [<->, very thick, name=K] (X) to node[anchor=west] {\huge{${{K_d}}$}} (Xca);
+    
+    \draw [black, very thick] (5,5) to [square left brace ] (5,9);
+    \draw [black, very thick] (6.5,5) to [square right brace] (6.5,9);
+    
+    \node[draw=none,fill=none] (C) at (5.75,8.5) {\Huge C};
+    \node[draw=none,fill=none] (O) at (5.75,5.5) {\huge{O}};
+    \draw [<->, very thick, name=L] (C) to node[anchor=west] {\huge $\rcancel[mediumcandyapplered]{{L}}_0^{{\rcancel[mediumcandyapplered]{(z_L)}}}$} (O);
+        \node [draw=none,fill=none] (four) at (2.3,0) {\huge 4};
+    
+	    \node [draw=none,fill=none] (four) at (12.3,0) {\huge 4};
+    
+    %D should be at (2.5+.75,7) $5.75+2.5=8.25 10.75-2.5 = 
+    
+    %guide to locations:
+    	%J_v node is at (1.8,2)
+        %K node is at (10.8,2)
+        %L node is at (6.25,6.8)
+        %D node is at (2.5,6)
+        %C node is at (9,6)
+        %E node is at 5.75,2
+    
+    
+    \node[draw=none,fill=none,rotate=45] (D) at (2.5,6) {\Huge $ {D} $};
+    
+    \node[draw=none,fill=none,rotate=45, left of=D, xshift=.2cm] (<D) at (2.5,6) {\Huge $<$};
+    
+     \node[draw=none,fill=none,rotate=45, right of=D, xshift=-.2cm] (D>) at (2.5,6) {\Huge $>$};    
+     
+         \node[draw=none,fill=none,rotate=-45] (C) at (9,6) {\Huge $   {C} $};
+
+         
+    \node[draw=none,fill=none,rotate=45, above of=C, yshift=-.2cm] (<C) at (9,6) {\Huge $\wedge$};
+    
+     \node[draw=none,fill=none,rotate=45, below of=C, yshift=.2cm] (C>) at (9,6) {\Huge $\vee$};    
+
+    
+    \node[draw=none,fill=none] (E) at (5.75,2) {\Huge $ {E} $};
+    
+    
+        \node[draw=none,fill=none, left of=E, xshift=.2cm] (<E) at (5.75,2) {\Huge $<$};
+    
+     \node[draw=none,fill=none, right of=E, xshift=-.2cm] (E>) at (5.75,2) {\Huge $>$};   
+              \draw[very thick,mediumcandyapplered,line width=1.25pt] (D.north west)--(D.south east);
+        \draw[very thick,mediumcandyapplered,line width=1.25pt] (D.north east)--(D.south west); 
+        
+                      \draw[very thick,mediumcandyapplered,line width=1.25pt] (C.north west)--(C.south east);
+        \draw[ very thick,mediumcandyapplered,line width=1.25pt] (C.north east)--(C.south west); 
+        
+                              \draw[very thick,mediumcandyapplered,line width=1.25pt] (E.north west)--(E.south east);
+        \draw[very thick,mediumcandyapplered,line width=1.25pt] (E.north east)--(E.south west); 
+    
+    
+ %   \draw [-, line width=0.7mm, red, bend left=15,dashed] (6.25,6.8) to node[anchor=east,font=\bf] {\huge$\phi_1=\sqrt[4]{L_0}E$} (5.75,2);
+    
+%    \draw [-, line width=0.7mm, red, dashed] (6.25,7.25) .. controls +(up:6cm) and +(left:1cm) .. node[above,sloped,font=\bf] {\huge$\mathbf \phi_2=\sqrt[4]{L_0}D$} (2.5,6);
+    
+ %       \draw [-, line width=0.7mm, red, dashed] (6.25,7.25) .. controls +(up:6cm) and +(right:1cm) .. node[above,sloped,font=\bf] {\huge$\phi_3=\sqrt[4]{L_0}C$} (9,6);
+\end{tikzpicture}
+}
+
+\end{subfigure}
+	\begin{subfigure}[b]{0.48\linewidth}
+
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 4 B right %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+	\resizebox{\linewidth}{!}{
+\begin{tikzpicture}
+\begin{axis}
+       [
+         axis line style = { draw = none },
+         %ymode=log,
+         xtick           = {-100,0,200}         ,
+         %ytick           = {0,.5,1}         ,
+         tick pos        = left           ,
+         xlabel={V (mv)},
+         ylabel = {$P_o$},
+       ]
+
+\pgfplotsset{cycle list set=0}
+\foreach \i/\j in \CaSTR
+{
+\addplot +[only marks] table [x index=0, y index=1, col sep=comma] {../CSV/figure_1b_panel1_ca\i.csv};\label{\j}
+}
+\pgfplotsset{cycle list set=0}
+\foreach \i/\j in \CaSTR
+{
+\addplot +[no markers] table [x index=0, y index=1, col sep=comma, mark=circle]{../CSV/figure_4b_panel2_ca\i.csv};
+}
+
+%\addplot table [x index=0, y index=0, col sep=comma] {figure_3b_panel1_paramzJ.csv};
+%\addplot table [x=trila, y=st]
+    %     \node [left] at (axis cs:  6,6) {$32hhhh$};
+\end{axis}
+
+\end{tikzpicture}
+}
+
+\end{subfigure}
+
+\vspace{1cm}
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 4 C left %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	\begin{subfigure}[b]{0.48\linewidth}
+	\resizebox{\linewidth}{!}{
+
+\begin{tikzpicture}
+    \node[draw=none, fill=none] at (0, 10) {\Huge C};
+    \node[draw=none,fill=none] (R) at (.75,3.5) {\Huge R};
+    \node[draw=none,fill=none] (A) at (.75,0.5) {\Huge A};
+    \draw [<- >, very thick] (A) to node[anchor=west] {\huge{$\rcancel{J}_0^{{(z_J)}}$}} (R);
+    %\draw[<->] (A) to {v} (RA);% {V};
+    %\draw[->, bend right=22.5] (\from) to node[fill=white] {$T_{\from \to}$}
+    \draw [black, very thick] (0,0) to [square left brace ] (0,4);
+    \draw [black, very thick] (1.5,0) to [square right brace] (1.5,4);
+    
+    \node[draw=none,fill=none,] (phione) at (.75,7.25) {\Huge $\phi_5 = J_0\sqrt[4]{\Lo}D$};
+    
+%    \node[draw=none,fill=none,] (phione) at (10.75,7.25) {\Huge $\rcancel{\phi_2 = \sqrt[4]{\Lo}{C}}$};
+    
+ %   \node[draw=none,fill=none,] (phione) at (5.75,1) {\Huge $\rcancel{\phi_3 = \sqrt[4]{\Lo}{E}}$};
+    
+     \node[draw=none,fill=none,] (phione) at (6.9,3.75) {\Huge ${\phi_4 = {CE}}$};
+
+    
+    \draw [black, very thick] (10,0) to [square left brace ] (10,4);
+    \draw [black, very thick] (11.5,0) to [square right brace] (11.5,4);
+        \node[draw=none,fill=none] (X) at (10.75,3.5) {\Huge X};
+    \node[draw=none,fill=none] (Xca) at (10.75,0.5) {{\huge{X}$\cdot\rm \large{Ca^{2+}}$}};
+    \draw [<->, very thick, name=K] (X) to node[anchor=west] {\huge{${{K_d}}$}} (Xca);
+    
+    \draw [black, very thick] (5,5) to [square left brace ] (5,9);
+    \draw [black, very thick] (6.5,5) to [square right brace] (6.5,9);
+    
+    \node[draw=none,fill=none] (C) at (5.75,8.5) {\Huge C};
+    \node[draw=none,fill=none] (O) at (5.75,5.5) {\huge{O}};
+    \draw [<->, very thick, name=L] (C) to node[anchor=west] {\huge $\rcancel[mediumcandyapplered]{{L}}_0^{{\rcancel[mediumcandyapplered]{(z_L)}}}$} (O);
+        \node [draw=none,fill=none] (four) at (2.3,0) {\huge 4};
+    
+	    \node [draw=none,fill=none] (four) at (12.3,0) {\huge 4};
+    
+    %D should be at (2.5+.75,7) $5.75+2.5=8.25 10.75-2.5 = 
+    
+    %guide to locations:
+    	%J_v node is at (1.8,2)
+        %K node is at (10.8,2)
+        %L node is at (6.25,6.8)
+        %D node is at (2.5,6)
+        %C node is at (9,6)
+        %E node is at 5.75,2
+    
+    
+    \node[draw=none,fill=none,rotate=45] (D) at (2.5,6) {\Huge $ {D} $};
+    
+    \node[draw=none,fill=none,rotate=45, left of=D, xshift=.2cm] (<D) at (2.5,6) {\Huge $<$};
+    
+     \node[draw=none,fill=none,rotate=45, right of=D, xshift=-.2cm] (D>) at (2.5,6) {\Huge $>$};    
+     
+         \node[draw=none,fill=none,rotate=-45] (C) at (9,6) {\Huge $   {C} $};
+
+         
+    \node[draw=none,fill=none,rotate=45, above of=C, yshift=-.2cm] (<C) at (9,6) {\Huge $\wedge$};
+    
+     \node[draw=none,fill=none,rotate=45, below of=C, yshift=.2cm] (C>) at (9,6) {\Huge $\vee$};    
+
+    
+    \node[draw=none,fill=none] (E) at (5.75,2) {\Huge $ {E} $};
+    
+    
+        \node[draw=none,fill=none, left of=E, xshift=.2cm] (<E) at (5.75,2) {\Huge $<$};
+    
+     \node[draw=none,fill=none, right of=E, xshift=-.2cm] (E>) at (5.75,2) {\Huge $>$};   
+              \draw[very thick,mediumcandyapplered,line width=1.25pt] (D.north west)--(D.south east);
+        \draw[very thick,mediumcandyapplered,line width=1.25pt] (D.north east)--(D.south west); 
+        
+                      \draw[very thick,mediumcandyapplered,line width=1.25pt] (C.north west)--(C.south east);
+        \draw[ very thick,mediumcandyapplered,line width=1.25pt] (C.north east)--(C.south west); 
+        
+                              \draw[very thick,mediumcandyapplered,line width=1.25pt] (E.north west)--(E.south east);
+        \draw[very thick,mediumcandyapplered,line width=1.25pt] (E.north east)--(E.south west); 
+    
+    
+ %   \draw [-, line width=0.7mm, red, bend left=15,dashed] (6.25,6.8) to node[anchor=east,font=\bf] {\huge$\phi_1=\sqrt[4]{L_0}E$} (5.75,2);
+    
+%    \draw [-, line width=0.7mm, red, dashed] (6.25,7.25) .. controls +(up:6cm) and +(left:1cm) .. node[above,sloped,font=\bf] {\huge$\mathbf \phi_2=\sqrt[4]{L_0}D$} (2.5,6);
+    
+ %       \draw [-, line width=0.7mm, red, dashed] (6.25,7.25) .. controls +(up:6cm) and +(right:1cm) .. node[above,sloped,font=\bf] {\huge$\phi_3=\sqrt[4]{L_0}C$} (9,6);
+\end{tikzpicture}
+}
+
+\end{subfigure}
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 4 C right %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\begin{subfigure}[b]{0.48\linewidth}
+
+	\resizebox{\linewidth}{!}{
+\begin{tikzpicture}
+\begin{axis}
+       [
+         axis line style = { draw = none },
+         %ymode=log,
+         xtick           = {-100,0,200}         ,
+         %ytick           = {0,.5,1}         ,
+         tick pos        = left           ,
+         xlabel={V (mv)},
+         ylabel = {$P_o$},
+       ]
+       
+       
+\pgfplotsset{cycle list set=0}
+\foreach \i/\j in \CaSTR
+{
+\addplot +[only marks] table [x index=0, y index=1, col sep=comma] {../CSV/figure_1b_panel1_ca\i.csv};
+}
+\pgfplotsset{cycle list set=0}
+\foreach \i/\j in \CaSTR
+{
+\addplot +[no markers] table [x index=0, y index=1, col sep=comma, mark=circle]{../CSV/figure_4c_panel2_ca\i.csv};
+}
+
+%\addplot table [x index=0, y index=0, col sep=comma] {figure_3b_panel1_paramzJ.csv};
+%\addplot table [x=trila, y=st]
+    %     \node [left] at (axis cs:  6,6) {$32hhhh$};
+\end{axis}
+
+\end{tikzpicture}
+}
+\end{subfigure}
+
+\caption{Overview of model reduction for $\po.$ (A) Error for five reduction steps.  Each reduction results in a new model with one fewer parameter.  (B, left) Schematic of the model admitted by the third reduction (left); five parameters have been eliminated from the original model (red X) and two new `emergent' parameters have been added ($\phi_{1,2}$) for a total reduction of three parameters.  (B, right) this model fits the data (black lines) extremely well.  (C, left) Schematic of model admitted by the fourth reduction.  This model does not fit the data well at low $\ca$ (C, right), consistent with the increase in computed error (A).}
+
+\end{figure}
+
+
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 5 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}
+
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 5 A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+\vspace{1cm}
+
+		\begin{subfigure}[b]{0.48\linewidth}
+	\centering
+	\resizebox{\linewidth}{!}{
+\begin{tikzpicture}
+\node[draw=none, fill=none] at (0.3,5.8) {\Large A};
+\begin{axis}
+       [
+         axis line style = { draw = none },
+         xtick = \empty,
+         ytick = \empty,
+         %xtick           = {-10,6}         ,
+         %ytick           = {-.544727175441672, -13.027053197600004, -10.151948911834628, .6931471805599453,
+    %     -.8675005677047232}         ,
+         tick pos        = left           ,
+                  xmax = 6.14,
+       %  yticklabels={$z_J$, $L_0$, $K_d$, $E$, $z_L$},
+         %ylabel={$\log(\theta)$},
+        % xlabel = {time},
+       ]
+
+\foreach \i in {L0, J0, zJ, Kd, C, D, E}
+{
+\addplot[no markers, very thick, color=black] table [x index=0, y index=1, col sep=comma] {../CSV/figure_5a_panel1_param_\i.csv};
+}
+\foreach \i in {zL}
+{
+\addplot[no markers, very thick, color=red] table [x index=0, y index=1, col sep=comma] {../CSV/figure_5a_panel1_param_\i.csv};
+}
+
+
+\node[pos=0.0, pin=left:``first point'']{} ;
+
+
+
+
+%\addplot table [x=trila, y=st]
+        % \node [left] at (axis cs:  6,6) {$32hhhh$};
+\end{axis}
+
+\end{tikzpicture}
+}
+	\end{subfigure}
+	\hspace{.5cm}
+	\begin{subfigure}[b]{0.48\linewidth}
+	\centering
+	\resizebox{\linewidth}{!}{
+
+\begin{tikzpicture}
+    \node[draw=none,fill=none] (R) at (.75,3.5) {\Huge R};
+    \node[draw=none,fill=none] (A) at (.75,0.5) {\Huge A};
+    \draw [<- >, very thick] (A) to node[anchor=west] {\huge{$J_0^{(z_J)}$}} (R);
+    %\draw[<->] (A) to {v} (RA);% {V};
+    %\draw[->, bend right=22.5] (\from) to node[fill=white] {$T_{\from \to}$}
+    \draw [black, very thick] (0,0) to [square left brace ] (0,4);
+    \draw [black, very thick] (1.5,0) to [square right brace] (1.5,4);
+
+    
+    \draw [black, very thick] (10,0) to [square left brace ] (10,4);
+    \draw [black, very thick] (11.5,0) to [square right brace] (11.5,4);
+        \node[draw=none,fill=none] (X) at (10.75,3.5) {\Huge X};
+    \node[draw=none,fill=none] (Xca) at (10.75,0.5) {{\huge{X}$\cdot\rm \large{Ca^{2+}}$}};
+    \draw [<->, very thick, name=K] (X) to node[anchor=west] {\huge{$K_d$}} (Xca);
+    
+    \draw [black, very thick] (5,5) to [square left brace ] (5,9);
+    \draw [black, very thick] (6.5,5) to [square right brace] (6.5,9);
+    
+    \node[draw=none,fill=none] (C) at (5.75,8.5) {\Huge C};
+    \node[draw=none,fill=none] (O) at (5.75,5.5) {\huge{O}};
+    \draw [<->, very thick, name=L] (C) to node[anchor=west] {\huge ${L}_0^{{{(\rcancel{z_L})}}}$} (O);
+        \node [draw=none,fill=none] (four) at (2.3,0) {\huge 4};
+    
+	    \node [draw=none,fill=none] (four) at (12.3,0) {\huge 4};
+    
+    %D should be at (2.5+.75,7) $5.75+2.5=8.25 10.75-2.5 = 
+    
+    %guide to locations:
+    	%J_v node is at (1.8,2)
+        %K node is at (10.8,2)
+        %L node is at (6.25,6.8)
+        %D node is at (2.5,6)
+        %C node is at (9,6)
+        %E node is at 5.75,2
+    
+    
+    \node[draw=none,fill=none,rotate=45] (D) at (2.5,6) {\Huge $ {D} $};
+    
+    \node[draw=none,fill=none,rotate=45, left of=D, xshift=.2cm] (<D) at (2.5,6) {\Huge $<$};
+    
+     \node[draw=none,fill=none,rotate=45, right of=D, xshift=-.2cm] (D>) at (2.5,6) {\Huge $>$};    
+     
+         \node[draw=none,fill=none,rotate=-45] (C) at (9,6) {\Huge $   {C} $};
+
+         
+    \node[draw=none,fill=none,rotate=45, above of=C, yshift=-.2cm] (<C) at (9,6) {\Huge $\wedge$};
+    
+     \node[draw=none,fill=none,rotate=45, below of=C, yshift=.2cm] (C>) at (9,6) {\Huge $\vee$};    
+
+    
+    \node[draw=none,fill=none] (E) at (5.75,2) {\Huge $ {E} $};
+    
+    
+        \node[draw=none,fill=none, left of=E, xshift=.2cm] (<E) at (5.75,2) {\Huge $<$};
+    
+     \node[draw=none,fill=none, right of=E, xshift=-.2cm] (E>) at (5.75,2) {\Huge $>$};    
+    
+ %   \draw [-, line width=0.7mm, red, bend left=15,dashed] (6.25,6.8) to node[anchor=east,font=\bf] {\huge$\phi_1=\sqrt[4]{L_0}E$} (5.75,2);
+    
+%    \draw [-, line width=0.7mm, red, dashed] (6.25,7.25) .. controls +(up:6cm) and +(left:1cm) .. node[above,sloped,font=\bf] {\huge$\mathbf \phi_2=\sqrt[4]{L_0}D$} (2.5,6);
+    
+ %       \draw [-, line width=0.7mm, red, dashed] (6.25,7.25) .. controls +(up:6cm) and +(right:1cm) .. node[above,sloped,font=\bf] {\huge$\phi_3=\sqrt[4]{L_0}C$} (9,6);
+\end{tikzpicture}
+}
+
+\end{subfigure}
+    
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 5 B %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace{1cm}
+
+	\begin{subfigure}[b]{0.48\linewidth}
+	\centering
+	\resizebox{\linewidth}{!}{
+	\begin{tikzpicture}
+    \node[draw=none, fill=none] at (0.3,5.8) {\Large B};
+
+	\begin{axis}
+       [
+         axis line style = { draw = none },
+         xtick           = {1,1}         ,
+         ytick           = \empty         ,
+                  xmax = 6.14,
+         tick pos        = left           ,
+        % ylabel={$\log(\theta)$},
+	xtick=\empty,
+         %xlabel = {time},
+       ]
+
+\foreach \i in {J0, zJ, Kd}
+{
+\addplot[no markers, very thick, color=black] table [x index=0, y index=1, col sep=comma] {../CSV/figure_5b_panel1_param_\i.csv};
+}
+\foreach \i in {L0, C, D, E}
+{
+\addplot[no markers, very thick, color=red] table [x index=0, y index=1, col sep=comma] {../CSV/figure_5b_panel1_param_\i.csv};
+}
+%\node [left] at (a) {bbb};
+
+%\node [right] at (axis cs: 4.06654921543317,-10.158929504340358) {bbb};
+
+
+
+%\addplot table [x=trila, y=st]
+        % \node [left] at (axis cs:  6,6) {$32hhhh$};
+\end{axis}
+
+\end{tikzpicture}
+}
+
+	\end{subfigure}
+		\hspace{.5cm}
+	\begin{subfigure}[b]{0.48\linewidth}
+	\resizebox{\linewidth}{!}{
+
+\begin{tikzpicture}
+    \node[draw=none,fill=none] (R) at (.75,3.5) {\Huge R};
+    \node[draw=none,fill=none] (A) at (.75,0.5) {\Huge A};
+    \draw [<- >, very thick] (A) to node[anchor=west] {\huge{${J}_0^{{(z_J)}}$}} (R);
+    %\draw[<->] (A) to {v} (RA);% {V};
+    %\draw[->, bend right=22.5] (\from) to node[fill=white] {$T_{\from \to}$}
+    \draw [black, very thick] (0,0) to [square left brace ] (0,4);
+    \draw [black, very thick] (1.5,0) to [square right brace] (1.5,4);
+    
+    \node[draw=none,fill=none,] (phione) at (.75,7.25) {\Huge $\phi_1 = \sqrt[4]{\Lo}D$};
+    
+    \node[draw=none,fill=none,] (phione) at (10.75,7.25) {\Huge $\phi_2 = \sqrt[4]{\Lo}{C}$};
+    
+    \node[draw=none,fill=none,] (phione) at (5.75,1) {\Huge $\phi_3 = \left.{E}\middle/{\sqrt[4]{\Lo}}\right.$};
+
+    
+    \draw [black, very thick] (10,0) to [square left brace ] (10,4);
+    \draw [black, very thick] (11.5,0) to [square right brace] (11.5,4);
+        \node[draw=none,fill=none] (X) at (10.75,3.5) {\Huge X};
+    \node[draw=none,fill=none] (Xca) at (10.75,0.5) {{\huge{X}$\cdot\rm \large{Ca^{2+}}$}};
+    \draw [<->, very thick, name=K] (X) to node[anchor=west] {\huge{${{K_d}}$}} (Xca);
+    
+    \draw [black, very thick] (5,5) to [square left brace ] (5,9);
+    \draw [black, very thick] (6.5,5) to [square right brace] (6.5,9);
+    
+    \node[draw=none,fill=none] (C) at (5.75,8.5) {\Huge C};
+    \node[draw=none,fill=none] (O) at (5.75,5.5) {\huge{O}};
+    \draw [<->, very thick, name=L] (C) to node[anchor=west] {\huge $\rcancel[mediumcandyapplered]{{L}}_0^{{\rcancel[mediumcandyapplered]{(z_L)}}}$} (O);
+        \node [draw=none,fill=none] (four) at (2.3,0) {\huge 4};
+    
+	    \node [draw=none,fill=none] (four) at (12.3,0) {\huge 4};
+    
+    %D should be at (2.5+.75,7) $5.75+2.5=8.25 10.75-2.5 = 
+    
+    %guide to locations:
+    	%J_v node is at (1.8,2)
+        %K node is at (10.8,2)
+        %L node is at (6.25,6.8)
+        %D node is at (2.5,6)
+        %C node is at (9,6)
+        %E node is at 5.75,2
+    
+    
+    \node[draw=none,fill=none,rotate=45] (D) at (2.5,6) {\Huge $ {D} $};
+    
+    \node[draw=none,fill=none,rotate=45, left of=D, xshift=.2cm] (<D) at (2.5,6) {\Huge $<$};
+    
+     \node[draw=none,fill=none,rotate=45, right of=D, xshift=-.2cm] (D>) at (2.5,6) {\Huge $>$};    
+     
+         \node[draw=none,fill=none,rotate=-45] (C) at (9,6) {\Huge $   {C} $};
+
+         
+    \node[draw=none,fill=none,rotate=45, above of=C, yshift=-.2cm] (<C) at (9,6) {\Huge $\wedge$};
+    
+     \node[draw=none,fill=none,rotate=45, below of=C, yshift=.2cm] (C>) at (9,6) {\Huge $\vee$};    
+
+    
+    \node[draw=none,fill=none] (E) at (5.75,2) {\Huge $ {E} $};
+    
+    
+        \node[draw=none,fill=none, left of=E, xshift=.2cm] (<E) at (5.75,2) {\Huge $<$};
+    
+     \node[draw=none,fill=none, right of=E, xshift=-.2cm] (E>) at (5.75,2) {\Huge $>$};   
+              \draw[very thick,mediumcandyapplered,line width=1.25pt] (D.north west)--(D.south east);
+        \draw[very thick,mediumcandyapplered,line width=1.25pt] (D.north east)--(D.south west); 
+        
+                      \draw[very thick,mediumcandyapplered,line width=1.25pt] (C.north west)--(C.south east);
+        \draw[ very thick,mediumcandyapplered,line width=1.25pt] (C.north east)--(C.south west); 
+        
+                              \draw[very thick,mediumcandyapplered,line width=1.25pt] (E.north west)--(E.south east);
+        \draw[very thick,mediumcandyapplered,line width=1.25pt] (E.north east)--(E.south west); 
+    
+    
+ %   \draw [-, line width=0.7mm, red, bend left=15,dashed] (6.25,6.8) to node[anchor=east,font=\bf] {\huge$\phi_1=\sqrt[4]{L_0}E$} (5.75,2);
+    
+%    \draw [-, line width=0.7mm, red, dashed] (6.25,7.25) .. controls +(up:6cm) and +(left:1cm) .. node[above,sloped,font=\bf] {\huge$\mathbf \phi_2=\sqrt[4]{L_0}D$} (2.5,6);
+    
+ %       \draw [-, line width=0.7mm, red, dashed] (6.25,7.25) .. controls +(up:6cm) and +(right:1cm) .. node[above,sloped,font=\bf] {\huge$\phi_3=\sqrt[4]{L_0}C$} (9,6);
+\end{tikzpicture}
+}
+
+\end{subfigure}
+
+\vspace{1cm}
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 5 C %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	\begin{subfigure}[b]{0.48\linewidth}
+		\resizebox{\linewidth}{!}{
+	\begin{tikzpicture}
+    \node[draw=none, fill=none] at (0.3,5.8) {\Large C};
+
+	\begin{axis}
+       [
+         axis line style = { draw = none },
+         xtick           = {1,1}         ,
+         ytick           = \empty        ,
+                  xmax = 6.14,
+         tick pos        = left           ,
+        % ylabel={$\log(\theta)$},
+	xtick=\empty,
+       %  xlabel = {time},
+       ]
+
+
+\foreach \i in {J0, zJ, Kd, LD}
+{
+\addplot[no markers, very thick, color=black] table [x index=0, y index=1, col sep=comma] {../CSV/figure_5c_panel1_param_\i.csv};
+}
+\foreach \i in {LC, EL}
+{
+\addplot[no markers, very thick, color=red] table [x index=0, y index=1, col sep=comma] {../CSV/figure_5c_panel1_param_\i.csv};
+}
+%\node [left] at (a) {bbb};
+
+
+\draw[very thick, ->] (axis cs: 3,-10) -- (axis cs: 4.5,-10) node[pos=0.3,above] {\ \ time};
+\draw[very thick, ->] (axis cs: 3,-10) -- (3,-5) node[pos=0.3,left] {$\log(\theta)$};
+
+
+
+%\addplot table [x=trila, y=st]
+        % \node [left] at (axis cs:  6,6) {$32hhhh$};
+\end{axis}
+
+\end{tikzpicture}
+}
+
+	\end{subfigure}
+		\hspace{.5cm}
+	\begin{subfigure}[b]{0.48\linewidth}
+	\resizebox{\linewidth}{!}{
+
+\begin{tikzpicture}
+    \node[draw=none,fill=none] (R) at (.75,3.5) {\Huge R};
+    \node[draw=none,fill=none] (A) at (.75,0.5) {\Huge A};
+    \draw [<- >, very thick] (A) to node[anchor=west] {\huge{${J}_0^{{(z_J)}}$}} (R);
+    %\draw[<->] (A) to {v} (RA);% {V};
+    %\draw[->, bend right=22.5] (\from) to node[fill=white] {$T_{\from \to}$}
+    \draw [black, very thick] (0,0) to [square left brace ] (0,4);
+    \draw [black, very thick] (1.5,0) to [square right brace] (1.5,4);
+    
+    \node[draw=none,fill=none,] (phione) at (.75,7.25) {\Huge $\phi_1 = \sqrt[4]{\Lo}D$};
+    
+    \node[draw=none,fill=none,] (phione) at (10.75,7.25) {\Huge $\rcancel{\phi_2 = \sqrt[4]{\Lo}{C}}$};
+    
+    \node[draw=none,fill=none,] (phione) at (5.75,1) {\Huge $\rcancel{\phi_3 = \left.{E}\middle/{\sqrt[4]{\Lo}}\right.}$};
+    
+     \node[draw=none,fill=none,] (phione) at (6.9,3.75) {\Huge ${\phi_4 = {CE}}$};
+
+    
+    \draw [black, very thick] (10,0) to [square left brace ] (10,4);
+    \draw [black, very thick] (11.5,0) to [square right brace] (11.5,4);
+        \node[draw=none,fill=none] (X) at (10.75,3.5) {\Huge X};
+    \node[draw=none,fill=none] (Xca) at (10.75,0.5) {{\huge{X}$\cdot\rm \large{Ca^{2+}}$}};
+    \draw [<->, very thick, name=K] (X) to node[anchor=west] {\huge{${{K_d}}$}} (Xca);
+    
+    \draw [black, very thick] (5,5) to [square left brace ] (5,9);
+    \draw [black, very thick] (6.5,5) to [square right brace] (6.5,9);
+    
+    \node[draw=none,fill=none] (C) at (5.75,8.5) {\Huge C};
+    \node[draw=none,fill=none] (O) at (5.75,5.5) {\huge{O}};
+    \draw [<->, very thick, name=L] (C) to node[anchor=west] {\huge $\rcancel[mediumcandyapplered]{{L}}_0^{{\rcancel[mediumcandyapplered]{(z_L)}}}$} (O);
+        \node [draw=none,fill=none] (four) at (2.3,0) {\huge 4};
+    
+	    \node [draw=none,fill=none] (four) at (12.3,0) {\huge 4};
+    
+    %D should be at (2.5+.75,7) $5.75+2.5=8.25 10.75-2.5 = 
+    
+    %guide to locations:
+    	%J_v node is at (1.8,2)
+        %K node is at (10.8,2)
+        %L node is at (6.25,6.8)
+        %D node is at (2.5,6)
+        %C node is at (9,6)
+        %E node is at 5.75,2
+    
+    
+    \node[draw=none,fill=none,rotate=45] (D) at (2.5,6) {\Huge $ {D} $};
+    
+    \node[draw=none,fill=none,rotate=45, left of=D, xshift=.2cm] (<D) at (2.5,6) {\Huge $<$};
+    
+     \node[draw=none,fill=none,rotate=45, right of=D, xshift=-.2cm] (D>) at (2.5,6) {\Huge $>$};    
+     
+         \node[draw=none,fill=none,rotate=-45] (C) at (9,6) {\Huge $   {C} $};
+
+         
+    \node[draw=none,fill=none,rotate=45, above of=C, yshift=-.2cm] (<C) at (9,6) {\Huge $\wedge$};
+    
+     \node[draw=none,fill=none,rotate=45, below of=C, yshift=.2cm] (C>) at (9,6) {\Huge $\vee$};    
+
+    
+    \node[draw=none,fill=none] (E) at (5.75,2) {\Huge $ {E} $};
+    
+    
+        \node[draw=none,fill=none, left of=E, xshift=.2cm] (<E) at (5.75,2) {\Huge $<$};
+    
+     \node[draw=none,fill=none, right of=E, xshift=-.2cm] (E>) at (5.75,2) {\Huge $>$};   
+              \draw[very thick,mediumcandyapplered,line width=1.25pt] (D.north west)--(D.south east);
+        \draw[very thick,mediumcandyapplered,line width=1.25pt] (D.north east)--(D.south west); 
+        
+                      \draw[very thick,mediumcandyapplered,line width=1.25pt] (C.north west)--(C.south east);
+        \draw[ very thick,mediumcandyapplered,line width=1.25pt] (C.north east)--(C.south west); 
+        
+                              \draw[very thick,mediumcandyapplered,line width=1.25pt] (E.north west)--(E.south east);
+        \draw[very thick,mediumcandyapplered,line width=1.25pt] (E.north east)--(E.south west); 
+    
+    
+ %   \draw [-, line width=0.7mm, red, bend left=15,dashed] (6.25,6.8) to node[anchor=east,font=\bf] {\huge$\phi_1=\sqrt[4]{L_0}E$} (5.75,2);
+    
+%    \draw [-, line width=0.7mm, red, dashed] (6.25,7.25) .. controls +(up:6cm) and +(left:1cm) .. node[above,sloped,font=\bf] {\huge$\mathbf \phi_2=\sqrt[4]{L_0}D$} (2.5,6);
+    
+ %       \draw [-, line width=0.7mm, red, dashed] (6.25,7.25) .. controls +(up:6cm) and +(right:1cm) .. node[above,sloped,font=\bf] {\huge$\phi_3=\sqrt[4]{L_0}C$} (9,6);
+\end{tikzpicture}
+}
+
+\end{subfigure}
+
+
+\caption{Intermediate MBAM steps, $\po$ assay.  The figure should be read left to right, top to bottom.  The left column displays the parameter values for a given model as MBAM progresses.  The reduced model created by an MBAM iteration is displayed on the right.  (A). MBAM run for the full, original model.  Note that there are eight lines, corresponding to eight parameters.  One of the parameters goes to zero; this is $z_L,$ and it is eliminated, giving our first reduced model, at right.  (B). In the second iteration, four parameters are observed to diverge: $L_0, \ D, \ E,\ C.$  These parameters are eliminated, and three new, emergent parameters are created ($\phi_{1,2,3}$), yielding a net reduction of one parameter.  (C). Two parameters are observed to diverge: $\phi_2, \ \phi_3$.  Note that there are only six lines, corresponding to the six remaining parameters.  The resulting model (right) has five parameters, and fits the data well (Fig 3).}
+
+
+
+
+\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 6 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}
+
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 6 A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{center}
+	\begin{subfigure}[b]{0.48\linewidth}
+	\centering
+	\resizebox{\linewidth}{!}{
+
+\begin{tikzpicture}
+\node[draw=none, fill=none] at (-0.9,6.5) {\Large A};
+\begin{axis}
+       [
+         axis line style = { draw = none },
+         %ymode=log,
+        % xtick           = {-100,0,160}         ,
+         %ytick           = {0,.5,1}         ,
+         tick pos        = left           ,
+         xlabel={reduction step},
+         ylabel = {RMS error},
+       ]
+
+\pgfplotsset{cycle list set=0}
+\addplot table [x index=0, y index=1, col sep=comma] {../CSV/figure_6a_panel1.csv};
+
+\end{axis}
+
+\end{tikzpicture}
+}
+
+\end{subfigure}
+\end{center}
+\vspace{1cm}
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 6 B left %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\begin{subfigure}[b]{0.48\linewidth}
+	\centering
+	\resizebox{\linewidth}{!}{
+
+\begin{tikzpicture}
+    \node[draw=none, fill=none] at (0, 10) {\Huge B};
+    \node[draw=none,fill=none] (R) at (.75,3.5) {\Huge R};
+    \node[draw=none,fill=none] (A) at (.75,0.5) {\Huge A};
+    \draw [<- >, very thick] (A) to node[anchor=west] {\huge{$J_0^{(z_J)}$}} (R);
+    %\draw[<->] (A) to {v} (RA);% {V};
+    %\draw[->, bend right=22.5] (\from) to node[fill=white] {$T_{\from \to}$}
+    \draw [black, very thick] (0,0) to [square left brace ] (0,4);
+    \draw [black, very thick] (1.5,0) to [square right brace] (1.5,4);
+
+    
+    \draw [black, very thick] (10,0) to [square left brace ] (10,4);
+    \draw [black, very thick] (11.5,0) to [square right brace] (11.5,4);
+        \node[draw=none,fill=none] (X) at (10.75,3.5) {\Huge X};
+    \node[draw=none,fill=none] (Xca) at (10.75,0.5) {{\huge{X}$\cdot\rm \large{Ca^{2+}}$}};
+    \draw [<->, very thick, name=K] (X) to node[anchor=west] {\huge{$K_d$}} (Xca);
+    
+    \draw [black, very thick] (5,5) to [square left brace ] (5,9);
+    \draw [black, very thick] (6.5,5) to [square right brace] (6.5,9);
+    
+    \node[draw=none,fill=none] (C) at (5.75,8.5) {\Huge C};
+    \node[draw=none,fill=none] (O) at (5.75,5.5) {\huge{O}};
+    \draw [<->, very thick, name=L] (C) to node[anchor=west] {\huge ${L}_0^{{{(\rcancel{z_L})}}}$} (O);
+        \node [draw=none,fill=none] (four) at (2.3,0) {\huge 4};
+    
+	    \node [draw=none,fill=none] (four) at (12.3,0) {\huge 4};
+    
+    %D should be at (2.5+.75,7) $5.75+2.5=8.25 10.75-2.5 = 
+    
+    %guide to locations:
+    	%J_v node is at (1.8,2)
+        %K node is at (10.8,2)
+        %L node is at (6.25,6.8)
+        %D node is at (2.5,6)
+        %C node is at (9,6)
+        %E node is at 5.75,2
+    
+    
+    \node[draw=none,fill=none,rotate=45] (D) at (2.5,6) {\Huge $ {D} $};
+    
+    \node[draw=none,fill=none,rotate=45, left of=D, xshift=.2cm] (<D) at (2.5,6) {\Huge $<$};
+    
+     \node[draw=none,fill=none,rotate=45, right of=D, xshift=-.2cm] (D>) at (2.5,6) {\Huge $>$};    
+     
+         \node[draw=none,fill=none,rotate=-45] (C) at (9,6) {\Huge $   {C} $};
+
+         
+    \node[draw=none,fill=none,rotate=45, above of=C, yshift=-.2cm] (<C) at (9,6) {\Huge $\wedge$};
+    
+     \node[draw=none,fill=none,rotate=45, below of=C, yshift=.2cm] (C>) at (9,6) {\Huge $\vee$};    
+
+    
+    \node[draw=none,fill=none] (E) at (5.75,2) {\Huge $ {E} $};
+    
+    
+        \node[draw=none,fill=none, left of=E, xshift=.2cm] (<E) at (5.75,2) {\Huge $<$};
+    
+     \node[draw=none,fill=none, right of=E, xshift=-.2cm] (E>) at (5.75,2) {\Huge $>$};    
+    
+ %   \draw [-, line width=0.7mm, red, bend left=15,dashed] (6.25,6.8) to node[anchor=east,font=\bf] {\huge$\phi_1=\sqrt[4]{L_0}E$} (5.75,2);
+    
+%    \draw [-, line width=0.7mm, red, dashed] (6.25,7.25) .. controls +(up:6cm) and +(left:1cm) .. node[above,sloped,font=\bf] {\huge$\mathbf \phi_2=\sqrt[4]{L_0}D$} (2.5,6);
+    
+ %       \draw [-, line width=0.7mm, red, dashed] (6.25,7.25) .. controls +(up:6cm) and +(right:1cm) .. node[above,sloped,font=\bf] {\huge$\phi_3=\sqrt[4]{L_0}C$} (9,6);
+\end{tikzpicture}
+}
+
+\end{subfigure}
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 6 B right %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{subfigure}[b]{0.48\linewidth}
+
+	\resizebox{\linewidth}{!}{
+\begin{tikzpicture}
+\begin{axis}
+       [
+         axis line style = { draw = none },
+         %ymode=log,
+        % xtick           = {-100,0,160}         ,
+         %ytick           = {0,.5,1}         ,
+         tick pos        = left           ,
+         xlabel={V (mv)},
+         ylabel = {$P_o$},
+       ]
+       
+\pgfplotsset{cycle list set=0}
+\foreach \i/\j in \CaSTR
+{
+\addplot +[only marks] table [x index=0, y index=1, col sep=comma] {../CSV/figure_1c_panel1_ca\i.csv};\label{\j}
+}
+\pgfplotsset{cycle list set=0}
+\foreach \i/\j in \CaSTR
+{
+\addplot +[no markers] table [x index=0, y index=1, col sep=comma, mark=circle]{../CSV/figure_6b_panel2_ca\i.csv};
+}
+
+
+%\addplot table [x index=0, y index=0, col sep=comma] {figure_3b_panel1_paramzJ.csv};
+%\addplot table [x=trila, y=st]
+    %     \node [left] at (axis cs:  6,6) {$32hhhh$};
+\end{axis}
+
+\end{tikzpicture}
+}
+
+\end{subfigure}
+
+
+    \vspace{1cm}
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 6 C left %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\begin{subfigure}[b]{0.48\linewidth}
+	\centering
+	\resizebox{\linewidth}{!}{
+
+\begin{tikzpicture}
+    \node[draw=none, fill=none] at (0, 10) {\Huge C};
+    \node[draw=none,fill=none] (R) at (.75,3.5) {\Huge R};
+    \node[draw=none,fill=none] (A) at (.75,0.5) {\Huge A};
+    \draw [<- >, very thick] (A) to node[anchor=west] {\huge{$\rcancel[mediumcandyapplered]{J}_0^{{(z_J)}}$}} (R);
+    %\draw[<->] (A) to {v} (RA);% {V};
+    %\draw[->, bend right=22.5] (\from) to node[fill=white] {$T_{\from \to}$}
+    \draw [black, very thick] (0,0) to [square left brace ] (0,4);
+    \draw [black, very thick] (1.5,0) to [square right brace] (1.5,4);
+    
+    \node[draw=none,fill=none,] (phione) at (.75,7.25) {\Huge $\phi_1 = \Jo D$};
+    
+%    \node[draw=none,fill=none,mediumcandyapplered] (phione) at (10.75,8) {\Huge $\phi_2 = {CE}$};
+
+    
+    \draw [black, very thick] (10,0) to [square left brace ] (10,4);
+    \draw [black, very thick] (11.5,0) to [square right brace] (11.5,4);
+        \node[draw=none,fill=none] (X) at (10.75,3.5) {\Huge X};
+    \node[draw=none,fill=none] (Xca) at (10.75,0.5) {{\huge{X}$\cdot\rm \large{Ca^{2+}}$}};
+    \draw [<->, very thick, name=K] (X) to node[anchor=west] {\huge{${{K_d}}$}} (Xca);
+    
+    \draw [black, very thick] (5,5) to [square left brace ] (5,9);
+    \draw [black, very thick] (6.5,5) to [square right brace] (6.5,9);
+    
+    \node[draw=none,fill=none] (C) at (5.75,8.5) {\Huge C};
+    \node[draw=none,fill=none] (O) at (5.75,5.5) {\huge{O}};
+    \draw [<->, very thick, name=L] (C) to node[anchor=west] {\huge ${L}_0^{{\rcancel[mediumcandyapplered]{(z_L)}}}$} (O);
+        \node [draw=none,fill=none] (four) at (2.3,0) {\huge 4};
+    
+	    \node [draw=none,fill=none] (four) at (12.3,0) {\huge 4};
+    
+    %D should be at (2.5+.75,7) $5.75+2.5=8.25 10.75-2.5 = 
+    
+    %guide to locations:
+    	%J_v node is at (1.8,2)
+        %K node is at (10.8,2)
+        %L node is at (6.25,6.8)
+        %D node is at (2.5,6)
+        %C node is at (9,6)
+        %E node is at 5.75,2
+    
+    
+    \node[draw=none,fill=none,rotate=45] (D) at (2.5,6) {\Huge $ {D} $};
+    
+    \node[draw=none,fill=none,rotate=45, left of=D, xshift=.2cm] (<D) at (2.5,6) {\Huge $<$};
+    
+     \node[draw=none,fill=none,rotate=45, right of=D, xshift=-.2cm] (D>) at (2.5,6) {\Huge $>$};    
+     
+         \node[draw=none,fill=none,rotate=-45] (C) at (9,6) {\Huge $   {C} $};
+
+         
+    \node[draw=none,fill=none,rotate=45, above of=C, yshift=-.2cm] (<C) at (9,6) {\Huge $\wedge$};
+    
+     \node[draw=none,fill=none,rotate=45, below of=C, yshift=.2cm] (C>) at (9,6) {\Huge $\vee$};    
+
+    
+    \node[draw=none,fill=none] (E) at (5.75,2) {\Huge $ {E} $};
+    
+    
+        \node[draw=none,fill=none, left of=E, xshift=.2cm] (<E) at (5.75,2) {\Huge $<$};
+    
+     \node[draw=none,fill=none, right of=E, xshift=-.2cm] (E>) at (5.75,2) {\Huge $>$};   
+              \draw[very thick,mediumcandyapplered,line width=1.25pt] (D.north west)--(D.south east);
+        \draw[very thick,mediumcandyapplered,line width=1.25pt] (D.north east)--(D.south west); 
+        
+           %           \draw[very thick,mediumcandyapplered,line width=1.25pt] (C.north west)--(C.south east);
+    %    \draw[ very thick,mediumcandyapplered,line width=1.25pt] (C.north east)--(C.south west); 
+        
+    %                          \draw[very thick,mediumcandyapplered,line width=1.25pt] (E.north west)--(E.south east);
+    %    \draw[very thick,mediumcandyapplered,line width=1.25pt] (E.north east)--(E.south west); 
+    
+    
+ %   \draw [-, line width=0.7mm, red, bend left=15,dashed] (6.25,6.8) to node[anchor=east,font=\bf] {\huge$\phi_1=\sqrt[4]{L_0}E$} (5.75,2);
+    
+%    \draw [-, line width=0.7mm, red, dashed] (6.25,7.25) .. controls +(up:6cm) and +(left:1cm) .. node[above,sloped,font=\bf] {\huge$\mathbf \phi_2=\sqrt[4]{L_0}D$} (2.5,6);
+    
+ %       \draw [-, line width=0.7mm, red, dashed] (6.25,7.25) .. controls +(up:6cm) and +(right:1cm) .. node[above,sloped,font=\bf] {\huge$\phi_3=\sqrt[4]{L_0}C$} (9,6);
+\end{tikzpicture}
+}
+
+\end{subfigure}
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 6 C right %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\begin{subfigure}[b]{0.48\linewidth}
+
+	\resizebox{\linewidth}{!}{
+\begin{tikzpicture}
+\begin{axis}
+       [
+         axis line style = { draw = none },
+         %ymode=log,
+        % xtick           = {-100,0,160}         ,
+         %ytick           = {0,.5,1}         ,
+         tick pos        = left           ,
+         xlabel={V (mv)},
+         ylabel = {$P_o$},
+       ]
+       
+\pgfplotsset{cycle list set=0}
+\foreach \i/\j in \CaSTR
+{
+\addplot +[only marks] table [x index=0, y index=1, col sep=comma] {../CSV/figure_1c_panel1_ca\i.csv};
+}
+\pgfplotsset{cycle list set=0}
+\foreach \i/\j in \CaSTR
+{
+\addplot +[no markers] table [x index=0, y index=1, col sep=comma, mark=circle]{../CSV/figure_6c_panel2_ca\i.csv};
+}
+
+
+%\addplot table [x index=0, y index=0, col sep=comma] {figure_3b_panel1_paramzJ.csv};
+%\addplot table [x=trila, y=st]
+    %     \node [left] at (axis cs:  6,6) {$32hhhh$};
+\end{axis}
+
+\end{tikzpicture}
+}
+\end{subfigure}
+
+\caption{Overview of model reduction for $\lpo$.  (A) Error for four reduction steps.  The first step produces essentially zero change in the fit, the second step produces a small increase in error. (B) Model resulting from one reduction (left) and fit to synthetic data (right, black lines through data points, data legend as in Fig 1).  The model fits the data very well.  (C). Model resulting from two reductions (left) and fit to synthetic data (right).  The model fits data well, with small discrepancies for data at -50 to 50 mV and 22-70 $\mu M \ \ca.$  }
+
+\end{figure}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 7 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}
+
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 7 A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+	\begin{subfigure}[b]{0.48\linewidth}
+	\centering
+	\resizebox{\linewidth}{!}{
+
+\begin{tikzpicture}
+    \node[draw=none, fill=none] at (0, 10) {\Huge A};
+    \node[draw=none,fill=none] (R) at (.75,3.5) {\Huge R};
+    \node[draw=none,fill=none] (A) at (.75,0.5) {\Huge A};
+    \draw [<- >, very thick] (A) to node[anchor=west] {\huge{$J_0^{(z_J)}$}} (R);
+    %\draw[<->] (A) to {v} (RA);% {V};
+    %\draw[->, bend right=22.5] (\from) to node[fill=white] {$T_{\from \to}$}
+    \draw [black, very thick] (0,0) to [square left brace ] (0,4);
+    \draw [black, very thick] (1.5,0) to [square right brace] (1.5,4);
+
+    
+    \draw [black, very thick] (10,0) to [square left brace ] (10,4);
+    \draw [black, very thick] (11.5,0) to [square right brace] (11.5,4);
+        \node[draw=none,fill=none] (X) at (10.75,3.5) {\Huge X};
+    \node[draw=none,fill=none] (Xca) at (10.75,0.5) {{\huge{X}$\cdot\rm \large{Ca^{2+}}$}};
+    \draw [<->, very thick, name=K] (X) to node[anchor=west] {\huge{$K_d$}} (Xca);
+    
+    \draw [black, very thick] (5,5) to [square left brace ] (5,9);
+    \draw [black, very thick] (6.5,5) to [square right brace] (6.5,9);
+    
+    \node[draw=none,fill=none] (C) at (5.75,8.5) {\Huge C};
+    \node[draw=none,fill=none] (O) at (5.75,5.5) {\huge{O}};
+    \draw [<->, very thick, name=L] (C) to node[anchor=west] {\huge ${L}_0^{{{(\rcancel{z_L})}}}$} (O);
+        \node [draw=none,fill=none] (four) at (2.3,0) {\huge 4};
+    
+	    \node [draw=none,fill=none] (four) at (12.3,0) {\huge 4};
+    
+    %D should be at (2.5+.75,7) $5.75+2.5=8.25 10.75-2.5 = 
+    
+    %guide to locations:
+    	%J_v node is at (1.8,2)
+        %K node is at (10.8,2)
+        %L node is at (6.25,6.8)
+        %D node is at (2.5,6)
+        %C node is at (9,6)
+        %E node is at 5.75,2
+    
+    
+    \node[draw=none,fill=none,rotate=45] (D) at (2.5,6) {\Huge $ {D} $};
+    
+    \node[draw=none,fill=none,rotate=45, left of=D, xshift=.2cm] (<D) at (2.5,6) {\Huge $<$};
+    
+     \node[draw=none,fill=none,rotate=45, right of=D, xshift=-.2cm] (D>) at (2.5,6) {\Huge $>$};    
+     
+         \node[draw=none,fill=none,rotate=-45] (C) at (9,6) {\Huge $   {C} $};
+
+         
+    \node[draw=none,fill=none,rotate=45, above of=C, yshift=-.2cm] (<C) at (9,6) {\Huge $\wedge$};
+    
+     \node[draw=none,fill=none,rotate=45, below of=C, yshift=.2cm] (C>) at (9,6) {\Huge $\vee$};    
+
+    
+    \node[draw=none,fill=none] (E) at (5.75,2) {\Huge $ {E} $};
+    
+    
+        \node[draw=none,fill=none, left of=E, xshift=.2cm] (<E) at (5.75,2) {\Huge $<$};
+    
+     \node[draw=none,fill=none, right of=E, xshift=-.2cm] (E>) at (5.75,2) {\Huge $>$};    
+    
+ %   \draw [-, line width=0.7mm, red, bend left=15,dashed] (6.25,6.8) to node[anchor=east,font=\bf] {\huge$\phi_1=\sqrt[4]{L_0}E$} (5.75,2);
+    
+%    \draw [-, line width=0.7mm, red, dashed] (6.25,7.25) .. controls +(up:6cm) and +(left:1cm) .. node[above,sloped,font=\bf] {\huge$\mathbf \phi_2=\sqrt[4]{L_0}D$} (2.5,6);
+    
+ %       \draw [-, line width=0.7mm, red, dashed] (6.25,7.25) .. controls +(up:6cm) and +(right:1cm) .. node[above,sloped,font=\bf] {\huge$\phi_3=\sqrt[4]{L_0}C$} (9,6);
+\end{tikzpicture}
+}
+
+\end{subfigure}
+\begin{subfigure}[b]{0.48\linewidth}
+\centering
+\begin{tikzpicture}
+    \matrix(dict)[matrix of nodes,%below=of game,
+        nodes={align=center,text width=1.5cm},
+        row 1/.style={anchor=south},
+        column 1/.style={nodes={text width=.9cm,align=right}}
+    ]{
+        $\theta_i$ & Relative error (\%)\\
+        $L_0$ & $5.0\times 10^{14}$\\
+        $J_0$ & 0.58\\
+        $z_J$ & 0.29\\
+        $K_d$ & 0.92\\
+        $C$ & 260\\
+        $D$ & 630\\
+        $E$ & 450\\
+    };
+    \draw(dict-1-1.south west)--(dict-1-2.south east);
+    \draw(dict-1-1.north east)--(dict-8-1.south east);
+\end{tikzpicture}
+\end{subfigure}
+
+\vspace{1cm}
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 7 B %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	\begin{subfigure}[b]{0.48\linewidth}
+	\resizebox{\linewidth}{!}{
+
+\begin{tikzpicture}
+    \node[draw=none, fill=none] at (0, 10) {\Huge B};
+    \node[draw=none,fill=none] (R) at (.75,3.5) {\Huge R};
+    \node[draw=none,fill=none] (A) at (.75,0.5) {\Huge A};
+    \draw [<- >, very thick] (A) to node[anchor=west] {\huge{${J}_0^{{(z_J)}}$}} (R);
+    %\draw[<->] (A) to {v} (RA);% {V};
+    %\draw[->, bend right=22.5] (\from) to node[fill=white] {$T_{\from \to}$}
+    \draw [black, very thick] (0,0) to [square left brace ] (0,4);
+    \draw [black, very thick] (1.5,0) to [square right brace] (1.5,4);
+    
+    \node[draw=none,fill=none,] (phione) at (.75,7.25) {\Huge $\phi_1 = \sqrt[4]{\Lo}D$};
+    
+    \node[draw=none,fill=none,] (phione) at (10.75,7.25) {\Huge $\phi_2 = \sqrt[4]{\Lo}{C}$};
+    
+    \node[draw=none,fill=none,] (phione) at (5.75,1) {\Huge $\phi_3 = \left.{E}\middle/\sqrt[4]{\Lo}\right.$};
+
+    
+    \draw [black, very thick] (10,0) to [square left brace ] (10,4);
+    \draw [black, very thick] (11.5,0) to [square right brace] (11.5,4);
+        \node[draw=none,fill=none] (X) at (10.75,3.5) {\Huge X};
+    \node[draw=none,fill=none] (Xca) at (10.75,0.5) {{\huge{X}$\cdot\rm \large{Ca^{2+}}$}};
+    \draw [<->, very thick, name=K] (X) to node[anchor=west] {\huge{${{K_d}}$}} (Xca);
+    
+    \draw [black, very thick] (5,5) to [square left brace ] (5,9);
+    \draw [black, very thick] (6.5,5) to [square right brace] (6.5,9);
+    
+    \node[draw=none,fill=none] (C) at (5.75,8.5) {\Huge C};
+    \node[draw=none,fill=none] (O) at (5.75,5.5) {\huge{O}};
+    \draw [<->, very thick, name=L] (C) to node[anchor=west] {\huge $\rcancel[mediumcandyapplered]{{L}}_0^{{\rcancel[mediumcandyapplered]{(z_L)}}}$} (O);
+        \node [draw=none,fill=none] (four) at (2.3,0) {\huge 4};
+    
+	    \node [draw=none,fill=none] (four) at (12.3,0) {\huge 4};
+    
+    %D should be at (2.5+.75,7) $5.75+2.5=8.25 10.75-2.5 = 
+    
+    %guide to locations:
+    	%J_v node is at (1.8,2)
+        %K node is at (10.8,2)
+        %L node is at (6.25,6.8)
+        %D node is at (2.5,6)
+        %C node is at (9,6)
+        %E node is at 5.75,2
+    
+    
+    \node[draw=none,fill=none,rotate=45] (D) at (2.5,6) {\Huge $ {D} $};
+    
+    \node[draw=none,fill=none,rotate=45, left of=D, xshift=.2cm] (<D) at (2.5,6) {\Huge $<$};
+    
+     \node[draw=none,fill=none,rotate=45, right of=D, xshift=-.2cm] (D>) at (2.5,6) {\Huge $>$};    
+     
+         \node[draw=none,fill=none,rotate=-45] (C) at (9,6) {\Huge $   {C} $};
+
+         
+    \node[draw=none,fill=none,rotate=45, above of=C, yshift=-.2cm] (<C) at (9,6) {\Huge $\wedge$};
+    
+     \node[draw=none,fill=none,rotate=45, below of=C, yshift=.2cm] (C>) at (9,6) {\Huge $\vee$};    
+
+    
+    \node[draw=none,fill=none] (E) at (5.75,2) {\Huge $ {E} $};
+    
+    
+        \node[draw=none,fill=none, left of=E, xshift=.2cm] (<E) at (5.75,2) {\Huge $<$};
+    
+     \node[draw=none,fill=none, right of=E, xshift=-.2cm] (E>) at (5.75,2) {\Huge $>$};   
+              \draw[very thick,mediumcandyapplered,line width=1.25pt] (D.north west)--(D.south east);
+        \draw[very thick,mediumcandyapplered,line width=1.25pt] (D.north east)--(D.south west); 
+        
+                      \draw[very thick,mediumcandyapplered,line width=1.25pt] (C.north west)--(C.south east);
+        \draw[ very thick,mediumcandyapplered,line width=1.25pt] (C.north east)--(C.south west); 
+        
+                              \draw[very thick,mediumcandyapplered,line width=1.25pt] (E.north west)--(E.south east);
+        \draw[very thick,mediumcandyapplered,line width=1.25pt] (E.north east)--(E.south west); 
+    
+    
+ %   \draw [-, line width=0.7mm, red, bend left=15,dashed] (6.25,6.8) to node[anchor=east,font=\bf] {\huge$\phi_1=\sqrt[4]{L_0}E$} (5.75,2);
+    
+%    \draw [-, line width=0.7mm, red, dashed] (6.25,7.25) .. controls +(up:6cm) and +(left:1cm) .. node[above,sloped,font=\bf] {\huge$\mathbf \phi_2=\sqrt[4]{L_0}D$} (2.5,6);
+    
+ %       \draw [-, line width=0.7mm, red, dashed] (6.25,7.25) .. controls +(up:6cm) and +(right:1cm) .. node[above,sloped,font=\bf] {\huge$\phi_3=\sqrt[4]{L_0}C$} (9,6);
+\end{tikzpicture}
+}
+
+\end{subfigure}
+\begin{subfigure}[b]{0.48\linewidth}
+\centering
+\begin{tikzpicture}
+    \matrix(dict)[matrix of nodes,%below=of game,
+        nodes={align=center,text width=1.5cm},
+        row 1/.style={anchor=south},
+        column 1/.style={nodes={text width=.9cm,align=right}}
+    ]{
+        $\theta_i$ & Relative error (\%)\\
+        $J_0$ & .49\\
+        $z_J$ & .13\\
+        $K_d$ & .23\\
+        $\sqrt[4]{L_0}C$ & 2700\\
+        $\sqrt[4]{L_0}D$ & .62\\
+        $\frac{E}{\sqrt[4]{L_0}}$ & 2800\\
+    };
+    \draw(dict-1-1.south west)--(dict-1-2.south east);
+    \draw(dict-1-1.north east)--(dict-7-1.south east);
+\end{tikzpicture}
+\end{subfigure}
+
+\vspace{1cm}
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 7 C %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	\begin{subfigure}[b]{0.48\linewidth}
+	\resizebox{\linewidth}{!}{
+
+\begin{tikzpicture}
+    \node[draw=none, fill=none] at (0, 10) {\Huge C};
+    \node[draw=none,fill=none] (R) at (.75,3.5) {\Huge R};
+    \node[draw=none,fill=none] (A) at (.75,0.5) {\Huge A};
+    \draw [<- >, very thick] (A) to node[anchor=west] {\huge{${J}_0^{{(z_J)}}$}} (R);
+    %\draw[<->] (A) to {v} (RA);% {V};
+    %\draw[->, bend right=22.5] (\from) to node[fill=white] {$T_{\from \to}$}
+    \draw [black, very thick] (0,0) to [square left brace ] (0,4);
+    \draw [black, very thick] (1.5,0) to [square right brace] (1.5,4);
+    
+    \node[draw=none,fill=none,] (phione) at (.75,7.25) {\Huge $\phi_1 = \sqrt[4]{\Lo}D$};
+    
+    \node[draw=none,fill=none,] (phione) at (10.75,7.25) {\Huge $\rcancel{\phi_2 = \sqrt[4]{\Lo}{C}}$};
+    
+    \node[draw=none,fill=none,] (phione) at (5.75,1) {\Huge $\rcancel{\phi_3 = \left.{E}\middle/\sqrt[4]{\Lo}\right.}$};
+    
+     \node[draw=none,fill=none,] (phione) at (6.9,3.75) {\Huge ${\phi_4 = {CE}}$};
+
+    
+    \draw [black, very thick] (10,0) to [square left brace ] (10,4);
+    \draw [black, very thick] (11.5,0) to [square right brace] (11.5,4);
+        \node[draw=none,fill=none] (X) at (10.75,3.5) {\Huge X};
+    \node[draw=none,fill=none] (Xca) at (10.75,0.5) {{\huge{X}$\cdot\rm \large{Ca^{2+}}$}};
+    \draw [<->, very thick, name=K] (X) to node[anchor=west] {\huge{${{K_d}}$}} (Xca);
+    
+    \draw [black, very thick] (5,5) to [square left brace ] (5,9);
+    \draw [black, very thick] (6.5,5) to [square right brace] (6.5,9);
+    
+    \node[draw=none,fill=none] (C) at (5.75,8.5) {\Huge C};
+    \node[draw=none,fill=none] (O) at (5.75,5.5) {\huge{O}};
+    \draw [<->, very thick, name=L] (C) to node[anchor=west] {\huge $\rcancel[mediumcandyapplered]{{L}}_0^{{\rcancel[mediumcandyapplered]{(z_L)}}}$} (O);
+        \node [draw=none,fill=none] (four) at (2.3,0) {\huge 4};
+    
+	    \node [draw=none,fill=none] (four) at (12.3,0) {\huge 4};
+    
+    %D should be at (2.5+.75,7) $5.75+2.5=8.25 10.75-2.5 = 
+    
+    %guide to locations:
+    	%J_v node is at (1.8,2)
+        %K node is at (10.8,2)
+        %L node is at (6.25,6.8)
+        %D node is at (2.5,6)
+        %C node is at (9,6)
+        %E node is at 5.75,2
+    
+    
+    \node[draw=none,fill=none,rotate=45] (D) at (2.5,6) {\Huge $ {D} $};
+    
+    \node[draw=none,fill=none,rotate=45, left of=D, xshift=.2cm] (<D) at (2.5,6) {\Huge $<$};
+    
+     \node[draw=none,fill=none,rotate=45, right of=D, xshift=-.2cm] (D>) at (2.5,6) {\Huge $>$};    
+     
+         \node[draw=none,fill=none,rotate=-45] (C) at (9,6) {\Huge $   {C} $};
+
+         
+    \node[draw=none,fill=none,rotate=45, above of=C, yshift=-.2cm] (<C) at (9,6) {\Huge $\wedge$};
+    
+     \node[draw=none,fill=none,rotate=45, below of=C, yshift=.2cm] (C>) at (9,6) {\Huge $\vee$};    
+
+    
+    \node[draw=none,fill=none] (E) at (5.75,2) {\Huge $ {E} $};
+    
+    
+        \node[draw=none,fill=none, left of=E, xshift=.2cm] (<E) at (5.75,2) {\Huge $<$};
+    
+     \node[draw=none,fill=none, right of=E, xshift=-.2cm] (E>) at (5.75,2) {\Huge $>$};   
+              \draw[very thick,mediumcandyapplered,line width=1.25pt] (D.north west)--(D.south east);
+        \draw[very thick,mediumcandyapplered,line width=1.25pt] (D.north east)--(D.south west); 
+        
+                      \draw[very thick,mediumcandyapplered,line width=1.25pt] (C.north west)--(C.south east);
+        \draw[ very thick,mediumcandyapplered,line width=1.25pt] (C.north east)--(C.south west); 
+        
+                              \draw[very thick,mediumcandyapplered,line width=1.25pt] (E.north west)--(E.south east);
+        \draw[very thick,mediumcandyapplered,line width=1.25pt] (E.north east)--(E.south west); 
+    
+    
+ %   \draw [-, line width=0.7mm, red, bend left=15,dashed] (6.25,6.8) to node[anchor=east,font=\bf] {\huge$\phi_1=\sqrt[4]{L_0}E$} (5.75,2);
+    
+%    \draw [-, line width=0.7mm, red, dashed] (6.25,7.25) .. controls +(up:6cm) and +(left:1cm) .. node[above,sloped,font=\bf] {\huge$\mathbf \phi_2=\sqrt[4]{L_0}D$} (2.5,6);
+    
+ %       \draw [-, line width=0.7mm, red, dashed] (6.25,7.25) .. controls +(up:6cm) and +(right:1cm) .. node[above,sloped,font=\bf] {\huge$\phi_3=\sqrt[4]{L_0}C$} (9,6);
+\end{tikzpicture}
+}
+
+\end{subfigure}
+\begin{subfigure}[b]{0.48\linewidth}
+\centering
+\begin{tikzpicture}
+    \matrix(dict)[matrix of nodes,%below=of game,
+        nodes={align=center,text width=1.5cm},
+        row 1/.style={anchor=south},
+        column 1/.style={nodes={text width=.9cm,align=right}}
+    ]{
+        $\theta_i$ & Relative error (\%)\\
+        $J_0$ & 0.51\\
+        $z_J$ & .04\\
+        $K_d$ & .21\\
+        $CE$ & .19\\
+        $\sqrt[4]{L_0}D$ & .37\\
+    };
+    \draw(dict-1-1.south west)--(dict-1-2.south east);
+    \draw(dict-1-1.north east)--(dict-6-1.south east);
+\end{tikzpicture}
+\end{subfigure}
+
+\caption{Model reduction results in identifiable parameters.  Reduced models for the $\po$ assay are presented in the left column (identical with Figure ), and the error in their parameters (95\% confidence interval) are presented at right.  The five parameter model produced by three model reductions (third row, left) has fully identifiable parameters (error <10\%, third row, right).}
+
+
+
+\end{figure}
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
