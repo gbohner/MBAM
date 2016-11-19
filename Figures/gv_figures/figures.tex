@@ -2,6 +2,7 @@
 
 \usepackage{verbatim}
 \usepackage{amssymb}
+\usepackage{amsmath}
 %\input{macros}
 
 %\setlength{\textwidth}{\paperwidth}
@@ -124,6 +125,9 @@
         line join=round
     }
 }
+
+\usepackage{pgfplotstable}
+\usepackage{booktabs}
 
 \begin{document}
 
@@ -420,13 +424,13 @@ The reduced models thereby identify which coordinated changes in parameter value
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{subfigure}[b]{0.6\linewidth}
 \begin{tikzpicture}
-\node[draw=none, fill=none] at (-2,3.43) {\large B};
+\node[draw=none, fill=none] at (-2,3.58) {\large B};
     \matrix(dict)[matrix of nodes,%below=of game,
         nodes={align=center,text width=1.5cm},
         row 1/.style={anchor=south},
         column 1/.style={nodes={text width=.9cm,align=right}}
     ]{
-        $\theta_i$ & generating data & noisy fit\\
+        $\theta_i$ & Base & Fit\\
         $L_0$ & $2.2\times 10^{-6}$ & $7.7\times 10^{-37}$\\
         $z_L$ & 0.42 & $8.8 \times 10^{-33}$\\
         $J_0$ & 0.10 & $0.066$\\
@@ -439,6 +443,32 @@ The reduced models thereby identify which coordinated changes in parameter value
     \draw(dict-1-1.south west)--(dict-1-3.south east);
     \draw(dict-1-2.north west)--(dict-9-2.south west);
     \draw(dict-1-2.north east)--(dict-9-2.south east);
+
+
+\begin{comment}
+    \pgfplotstabletypeset[
+    header=true,
+    col sep=comma,
+    display columns/0/.style={column name={}},
+    display columns/1/.style={
+        column name={Base}
+    },
+    display columns/2/.style={
+        column name={Diverging}
+    },
+    create on use/newcol/.style={
+        create col/set list={$L_0$, $z_L$, $J_0$, $z_J$, $K_d$, $C$, $D$, $E$}
+    },
+    columns/newcol/.style={string type},
+    columns={newcol,Base,Diverging},
+    every head row/.style={
+        before row=\toprule,
+        after row=\midrule},
+    every last row/.style={
+        after row=\bottomrule}
+    ]{../CSV/figure_2b_panel1.csv}
+
+    \end{comment}
 \end{tikzpicture}
 \end{subfigure}
 % Data is in {../CSV/figure_2b_panel1.csv}
@@ -481,11 +511,12 @@ The reduced models thereby identify which coordinated changes in parameter value
         column 1/.style={nodes={text width=4.0cm,align=right}}
     ]{
         Parameter ($\theta_i)$ & $L_0$ & $z_L$ & $J_0$ & $z_J$ & $K_d$ & $C$ & $D$ & $E$\\
-         $P_o$ Relative error (\%)  & $9.0\times10^4$ & $63$ & $29$ & $0.40$ & $2.7$ &  $17$ & $270$ & $44$\\
-        $\log(P_o)$ Relative error (\%)  & $30.$ & $5.4$ & $2.3$ & $0.01$ & $.02$ &  $.11$ & $9.3$ & $.05$\\
+         $P_o$ Relative error (\%)  & $5\times10^{11}$ & $4.0\times10^4$ & $7.4\times10^3$ & $71.80$ & $304.31$ &  $2.8\times10^3$ & $1.8\times10^6$ & $1.7\times10^4$\\
+        $\log(P_o)$ Relative error (\%)  & $7.9\times10^3$ & $612.18$ & $262.10$ & $9.50$ & $13.14$ &  $32.88$ & $1.2\times10^3$ & $22.19$\\
     };
     \draw(dict-1-1.south west)--(dict-1-9.south east);
     \draw(dict-1-1.north east)--(dict-3-1.south east);
+    % Data is in {../CSV/figure_3a_panel1.csv}
 \end{tikzpicture}
 \end{subfigure}
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1671,13 +1702,13 @@ The reduced models thereby identify which coordinated changes in parameter value
         column 1/.style={nodes={text width=.9cm,align=right}}
     ]{
         $\theta_i$ & Relative error (\%)\\
-        $L_0$ & $5.0\times 10^{14}$\\
-        $J_0$ & 0.58\\
-        $z_J$ & 0.29\\
-        $K_d$ & 0.92\\
-        $C$ & 260\\
-        $D$ & 630\\
-        $E$ & 450\\
+        $L_0$ & $1.5\times 10^{22}$\\
+        $J_0$ & $92.67$\\
+        $z_J$ & $59.82$\\
+        $K_d$ & $128.44$\\
+        $C$ & $1.82\times 10^{6}$\\
+        $D$ & $1.85\times 10^{7}$\\
+        $E$ & $7.58\times 10^{6}$\\
     };
     \draw(dict-1-1.south west)--(dict-1-2.south east);
     \draw(dict-1-1.north east)--(dict-8-1.south east);
@@ -1785,12 +1816,12 @@ The reduced models thereby identify which coordinated changes in parameter value
         column 1/.style={nodes={text width=.9cm,align=right}}
     ]{
         $\theta_i$ & Relative error (\%)\\
-        $J_0$ & .49\\
-        $z_J$ & .13\\
-        $K_d$ & .23\\
-        $\sqrt[4]{L_0}C$ & 2700\\
-        $\sqrt[4]{L_0}D$ & .62\\
-        $\frac{E}{\sqrt[4]{L_0}}$ & 2800\\
+        $J_0$ & $82.35$\\
+        $z_J$ & $36.15$\\
+        $K_d$ & $51.03$\\
+        $\sqrt[4]{L_0}C$ & $1.23\times 10^{9}$\\
+        $\sqrt[4]{L_0}D$ & $96.86$\\
+        $\frac{E}{\sqrt[4]{L_0}}$ & $1.31\times 10^{9}$\\
     };
     \draw(dict-1-1.south west)--(dict-1-2.south east);
     \draw(dict-1-1.north east)--(dict-7-1.south east);
@@ -1900,11 +1931,11 @@ The reduced models thereby identify which coordinated changes in parameter value
         column 1/.style={nodes={text width=.9cm,align=right}}
     ]{
         $\theta_i$ & Relative error (\%)\\
-        $J_0$ & 0.51\\
-        $z_J$ & .04\\
-        $K_d$ & .21\\
-        $CE$ & .19\\
-        $\sqrt[4]{L_0}D$ & .37\\
+        $J_0$ & $84.52$\\
+        $z_J$ & $17.99$\\
+        $K_d$ & $47.89$\\
+        $CE$ & $44.78$\\
+        $\sqrt[4]{L_0}D$ & $68.67$\\
     };
     \draw(dict-1-1.south west)--(dict-1-2.south east);
     \draw(dict-1-1.north east)--(dict-6-1.south east);
