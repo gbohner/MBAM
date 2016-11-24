@@ -472,6 +472,87 @@ The reduced models thereby identify which coordinated changes in parameter value
 \end{tikzpicture}
 \end{subfigure}
 % Data is in {../CSV/figure_2b_panel1.csv}
+
+
+\vspace{1cm}
+
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 2 C/1 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+    \begin{subfigure}[b]{0.48\linewidth}
+    \centering
+    \resizebox{\linewidth}{!}{
+
+\begin{tikzpicture}
+\node[draw=none, fill=none] at (0.3,6.6) {\LARGE C};
+\begin{axis}
+       [
+         axis line style = { draw = none },
+         %ymode=log,
+         xtick          = {0},
+         %ytick           = {-10, 0, 10}         ,
+         ymin = -50,
+         ymax = 0 ,
+         tick pos        = left           ,
+         xlabel={},
+         %xticklabels    = {{Base}, {Diverging}},
+         ylabel = {$\log_{10}(L_0)$},
+       ]
+       
+
+
+\def\cursf{a}
+
+\addplot +[only marks, color=black, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_2\cursf_panel3.csv};
+\addplot +[only marks, color=red, mark=diamond, mark size=8] table [x index=0, y index=1, col sep=comma] {../CSV/figure_2\cursf_panel1.csv};
+%\addplot +[only marks, color=black, mark=diamond*, mark size=14] table [x index=0, y index=1, col sep=comma] {../CSV/figure_2\cursf_panel2.csv};
+
+\end{axis}
+
+\end{tikzpicture}
+}
+
+\end{subfigure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 2 C/2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \begin{subfigure}[b]{0.48\linewidth}
+    \centering
+    \resizebox{\linewidth}{!}{
+
+\begin{tikzpicture}
+
+\begin{axis}
+       [
+         axis line style = { draw = none },
+         %ymode=log,
+         xtick          = {0}        ,
+         %ytick           = {-10, 0, 10}         ,
+         ymin = -5,
+         ymax = 15,
+         tick pos        = left           ,
+         xlabel={},
+         %xticklabels     = {{Base}, {Diverging}},
+         ylabel = {$\log_{10}(D)$},
+       ]
+       
+
+\def\cursf{c}
+
+\addplot +[only marks, color=black, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_2\cursf_panel3.csv};
+\addplot +[only marks, color=red, mark=diamond, mark size=8] table [x index=0, y index=1, col sep=comma] {../CSV/figure_2\cursf_panel1.csv};
+%\addplot +[only marks, color=black, mark=diamond*, mark size=14] table [x index=0, y index=1, col sep=comma] {../CSV/figure_2\cursf_panel2.csv};
+
+\end{axis}
+
+\end{tikzpicture}
+}
+
+\end{subfigure}
+
+
 \caption{test}
 \end{figure}
 
