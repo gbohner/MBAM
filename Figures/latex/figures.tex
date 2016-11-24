@@ -491,7 +491,7 @@ The reduced models thereby identify which coordinated changes in parameter value
        [
          axis line style = { draw = none },
          %ymode=log,
-         xtick          = {0},
+         xtick          = \empty,
          %ytick           = {-10, 0, 10}         ,
          ymin = -50,
          ymax = 0 ,
@@ -528,7 +528,7 @@ The reduced models thereby identify which coordinated changes in parameter value
        [
          axis line style = { draw = none },
          %ymode=log,
-         xtick          = {0}        ,
+         xtick          = \empty,
          %ytick           = {-10, 0, 10}         ,
          ymin = -5,
          ymax = 15,
@@ -2039,34 +2039,34 @@ The reduced models thereby identify which coordinated changes in parameter value
 \begin{figure}
 
 
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 8 A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-    \begin{subfigure}[b]{0.30\linewidth}
+    \begin{subfigure}[b]{0.48\linewidth}
     \centering
     \resizebox{\linewidth}{!}{
 
 \begin{tikzpicture}
-
+\node[draw=none, fill=none] at (0.3,6.6) {\LARGE A};
 \begin{axis}
        [
          axis line style = { draw = none },
          %ymode=log,
          xtick           = {0, 1}         ,
-         %ytick           = {-10, 0, 10}         ,
-         ymin = 0,
-         ymax = 1.5 ,
+         %ytick           = {-10, -5, 0}  ,
+         ymin = -9,
+         ymax = -3 ,
          tick pos        = left           ,
          xlabel={},
          xticklabels    = {{Base}, {Diverging}},
-         ylabel = {$\log_{10}(C)$},
+         ylabel = {$\log_{10}(L_0)$},
        ]
        
 
 
-\def\cursf{e}
+\def\cursf{a}
 
 \addplot +[only marks, color=black, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_8\cursf_panel3.csv};
 \addplot +[only marks, color=red, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_8\cursf_panel4.csv};
@@ -2083,94 +2083,12 @@ The reduced models thereby identify which coordinated changes in parameter value
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 8 B %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\hspace{0.1cm}
-    \begin{subfigure}[b]{0.30\linewidth}
+    \begin{subfigure}[b]{0.48\linewidth}
     \centering
     \resizebox{\linewidth}{!}{
 
 \begin{tikzpicture}
-
-\begin{axis}
-       [
-         axis line style = { draw = none },
-         %ymode=log,
-         xtick           = {0, 1}         ,
-         %ytick           = {-10, 0, 10}         ,
-         ymin = -0.5,
-         ymax = 1,
-         tick pos        = left           ,
-         xlabel={},
-         xticklabels     = {{Base}, {Diverging}},
-         ylabel = {$\log_{10}(E)$},
-       ]
-       
-
-\def\cursf{g}
-
-\addplot +[only marks, color=black, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_8\cursf_panel3.csv};
-\addplot +[only marks, color=red, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_8\cursf_panel4.csv};
-\addplot +[only marks, color=blue, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_8\cursf_panel5.csv};
-\addplot[no markers, very thick, color=black, dashed ] table [x index=0, y index=1, col sep=comma] {../CSV/figure_8\cursf_panel1.csv};
-\addplot[no markers, very thick, color=black] table [x index=0, y index=1, col sep=comma] {../CSV/figure_8\cursf_panel2.csv};
-
-\end{axis}
-
-\end{tikzpicture}
-}
-
-\end{subfigure}
-
-\vspace{1cm}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 8 D %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-    \begin{subfigure}[b]{0.30\linewidth}
-    \centering
-    \resizebox{\linewidth}{!}{
-
-\begin{tikzpicture}
-
-\begin{axis}
-       [
-         axis line style = { draw = none },
-         %ymode=log,
-         xtick           = {0, 1}         ,
-         %ytick           = {-10, -5, 0}  ,
-         ymin = -9,
-         ymax = -3 ,
-         tick pos        = left           ,
-         xlabel={},
-         xticklabels    = {{Base}, {Diverging}},
-         ylabel = {$\log_{10}(L_0)$},
-       ]
-       
-\def\cursf{a}
-
-\addplot +[only marks, color=black, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_8\cursf_panel3.csv};
-\addplot +[only marks, color=red, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_8\cursf_panel4.csv};
-\addplot +[only marks, color=blue, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_8\cursf_panel5.csv};
-\addplot[no markers, very thick, color=black, dashed ] table [x index=0, y index=1, col sep=comma] {../CSV/figure_8\cursf_panel1.csv};
-\addplot[no markers, very thick, color=black] table [x index=0, y index=1, col sep=comma] {../CSV/figure_8\cursf_panel2.csv};
-
-\end{axis}
-
-\end{tikzpicture}
-}
-
-\end{subfigure}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 8 E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\hspace{0.1cm}
-    \begin{subfigure}[b]{0.30\linewidth}
-    \centering
-    \resizebox{\linewidth}{!}{
-
-\begin{tikzpicture}
-
+\node[draw=none, fill=none] at (0.3,6.6) {\LARGE B};
 \begin{axis}
        [
          axis line style = { draw = none },
@@ -2185,6 +2103,7 @@ The reduced models thereby identify which coordinated changes in parameter value
          ylabel = {$\log_{10}(D)$},
        ]
        
+
 \def\cursf{f}
 
 \addplot +[only marks, color=black, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_8\cursf_panel3.csv};
@@ -2193,28 +2112,26 @@ The reduced models thereby identify which coordinated changes in parameter value
 \addplot[no markers, very thick, color=black, dashed ] table [x index=0, y index=1, col sep=comma] {../CSV/figure_8\cursf_panel1.csv};
 \addplot[no markers, very thick, color=black] table [x index=0, y index=1, col sep=comma] {../CSV/figure_8\cursf_panel2.csv};
 
-
 \end{axis}
 
 \end{tikzpicture}
 }
 
+
+
 \end{subfigure}
 
-
-\vspace{2cm}
-
- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 8 G %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace{1cm}
+\begin{center}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 8 C %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-    \begin{subfigure}[b]{0.30\linewidth}
+    \begin{subfigure}[b]{0.48\linewidth}
     \centering
     \resizebox{\linewidth}{!}{
 
 \begin{tikzpicture}
-
+\node[draw=none, fill=none] at (0.3,6.6) {\LARGE C};
 \begin{axis}
        [
          axis line style = { draw = none },
@@ -2230,7 +2147,6 @@ The reduced models thereby identify which coordinated changes in parameter value
        ]
        
 
-
 \def\cursf{b}
 
 \addplot +[only marks, color=black, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_8\cursf_panel3.csv};
@@ -2245,91 +2161,77 @@ The reduced models thereby identify which coordinated changes in parameter value
 }
 
 \end{subfigure}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 8 H %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\hspace{0.1cm}
-    \begin{subfigure}[b]{0.30\linewidth}
-    \centering
-    \resizebox{\linewidth}{!}{
 
-\begin{tikzpicture}
-
-\begin{axis}
-       [
-         axis line style = { draw = none },
-         %ymode=log,
-         xtick           = {0, 1}         ,
-         %ytick           = {-10, 0, 10}         ,
-         ymin = -0.5,
-         ymax = 0.5,
-         tick pos        = left           ,
-         xlabel={},
-         xticklabels     = {{Base}, {Diverging}},
-         ylabel = {$\log_{10}(zJ)$},
-       ]
-       
-
-\def\cursf{c}
-
-\addplot +[only marks, color=black, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_8\cursf_panel3.csv};
-\addplot +[only marks, color=red, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_8\cursf_panel4.csv};
-\addplot +[only marks, color=blue, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_8\cursf_panel5.csv};
-\addplot[no markers, very thick, color=black, dashed ] table [x index=0, y index=1, col sep=comma] {../CSV/figure_8\cursf_panel1.csv};
-\addplot[no markers, very thick, color=black] table [x index=0, y index=1, col sep=comma] {../CSV/figure_8\cursf_panel2.csv};
-
-\end{axis}
-
-\end{tikzpicture}
-}
-
-\end{subfigure}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 8 I %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\hspace{0.1cm}
-    \begin{subfigure}[b]{0.30\linewidth}
-    \centering
-    \resizebox{\linewidth}{!}{
-
-\begin{tikzpicture}
-
-\begin{axis}
-       [
-         axis line style = { draw = none },
-         %ymode=log,
-         xtick           = {0, 1}         ,
-         %ytick           = {-10, 0, 10}         ,
-         ymin = -4.7,
-         ymax = -3.9 ,
-         tick pos        = left           ,
-         xlabel={},
-         xticklabels     = {{Base}, {Diverging}},
-         ylabel = {$\log_{10}(K_d)$},
-       ]
-       
-\def\cursf{d}
-
-\addplot +[only marks, color=black, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_8\cursf_panel3.csv};
-\addplot +[only marks, color=red, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_8\cursf_panel4.csv};
-\addplot +[only marks, color=blue, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_8\cursf_panel5.csv};
-\addplot[no markers, very thick, color=black, dashed ] table [x index=0, y index=1, col sep=comma] {../CSV/figure_8\cursf_panel1.csv};
-\addplot[no markers, very thick, color=black] table [x index=0, y index=1, col sep=comma] {../CSV/figure_8\cursf_panel2.csv};
+\end{center}
 
 
-\end{axis}
 
-\end{tikzpicture}
-}
-
-\end{subfigure}
-
-
-\caption{Identifying compensating parameters under noise}
+\caption{Identifying changes in parameters under noise via the $\log(P_o)$ assay}
 
 
 
 \end{figure}
+
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE A 1 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}
+
+\vspace{1cm}
+
+        \begin{subfigure}[b]{0.8\linewidth}
+    \centering
+    \resizebox{\linewidth}{!}{
+\begin{tikzpicture}
+\begin{axis}
+       [
+         axis line style = { draw = none },
+         %xtick           = {-10,6}         ,
+         %ytick           = {-.544727175441672, -13.027053197600004, -10.151948911834628, .6931471805599453,
+    %     -.8675005677047232}         ,
+         tick pos        = left           ,
+                  xmax = 6.14,
+       %  yticklabels={$z_J$, $L_0$, $K_d$, $E$, $z_L$},
+         ylabel={$\log(\theta)$},
+         xlabel = {time},
+       ]
+
+
+\pgfplotsset{cycle list set=0}
+\foreach \i in {L0, J0, zJ, Kd, C, D, E}
+{
+\addplot table [x index=0, y index=1, col sep=comma] {../CSV/figure_5a_panel1_param_\i.csv};
+};
+\foreach \i in {zL}
+{
+\addplot table [x index=0, y index=1, col sep=comma] {../CSV/figure_5a_panel1_param_\i.csv};
+};
+
+\legend{$L_0$, $J_0$, $z_J$, $K_d$, $C$, $D$, $E$, $z_L$}
+
+%\node[pos=0.0, pin=left:``first point'']{} ;
+
+
+
+
+%\addplot table [x=trila, y=st]
+        % \node [left] at (axis cs:  6,6) {$32hhhh$};
+\end{axis}
+
+\end{tikzpicture}
+}
+\end{subfigure}
+
+\caption{Same as Figure 5A, but with parameters named}
+
+
+\end{figure}
+
 
 \end{document}
 
