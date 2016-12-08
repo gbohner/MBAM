@@ -18,6 +18,10 @@
 
 \newcommand\Po{P_o}
 
+\usepackage{float}
+\newfloat{suppfig}{tbh}{losf}
+\floatname{suppfig}{Supplementary Figure}
+
 \newcommand\po{P_o}
 
 \newcommand\lpo{\log(\Po)}
@@ -106,13 +110,26 @@
 \newcommand{\no}{N_{open}}
 \newcommand{\ono}{\overline{\no}}
 \newcommand{\var}{\sigma^2_{\rm N_{open}}}
-\newcommand{\lo}{L_o}
-\newcommand{\jo}{J_o}
+\newcommand{\lo}{L_0}
+\newcommand{\jo}{J_0}
 %\newcommand{\zl}{z_L}
 %\newcommand{\zj}{z_J}
 %\\renewcommand{\b}[1]{\left( #1 \right)
 
  \definecolor{mediumcandyapplered}{rgb}{0.89, 0.02, 0.17}
+ 
+ \pgfplotsset{%
+    axis line origin/.style args={#1,#2}{
+        x filter/.append code={ % Check for empty or filtered out numbers
+            \ifx\pgfmathresult\empty\else\pgfmathparse{\pgfmathresult-#1}\fi
+        },
+        y filter/.append code={
+            \ifx\pgfmathresult\empty\else\pgfmathparse{\pgfmathresult-#2}\fi
+        },
+        xticklabel=\pgfmathparse{\tick+#1}\pgfmathprintnumber{\pgfmathresult},
+        yticklabel=\pgfmathparse{\tick+#2}\pgfmathprintnumber{\pgfmathresult}
+    }
+}
 
 
 % Definition for Calcium concentrations and appropriate labels to be used in foreach loops over generated CSV files
@@ -123,73 +140,15 @@
 \pgfplotsset{
     every axis plot post/.style={
         line join=round
-    }
+    },
+    every axis/.append style={font=\large},
+    every tick label/.append style={font=\large}
 }
 
 \usepackage{pgfplotstable}
 \usepackage{booktabs}
 
 \begin{document}
-
-\title{Reducibility, identifiability, and evolvability in allosteric macromolecules}
-
-\maketitle
-
-\begin{abstract}
-Cell signaling relies crucially on the ability of macromolecules to transduce stimulus information into conformational changes.
-These conformational changes are often allosteric: one region of the molecule undergoes structural rearrangement in response to stimulus applied at a different region of the same molecule.  Here, we address the issue of sensitivity of allosteric macromolecules to their underlying biophysical parameters.  
-%
-%
-A canonical Monod-Wyman-Changeux (MWC) model of  the {\it mSlo} large-conductance $\ca$-activated $\kk$ (BK) ion channel is observed to have `non-identifiable' parameters with respect to two common functional assays: neither experimentation provides sufficient constraining power to uniquely estimate model parameter values.  
-%
-%
-We address this non-identifiability by constructing a `reduced' allosteric BK model for each of the two assays, using the recently developed Model Boundary Approximation Method (MBAM).  Each reduced model has fewer total parameters than the original MWC model, but fits its data equally well.  Crucially, the parameters of these reduced models are identifiable, and explicitly expressed as emergent combinations of the original MWC parameters.
-%
-The reduced models thereby identify which coordinated changes in parameter values leave the model output unchanged.  We predict that these coordinated changes are evolutionarily relevant `neutral spaces,' which the protein can use to explore new functions without sacrificing its current behavior.  We argue that the biophysical parameters of allosteric macromolecules should be non-identifiable in order to facilitate their evolvability, and discuss how this idea can be interrogated experimentally.
-%
-%
-
-%The emergent parameters are therefore a relevant prediction about the macromolecule, if the assay from which they arose is physiologically relevant.
-
- % We  argue that emergent parameters of the type found here are an important prediction of allosteric models, endowed with mechanistic meaning.  
-
-%the critical question in fitting allosteric models to data is not: `Are the parameters identifiable by the data?,' but rather: 'Which combinations of parameters are constrained by the data?' 
-
-
-%Each reduced model fits its functional data as well as the original model, and has parameters which are both identifiable and explicitly expressed as emergent combinations of the original, mechanistic MWC parameters.  These results ... 
-
-
-%have parameters which are both identifiable and explicitly expressed in terms 
-
-% can be addressed by transforming the MWC model into a model which   to a model which does have identifiable parameters, with respect to each of the two assays.  
-
-% but can be reduced to models which have fewer, identifiable parameters which are explicitly expressed as emergent combinations of the original mechanistic parameters.  These emergent parameters represent   
-
-%We compare datasets from two common assays of BK function, each of which yields non-identifiable model parameters, when fit to a canonical model of BK function.
-
-
-%Yes, this is the key.  You start with what you DID, which is to COMPARE two different assays.  You saw that they were both non-identifiable to different degrees.  You reduced them to identifiable params.  They had different reductions.  The reductions were interpreted as robustness of underlying parameters to the assay, and allowed the biological relevance of the two assays to be compared from a robustness perspective.  You observed that a 
-
-%A. We use MBAM to show how a non-identifiable allosteric model can be reduced to an identifiable model.
-%B. These reduced models are observed to be particular to the dataset.
-%C. Therefore, non-identifiable models are seen to produce predictions about which parameters compensate for each other to produce a given dataset.
-%D. The reduced models therefore allow us to asses the biological relevance of a given dataset from a robustness perspective.  This perspective is compared to 
-%E. We compare two common assays of BK function, and find that the more `biologically relevant' one from a robustness perspective is also the one more relevant from an information-theory perspective.  Overall, we argue that thinking about emergent combinations of biophysical parameters rather than individual mechanistic parameters solves the non-identifiability problem with respect to a dataset, and 
-
-%We propose that non-identifiability of model parameters with respect to a dataset may be treated as a mechanistically relevant prediction about the robustness of the macromolecule to the experimental assay, rather than a model failing.  
-
-%I don't like the below because it is TOO much detail.  I don't need to say `how,'  I just need to say `what.'
-%Using the recently developed MBAM method, we demonstrate that a non-identifiable model of BK gating can be reduced into a model with identifiable parameters, which are expressed as emergent combinations of the original, mechanistically relevant parameters.  Like non-identifiability itself, the reduced 
-
-%We argue that the recently observed non-identifiability of biophysical parameters with respect to available data may be a mechanistically relevant prediction of the model [which model?].   Using a canonical model of the BK ion channel, we show how a model suffering from parameter non-identifiability may be reduced into a model whose parameters are identifiable, and expressed in terms of the original, biophysically relevant parameters.  We argue that the makeup of these `emergent' parameters constitutes a prediction of the model about the robustness of the measured output to underlying biophysical mechanisms.  By treating different datasets as competing hypotheses about how the channel tranduces information in its enviornment, we are able to compare robustness to discrimnability.  Overall, we argue that the emergent, identifiable parameters we describe here are a very profitable way to understand mechanisms that give rise to the data.  We discuss how the reducibility we observe here could guide experiments towards understanding a possible evolutionary role of allostery.
-
-%Want to say something like: here, we argue that the emergent parameters constitute a prediction about the robustness of the activity curve to the underlying parameters.  Because BK admits both po and log(po), we are able to compare 
-
-% Recall my `prediction:' you should be able to find mutations that fuck up one curve but not the other.  Just do a screen; but not a ligand-binding screen, a AAA screen!  Then  
-
-
-\end{abstract}
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -205,7 +164,7 @@ The reduced models thereby identify which coordinated changes in parameter value
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 	\begin{center}
-	\begin{subfigure}[b]{0.48\linewidth}
+	\begin{subfigure}[b]{0.6\linewidth}
 	\centering
 	\resizebox{\linewidth}{!}{
 
@@ -291,11 +250,11 @@ The reduced models thereby identify which coordinated changes in parameter value
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-
-\begin{subfigure}[b]{0.48\linewidth}
+\hspace{-1.5cm}
+\begin{subfigure}[b]{0.6\linewidth}
 	\resizebox{\linewidth}{!}{
 \begin{tikzpicture}
-\node[draw=none, fill=none] at (0.3,5.8) {\Large B};
+\node[draw=none, fill=none] at (0,6) {\Large B};
 \begin{axis}
        [
          axis line style = { draw = none },
@@ -328,11 +287,11 @@ The reduced models thereby identify which coordinated changes in parameter value
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 1 C %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{subfigure}[b]{0.48\linewidth}
+\begin{subfigure}[b]{0.6\linewidth}
 	\resizebox{\linewidth}{!}{
 
 \begin{tikzpicture}
-\node[draw=none, fill=none] at (0.3,5.8) {\Large C};
+\node[draw=none, fill=none] at (0,6) {\Large C};
 \begin{axis}
        [
          axis line style = { draw = none },
@@ -364,7 +323,9 @@ The reduced models thereby identify which coordinated changes in parameter value
 
 \end{subfigure}
 
-\caption{Synthetic steady-state data.  (A) Schematic of the general allosteric gating mechanism used to generate synthetic data.  The steady state properties of this model are fully described by eight parameters, three of which define the allosteric interactions (C, D, E) and the remaining five define the equilibrium constants (J,K,L) via $J=f(J_0,\zj), \ K=f(\kd), \ L=f(\Lo, \ \zl).$  (B, C) $P_o-V$ and $\log(P_o)-V$ relationships generated from the scheme in (A) for different $\ca$(in $\mu m:$ 0 (\ref{0}); 0.7 (\ref{0.7}); 4 (\ref{4}); 12 (\ref{12}); 22 (\ref{22}); 55 (\ref{55}); 70 (\ref{70}); 95 (\ref{95})) using previously published best-fit parameters .  Each curve contains 26 data points, linearly connected for ease of visualization.}
+\captionsetup{width=1.1\linewidth}
+\caption{Synthetic steady-state data.  (A) Schematic of the general allosteric gating mechanism used to generate synthetic data.  The steady state properties of this model are fully described by eight parameters, three of which define the allosteric interactions (C, D, E) and the remaining five define the equilibrium constants (J,K,L) via $J=f(J_0,\zj), \ K=f(\kd), \ L=f(\Lo, \ \zl).$  (B, C) $P_o-V$ and $\log(P_o)-V$ relationships generated from the scheme in (A) for different $\ca$(in $\mu m:$ 0 (\ref{0}); 0.7 (\ref{0.7}); 4 (\ref{4}); 12 (\ref{12}); 22 (\ref{22}); 55 (\ref{55}); 70 (\ref{70}); 95 (\ref{95})) using previously published best-fit parameters .  Each curve contains 26 data points, sampled from the underlying binding curve (solid lines).}
+
 
 
 
@@ -383,10 +344,11 @@ The reduced models thereby identify which coordinated changes in parameter value
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 2 A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ \hspace{-.6cm}
 \begin{subfigure}[b]{0.6\linewidth}
 	\resizebox{\linewidth}{!}{
 \begin{tikzpicture}
-\node[draw=none, fill=none] at (0.3,5.8) {\Large A};
+\node[draw=none, fill=none] at (0,6) {\Large A};
 \begin{axis}
        [
          axis line style = { draw = none },
@@ -424,7 +386,7 @@ The reduced models thereby identify which coordinated changes in parameter value
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{subfigure}[b]{0.6\linewidth}
 \begin{tikzpicture}
-\node[draw=none, fill=none] at (-2,3.58) {\large B};
+\node[draw=none, fill=none] at (-2,3.75) {\large B};
     \matrix(dict)[matrix of nodes,%below=of game,
         nodes={align=center,text width=1.5cm},
         row 1/.style={anchor=south},
@@ -480,13 +442,12 @@ The reduced models thereby identify which coordinated changes in parameter value
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 2 C/1 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-    \begin{subfigure}[b]{0.48\linewidth}
-    \centering
+\hspace{-.6cm}
+    \begin{subfigure}[b]{0.6\linewidth}
     \resizebox{\linewidth}{!}{
 
 \begin{tikzpicture}
-\node[draw=none, fill=none] at (0.3,6.6) {\LARGE C};
+\node[draw=none, fill=none] at (0,6.6) {\Large C};
 \begin{axis}
        [
          axis line style = { draw = none },
@@ -518,12 +479,12 @@ The reduced models thereby identify which coordinated changes in parameter value
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 2 C/2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    \begin{subfigure}[b]{0.48\linewidth}
+    \begin{subfigure}[b]{0.6\linewidth}
     \centering
     \resizebox{\linewidth}{!}{
 
 \begin{tikzpicture}
-
+\node[draw=none, fill=none] at (0,6.6) {\Large D};
 \begin{axis}
        [
          axis line style = { draw = none },
@@ -552,8 +513,9 @@ The reduced models thereby identify which coordinated changes in parameter value
 
 \end{subfigure}
 
-
-\caption{test}
+\hspace{.6cm}
+\captionsetup{width=1.15\linewidth}
+\caption{An illustration of non-identifiability.  (A). Data generated with `base' parameters, well-fit with `Fit' parameters.  Error bars are $10\%$ from data value.  (B). Parameters which generated the data (`base') and the solid lines ('fit') shown in (A).  (C,D).  Log of fitted $\lo, D$ (respectively) values to 100 noisy synthetic $\Po$ datasets generated from `Base' parameter values.  Values span many orders of magnitude. x-axis spread is for ease of visualization, red diamond surrounds the true `base' parameter.}
 \end{figure}
 
 \pagebreak
@@ -634,7 +596,7 @@ The reduced models thereby identify which coordinated changes in parameter value
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 3 C %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{subfigure}[b]{0.7\linewidth}
+\begin{subfigure}[b]{0.65\linewidth}
 	\resizebox{\linewidth}{!}{
 		\begin{tikzpicture}
             \node[draw=none, fill=none] at (-1.3,6.3) {\Large C};
@@ -662,9 +624,9 @@ The reduced models thereby identify which coordinated changes in parameter value
 	}
 	\end{subfigure}
 
-
-\caption{The BK model is sloppy.  (A) Ellipsoid of constant cost for a toy two-parameter model.  The parameters $\theta_{1,2}$ are constrained in the stiff direction, but have large error regions $\Sigma_{1,2}$ due to the presence of a large sloppy direction.  (B) Calculated $\log(1/{\rm width}^2$) values for the $P_o$ scheme (red) and $\log(P_o)$ scheme (black).  Both exhibit a roughly linear trend, which is the hallmark of a sloppy model.  (C) Parameter error (95\% confidence interval) for each of the schemes.  The $P_0$ scheme has most parameters with great errors (>10\%), whereas the parameters of the $\log(P_o)$ scheme are all identifiable except $L_0$.}
-
+\hspace{-1cm}
+\captionsetup{width=1.3\linewidth}
+\caption{The BK model is sloppy.  (A) Lower bounds on parameter error (95\% confidence interval) for each of the $\po, \lpo$ assays.  The $\po$ assay exhibits much worse identifiability than the $\lpo$ assay.  (B). Ellipsoid of constant cost for a toy two-parameter model.  The parameters $\theta_{1,2}$ are constrained in the stiff direction, but have large error regions $\Sigma_{1,2}$ due to the presence of a large sloppy direction.  (C) Calculated $\log(1/{{\rm width}_i}^2$) values for the $\po$ assay (red) and $\lpo$ assay (black).  Both exhibit a linear trend, the signature of a sloppy model.}
 \end{figure}
 
 
@@ -682,44 +644,17 @@ The reduced models thereby identify which coordinated changes in parameter value
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 4 A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{center}
-	\begin{subfigure}[b]{0.48\linewidth}
-	\centering
-	\resizebox{\linewidth}{!}{
-
-\begin{tikzpicture}
-\node[draw=none, fill=none] at (-0.9,6.5) {\Large A};
-\begin{axis}
-       [
-         axis line style = { draw = none },
-         %ymode=log,
-        % xtick           = {-100,0,160}         ,
-         %ytick           = {0,.5,1}         ,
-         tick pos        = left           ,
-         xlabel={reduction step},
-         ylabel = {RMS error},
-       ]
-
-\pgfplotsset{cycle list set=0}
-\addplot table [x index=0, y index=1, col sep=comma] {../CSV/figure_4a_panel1.csv};
-
-\end{axis}
-
-\end{tikzpicture}
-}
-
-\end{subfigure}
-\end{center}
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 4 B left%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-	\begin{subfigure}[b]{0.48\linewidth}
+\hspace{-1.5cm}
+	\begin{subfigure}[b]{0.6\linewidth}
 	\resizebox{\linewidth}{!}{
 
 \begin{tikzpicture}
-    \node[draw=none, fill=none] at (0, 10) {\Huge B};
+    \node[draw=none, fill=none] at (0, 10) {\Huge A};
+    
     \node[draw=none,fill=none] (R) at (.75,3.5) {\Huge R};
     \node[draw=none,fill=none] (A) at (.75,0.5) {\Huge A};
     \draw [<- >, very thick] (A) to node[anchor=west] {\huge{${J}_0^{{(z_J)}}$}} (R);
@@ -803,7 +738,7 @@ The reduced models thereby identify which coordinated changes in parameter value
 }
 
 \end{subfigure}
-	\begin{subfigure}[b]{0.48\linewidth}
+	\begin{subfigure}[b]{0.6\linewidth}
 
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -850,12 +785,13 @@ The reduced models thereby identify which coordinated changes in parameter value
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 4 C left %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-	\begin{subfigure}[b]{0.48\linewidth}
+\hspace{-1.5cm}
+	\begin{subfigure}[b]{0.6\linewidth}
 	\resizebox{\linewidth}{!}{
 
 \begin{tikzpicture}
-    \node[draw=none, fill=none] at (0, 10) {\Huge C};
+    \node[draw=none, fill=none] at (0, 10) {\Huge B};
+    
     \node[draw=none,fill=none] (R) at (.75,3.5) {\Huge R};
     \node[draw=none,fill=none] (A) at (.75,0.5) {\Huge A};
     \draw [<- >, very thick] (A) to node[anchor=west] {\huge{$\rcancel{J}_0^{{(z_J)}}$}} (R);
@@ -942,7 +878,7 @@ The reduced models thereby identify which coordinated changes in parameter value
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 4 C right %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	\begin{subfigure}[b]{0.48\linewidth}
+	\begin{subfigure}[b]{0.6\linewidth}
 
 	\resizebox{\linewidth}{!}{
 \begin{tikzpicture}
@@ -978,10 +914,44 @@ The reduced models thereby identify which coordinated changes in parameter value
 }
 \end{subfigure}
 
-\caption{Overview of model reduction for $\po.$ (A) Error for five reduction steps.  Each reduction results in a new model with one fewer parameter.  (B, left) Schematic of the model admitted by the third reduction (left); five parameters have been eliminated from the original model (red X) and two new `emergent' parameters have been added ($\phi_{1,2}$) for a total reduction of three parameters.  (B, right) this model fits the data (black lines) extremely well.  (C, left) Schematic of model admitted by the fourth reduction.  This model does not fit the data well at low $\ca$ (C, right), consistent with the increase in computed error (A).}
+\captionsetup{width=1.3\linewidth}
+\caption{Results of model reduction for $\po.$ (A, left) Schematic of the model admitted by the third reduction; five parameters have been eliminated from the original model (red X) and two new `emergent' parameters have been added ($\phi_{1,2}$) for a total reduction of three parameters.  (A, right). This model fits the data (solid lines) extremely well.  (B, left). Schematic of model admitted by the fourth reduction.  This model does not fit the data well at low $\ca$ (B, right).  Synthetic data labeled as previously.}
 
 \end{figure}
 
+\begin{figure}
+\begin{center}
+	\begin{subfigure}[b]{0.48\linewidth}
+	\centering
+	\resizebox{\linewidth}{!}{
+
+\begin{tikzpicture}
+\begin{axis}
+       [
+         axis line style = { draw = none },
+         %ymode=log,
+        % xtick           = {-100,0,160}         ,
+         %ytick           = {0,.5,1}         ,
+         tick pos        = left           ,
+         xlabel={reduction step},
+         ylabel = {RMS error},
+       ]
+
+\pgfplotsset{cycle list set=0}
+\addplot table [x index=0, y index=1, col sep=comma] {../CSV/figure_4a_panel1.csv};
+
+\end{axis}
+
+\end{tikzpicture}
+}
+
+\end{subfigure}
+\end{center}
+\captionsetup{labelformat=empty}
+\caption{Figure 4 - supplement figure 1: RMS cost for each reduced model.  Note a small uptick in error for the fourth reduction, consistent with the poor fit to low $[\ca]$ in Figure 4B.  Subsequent reductions do not fit the data well.}
+\end{figure}
+
+\addtocounter{figure}{-1}
 
 \pagebreak
 
@@ -1002,7 +972,7 @@ The reduced models thereby identify which coordinated changes in parameter value
 
 
 \vspace{1cm}
-
+\hspace{-.5cm}
 		\begin{subfigure}[b]{0.48\linewidth}
 	\centering
 	\resizebox{\linewidth}{!}{
@@ -1045,8 +1015,8 @@ The reduced models thereby identify which coordinated changes in parameter value
 \end{tikzpicture}
 }
 	\end{subfigure}
-	\hspace{.5cm}
-	\begin{subfigure}[b]{0.48\linewidth}
+	\hspace{1cm}
+	\begin{subfigure}[b]{0.6\linewidth}
 	\centering
 	\resizebox{\linewidth}{!}{
 
@@ -1122,7 +1092,7 @@ The reduced models thereby identify which coordinated changes in parameter value
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 5 B %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \vspace{1cm}
-
+\hspace{-.5cm}
 	\begin{subfigure}[b]{0.48\linewidth}
 	\centering
 	\resizebox{\linewidth}{!}{
@@ -1163,8 +1133,8 @@ The reduced models thereby identify which coordinated changes in parameter value
 }
 
 	\end{subfigure}
-		\hspace{.5cm}
-	\begin{subfigure}[b]{0.48\linewidth}
+		\hspace{1cm}
+	\begin{subfigure}[b]{0.6\linewidth}
 	\resizebox{\linewidth}{!}{
 
 \begin{tikzpicture}
@@ -1254,7 +1224,7 @@ The reduced models thereby identify which coordinated changes in parameter value
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 5 C %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\hspace{-.5cm}
 	\begin{subfigure}[b]{0.48\linewidth}
 		\resizebox{\linewidth}{!}{
 	\begin{tikzpicture}
@@ -1297,8 +1267,8 @@ The reduced models thereby identify which coordinated changes in parameter value
 }
 
 	\end{subfigure}
-		\hspace{.5cm}
-	\begin{subfigure}[b]{0.48\linewidth}
+		\hspace{1cm}
+	\begin{subfigure}[b]{0.6\linewidth}
 	\resizebox{\linewidth}{!}{
 
 \begin{tikzpicture}
@@ -1386,8 +1356,8 @@ The reduced models thereby identify which coordinated changes in parameter value
 
 \end{subfigure}
 
-
-\caption{Intermediate MBAM steps, $\po$ assay.  The figure should be read left to right, top to bottom.  The left column displays the parameter values for a given model as MBAM progresses.  The reduced model created by an MBAM iteration is displayed on the right.  (A). MBAM run for the full, original model.  Note that there are eight lines, corresponding to eight parameters.  One of the parameters goes to zero; this is $z_L,$ and it is eliminated, giving our first reduced model, at right.  (B). In the second iteration, four parameters are observed to diverge: $L_0, \ D, \ E,\ C.$  These parameters are eliminated, and three new, emergent parameters are created ($\phi_{1,2,3}$), yielding a net reduction of one parameter.  (C). Two parameters are observed to diverge: $\phi_2, \ \phi_3$.  Note that there are only six lines, corresponding to the six remaining parameters.  The resulting model (right) has five parameters, and fits the data well (Fig 3).}
+\captionsetup{width=1.3\linewidth}
+\caption{Intermediate MBAM steps, $\po$ assay.  The figure should be read left to right, top to bottom.  The left column displays the parameter values for a given model as MBAM progresses.  The reduced model created upon completion of the parameter search is displayed on the right.  (A). MBAM run for the full, original model.  There are eight lines, corresponding to eight parameters.  One of the parameters goes to zero; this is $z_L,$ and it is eliminated, giving our first reduced model, at right.  (B). In the second iteration, four parameters are observed to diverge: $L_0, \ D, \ E,\ C.$  These parameters are eliminated, and three new, emergent parameters are created ($\phi_{1,2,3}$), yielding a net reduction of one parameter.  (C). Two parameters are observed to diverge: $\phi_2, \ \phi_3$.  Note that there are only six lines, corresponding to the six remaining parameters.  The resulting model (right) has five parameters, and fits the data well (Figure 4).}
 
 
 
@@ -1401,290 +1371,6 @@ The reduced models thereby identify which coordinated changes in parameter value
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}
-
-
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 6 A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-\begin{center}
-	\begin{subfigure}[b]{0.48\linewidth}
-	\centering
-	\resizebox{\linewidth}{!}{
-
-\begin{tikzpicture}
-\node[draw=none, fill=none] at (-0.9,6.5) {\Large A};
-\begin{axis}
-       [
-         axis line style = { draw = none },
-         %ymode=log,
-        % xtick           = {-100,0,160}         ,
-         %ytick           = {0,.5,1}         ,
-         tick pos        = left           ,
-         xlabel={reduction step},
-         ylabel = {RMS error},
-       ]
-
-\pgfplotsset{cycle list set=0}
-\addplot table [x index=0, y index=1, col sep=comma] {../CSV/figure_6a_panel1.csv};
-
-\end{axis}
-
-\end{tikzpicture}
-}
-
-\end{subfigure}
-\end{center}
-\vspace{1cm}
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 6 B left %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	\begin{subfigure}[b]{0.48\linewidth}
-	\centering
-	\resizebox{\linewidth}{!}{
-
-\begin{tikzpicture}
-    \node[draw=none, fill=none] at (0, 10) {\Huge B};
-    \node[draw=none,fill=none] (R) at (.75,3.5) {\Huge R};
-    \node[draw=none,fill=none] (A) at (.75,0.5) {\Huge A};
-    \draw [<- >, very thick] (A) to node[anchor=west] {\huge{$J_0^{(z_J)}$}} (R);
-    %\draw[<->] (A) to {v} (RA);% {V};
-    %\draw[->, bend right=22.5] (\from) to node[fill=white] {$T_{\from \to}$}
-    \draw [black, very thick] (0,0) to [square left brace ] (0,4);
-    \draw [black, very thick] (1.5,0) to [square right brace] (1.5,4);
-
-    
-    \draw [black, very thick] (10,0) to [square left brace ] (10,4);
-    \draw [black, very thick] (11.5,0) to [square right brace] (11.5,4);
-        \node[draw=none,fill=none] (X) at (10.75,3.5) {\Huge X};
-    \node[draw=none,fill=none] (Xca) at (10.75,0.5) {{\huge{X}$\cdot\rm \large{Ca^{2+}}$}};
-    \draw [<->, very thick, name=K] (X) to node[anchor=west] {\huge{$K_d$}} (Xca);
-    
-    \draw [black, very thick] (5,5) to [square left brace ] (5,9);
-    \draw [black, very thick] (6.5,5) to [square right brace] (6.5,9);
-    
-    \node[draw=none,fill=none] (C) at (5.75,8.5) {\Huge C};
-    \node[draw=none,fill=none] (O) at (5.75,5.5) {\huge{O}};
-    \draw [<->, very thick, name=L] (C) to node[anchor=west] {\huge ${L}_0^{{{(\rcancel{z_L})}}}$} (O);
-        \node [draw=none,fill=none] (four) at (2.3,0) {\huge 4};
-    
-	    \node [draw=none,fill=none] (four) at (12.3,0) {\huge 4};
-    
-    %D should be at (2.5+.75,7) $5.75+2.5=8.25 10.75-2.5 = 
-    
-    %guide to locations:
-    	%J_v node is at (1.8,2)
-        %K node is at (10.8,2)
-        %L node is at (6.25,6.8)
-        %D node is at (2.5,6)
-        %C node is at (9,6)
-        %E node is at 5.75,2
-    
-    
-    \node[draw=none,fill=none,rotate=45] (D) at (2.5,6) {\Huge $ {D} $};
-    
-    \node[draw=none,fill=none,rotate=45, left of=D, xshift=.2cm] (<D) at (2.5,6) {\Huge $<$};
-    
-     \node[draw=none,fill=none,rotate=45, right of=D, xshift=-.2cm] (D>) at (2.5,6) {\Huge $>$};    
-     
-         \node[draw=none,fill=none,rotate=-45] (C) at (9,6) {\Huge $   {C} $};
-
-         
-    \node[draw=none,fill=none,rotate=45, above of=C, yshift=-.2cm] (<C) at (9,6) {\Huge $\wedge$};
-    
-     \node[draw=none,fill=none,rotate=45, below of=C, yshift=.2cm] (C>) at (9,6) {\Huge $\vee$};    
-
-    
-    \node[draw=none,fill=none] (E) at (5.75,2) {\Huge $ {E} $};
-    
-    
-        \node[draw=none,fill=none, left of=E, xshift=.2cm] (<E) at (5.75,2) {\Huge $<$};
-    
-     \node[draw=none,fill=none, right of=E, xshift=-.2cm] (E>) at (5.75,2) {\Huge $>$};    
-    
- %   \draw [-, line width=0.7mm, red, bend left=15,dashed] (6.25,6.8) to node[anchor=east,font=\bf] {\huge$\phi_1=\sqrt[4]{L_0}E$} (5.75,2);
-    
-%    \draw [-, line width=0.7mm, red, dashed] (6.25,7.25) .. controls +(up:6cm) and +(left:1cm) .. node[above,sloped,font=\bf] {\huge$\mathbf \phi_2=\sqrt[4]{L_0}D$} (2.5,6);
-    
- %       \draw [-, line width=0.7mm, red, dashed] (6.25,7.25) .. controls +(up:6cm) and +(right:1cm) .. node[above,sloped,font=\bf] {\huge$\phi_3=\sqrt[4]{L_0}C$} (9,6);
-\end{tikzpicture}
-}
-
-\end{subfigure}
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 6 B right %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{subfigure}[b]{0.48\linewidth}
-
-	\resizebox{\linewidth}{!}{
-\begin{tikzpicture}
-\begin{axis}
-       [
-         axis line style = { draw = none },
-         %ymode=log,
-        % xtick           = {-100,0,160}         ,
-         %ytick           = {0,.5,1}         ,
-         tick pos        = left           ,
-         xlabel={V (mv)},
-         ylabel = {$P_o$},
-       ]
-       
-\pgfplotsset{cycle list set=0}
-\foreach \i/\j in \CaSTR
-{
-\addplot +[only marks] table [x index=0, y index=1, col sep=comma] {../CSV/figure_1c_panel1_ca\i.csv};\label{\j}
-}
-\pgfplotsset{cycle list set=0}
-\foreach \i/\j in \CaSTR
-{
-\addplot +[no markers] table [x index=0, y index=1, col sep=comma, mark=circle]{../CSV/figure_6b_panel2_ca\i.csv};
-}
-
-
-%\addplot table [x index=0, y index=0, col sep=comma] {figure_3b_panel1_paramzJ.csv};
-%\addplot table [x=trila, y=st]
-    %     \node [left] at (axis cs:  6,6) {$32hhhh$};
-\end{axis}
-
-\end{tikzpicture}
-}
-
-\end{subfigure}
-
-
-    \vspace{1cm}
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 6 C left %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	\begin{subfigure}[b]{0.48\linewidth}
-	\centering
-	\resizebox{\linewidth}{!}{
-
-\begin{tikzpicture}
-    \node[draw=none, fill=none] at (0, 10) {\Huge C};
-    \node[draw=none,fill=none] (R) at (.75,3.5) {\Huge R};
-    \node[draw=none,fill=none] (A) at (.75,0.5) {\Huge A};
-    \draw [<- >, very thick] (A) to node[anchor=west] {\huge{$\rcancel[mediumcandyapplered]{J}_0^{{(z_J)}}$}} (R);
-    %\draw[<->] (A) to {v} (RA);% {V};
-    %\draw[->, bend right=22.5] (\from) to node[fill=white] {$T_{\from \to}$}
-    \draw [black, very thick] (0,0) to [square left brace ] (0,4);
-    \draw [black, very thick] (1.5,0) to [square right brace] (1.5,4);
-    
-    \node[draw=none,fill=none,] (phione) at (.75,7.25) {\Huge $\phi_1 = \Jo D$};
-    
-%    \node[draw=none,fill=none,mediumcandyapplered] (phione) at (10.75,8) {\Huge $\phi_2 = {CE}$};
-
-    
-    \draw [black, very thick] (10,0) to [square left brace ] (10,4);
-    \draw [black, very thick] (11.5,0) to [square right brace] (11.5,4);
-        \node[draw=none,fill=none] (X) at (10.75,3.5) {\Huge X};
-    \node[draw=none,fill=none] (Xca) at (10.75,0.5) {{\huge{X}$\cdot\rm \large{Ca^{2+}}$}};
-    \draw [<->, very thick, name=K] (X) to node[anchor=west] {\huge{${{K_d}}$}} (Xca);
-    
-    \draw [black, very thick] (5,5) to [square left brace ] (5,9);
-    \draw [black, very thick] (6.5,5) to [square right brace] (6.5,9);
-    
-    \node[draw=none,fill=none] (C) at (5.75,8.5) {\Huge C};
-    \node[draw=none,fill=none] (O) at (5.75,5.5) {\huge{O}};
-    \draw [<->, very thick, name=L] (C) to node[anchor=west] {\huge ${L}_0^{{\rcancel[mediumcandyapplered]{(z_L)}}}$} (O);
-        \node [draw=none,fill=none] (four) at (2.3,0) {\huge 4};
-    
-	    \node [draw=none,fill=none] (four) at (12.3,0) {\huge 4};
-    
-    %D should be at (2.5+.75,7) $5.75+2.5=8.25 10.75-2.5 = 
-    
-    %guide to locations:
-    	%J_v node is at (1.8,2)
-        %K node is at (10.8,2)
-        %L node is at (6.25,6.8)
-        %D node is at (2.5,6)
-        %C node is at (9,6)
-        %E node is at 5.75,2
-    
-    
-    \node[draw=none,fill=none,rotate=45] (D) at (2.5,6) {\Huge $ {D} $};
-    
-    \node[draw=none,fill=none,rotate=45, left of=D, xshift=.2cm] (<D) at (2.5,6) {\Huge $<$};
-    
-     \node[draw=none,fill=none,rotate=45, right of=D, xshift=-.2cm] (D>) at (2.5,6) {\Huge $>$};    
-     
-         \node[draw=none,fill=none,rotate=-45] (C) at (9,6) {\Huge $   {C} $};
-
-         
-    \node[draw=none,fill=none,rotate=45, above of=C, yshift=-.2cm] (<C) at (9,6) {\Huge $\wedge$};
-    
-     \node[draw=none,fill=none,rotate=45, below of=C, yshift=.2cm] (C>) at (9,6) {\Huge $\vee$};    
-
-    
-    \node[draw=none,fill=none] (E) at (5.75,2) {\Huge $ {E} $};
-    
-    
-        \node[draw=none,fill=none, left of=E, xshift=.2cm] (<E) at (5.75,2) {\Huge $<$};
-    
-     \node[draw=none,fill=none, right of=E, xshift=-.2cm] (E>) at (5.75,2) {\Huge $>$};   
-              \draw[very thick,mediumcandyapplered,line width=1.25pt] (D.north west)--(D.south east);
-        \draw[very thick,mediumcandyapplered,line width=1.25pt] (D.north east)--(D.south west); 
-        
-           %           \draw[very thick,mediumcandyapplered,line width=1.25pt] (C.north west)--(C.south east);
-    %    \draw[ very thick,mediumcandyapplered,line width=1.25pt] (C.north east)--(C.south west); 
-        
-    %                          \draw[very thick,mediumcandyapplered,line width=1.25pt] (E.north west)--(E.south east);
-    %    \draw[very thick,mediumcandyapplered,line width=1.25pt] (E.north east)--(E.south west); 
-    
-    
- %   \draw [-, line width=0.7mm, red, bend left=15,dashed] (6.25,6.8) to node[anchor=east,font=\bf] {\huge$\phi_1=\sqrt[4]{L_0}E$} (5.75,2);
-    
-%    \draw [-, line width=0.7mm, red, dashed] (6.25,7.25) .. controls +(up:6cm) and +(left:1cm) .. node[above,sloped,font=\bf] {\huge$\mathbf \phi_2=\sqrt[4]{L_0}D$} (2.5,6);
-    
- %       \draw [-, line width=0.7mm, red, dashed] (6.25,7.25) .. controls +(up:6cm) and +(right:1cm) .. node[above,sloped,font=\bf] {\huge$\phi_3=\sqrt[4]{L_0}C$} (9,6);
-\end{tikzpicture}
-}
-
-\end{subfigure}
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 6 C right %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	\begin{subfigure}[b]{0.48\linewidth}
-
-	\resizebox{\linewidth}{!}{
-\begin{tikzpicture}
-\begin{axis}
-       [
-         axis line style = { draw = none },
-         %ymode=log,
-        % xtick           = {-100,0,160}         ,
-         %ytick           = {0,.5,1}         ,
-         tick pos        = left           ,
-         xlabel={V (mv)},
-         ylabel = {$P_o$},
-       ]
-       
-\pgfplotsset{cycle list set=0}
-\foreach \i/\j in \CaSTR
-{
-\addplot +[only marks] table [x index=0, y index=1, col sep=comma] {../CSV/figure_1c_panel1_ca\i.csv};
-}
-\pgfplotsset{cycle list set=0}
-\foreach \i/\j in \CaSTR
-{
-\addplot +[no markers] table [x index=0, y index=1, col sep=comma, mark=circle]{../CSV/figure_6c_panel2_ca\i.csv};
-}
-
-
-%\addplot table [x index=0, y index=0, col sep=comma] {figure_3b_panel1_paramzJ.csv};
-%\addplot table [x=trila, y=st]
-    %     \node [left] at (axis cs:  6,6) {$32hhhh$};
-\end{axis}
-
-\end{tikzpicture}
-}
-\end{subfigure}
-
-\caption{Overview of model reduction for $\lpo$.  (A) Error for four reduction steps.  The first step produces essentially zero change in the fit, the second step produces a small increase in error. (B) Model resulting from one reduction (left) and fit to synthetic data (right, black lines through data points, data legend as in Fig 1).  The model fits the data very well.  (C). Model resulting from two reductions (left) and fit to synthetic data (right).  The model fits data well, with small discrepancies for data at -50 to 50 mV and 22-70 $\mu M \ \ca.$  }
-
-\end{figure}
 
 
 
@@ -1702,7 +1388,7 @@ The reduced models thereby identify which coordinated changes in parameter value
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-	\begin{subfigure}[b]{0.48\linewidth}
+	\begin{subfigure}[b]{0.6\linewidth}
 	\centering
 	\resizebox{\linewidth}{!}{
 
@@ -1774,7 +1460,7 @@ The reduced models thereby identify which coordinated changes in parameter value
 }
 
 \end{subfigure}
-\begin{subfigure}[b]{0.48\linewidth}
+\begin{subfigure}[b]{0.6\linewidth}
 \centering
 \begin{tikzpicture}
     \matrix(dict)[matrix of nodes,%below=of game,
@@ -1802,7 +1488,7 @@ The reduced models thereby identify which coordinated changes in parameter value
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 7 B %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-	\begin{subfigure}[b]{0.48\linewidth}
+	\begin{subfigure}[b]{0.6\linewidth}
 	\resizebox{\linewidth}{!}{
 
 \begin{tikzpicture}
@@ -1888,7 +1574,7 @@ The reduced models thereby identify which coordinated changes in parameter value
 }
 
 \end{subfigure}
-\begin{subfigure}[b]{0.48\linewidth}
+\begin{subfigure}[b]{0.6\linewidth}
 \centering
 \begin{tikzpicture}
     \matrix(dict)[matrix of nodes,%below=of game,
@@ -1915,7 +1601,7 @@ The reduced models thereby identify which coordinated changes in parameter value
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 7 C %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-	\begin{subfigure}[b]{0.48\linewidth}
+	\begin{subfigure}[b]{0.6\linewidth}
 	\resizebox{\linewidth}{!}{
 
 \begin{tikzpicture}
@@ -2003,7 +1689,7 @@ The reduced models thereby identify which coordinated changes in parameter value
 }
 
 \end{subfigure}
-\begin{subfigure}[b]{0.48\linewidth}
+\begin{subfigure}[b]{0.6\linewidth}
 \centering
 \begin{tikzpicture}
     \matrix(dict)[matrix of nodes,%below=of game,
@@ -2023,11 +1709,200 @@ The reduced models thereby identify which coordinated changes in parameter value
 \end{tikzpicture}
 \end{subfigure}
 
-\caption{Model reduction results in identifiable parameters.  Reduced models for the $\po$ assay are presented in the left column (identical with Figure ), and the error in their parameters (95\% confidence interval) are presented at right.  The five parameter model produced by three model reductions (third row, left) has fully identifiable parameters (error <10\%, third row, right).}
+\captionsetup{width=1.2\linewidth}
+\caption{Model reduction results in identifiable parameters.  Reduced models for the $\po$ assay are presented in the left column, and the error in their parameters (95\% confidence interval) are presented at right.  (A),(B),(C) correspond to model-error pairs after one, two, and three reduction steps, respectively. The five parameter model produced by three model reductions (C, left) has identifiable parameters (within one order of magnitude for all parameters, right).}
 
 
 
 \end{figure}
+
+\begin{figure}
+
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 6 A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%\begin{center}
+%	\begin{subfigure}[b]{0.48\linewidth}
+%	\centering
+%	\resizebox{\linewidth}{!}{
+%
+%\begin{tikzpicture}
+%\node[draw=none, fill=none] at (-0.9,6.5) {\Large A};
+%\begin{axis}
+%       [
+%         axis line style = { draw = none },
+%         %ymode=log,
+%        % xtick           = {-100,0,160}         ,
+%         %ytick           = {0,.5,1}         ,
+%         tick pos        = left           ,
+%         xlabel={reduction step},
+%         ylabel = {RMS error},
+%       ]
+%
+%\pgfplotsset{cycle list set=0}
+%\addplot table [x index=0, y index=1, col sep=comma] {../CSV/figure_6a_panel1.csv};
+%
+%\end{axis}
+%
+%\end{tikzpicture}
+%}
+%
+%\end{subfigure}
+%\end{center}
+%\vspace{1cm}
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 6 B left %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \hspace{-1.5cm}
+	\begin{subfigure}[b]{0.6\linewidth}
+	\centering
+	\resizebox{\linewidth}{!}{
+
+\begin{tikzpicture}
+    \node[draw=none, fill=none] at (0, 10) {\Huge A};
+    \node[draw=none,fill=none] (R) at (.75,3.5) {\Huge R};
+    \node[draw=none,fill=none] (A) at (.75,0.5) {\Huge A};
+    \draw [<- >, very thick] (A) to node[anchor=west] {\huge{$J_0^{(z_J)}$}} (R);
+    %\draw[<->] (A) to {v} (RA);% {V};
+    %\draw[->, bend right=22.5] (\from) to node[fill=white] {$T_{\from \to}$}
+    \draw [black, very thick] (0,0) to [square left brace ] (0,4);
+    \draw [black, very thick] (1.5,0) to [square right brace] (1.5,4);
+
+    
+    \draw [black, very thick] (10,0) to [square left brace ] (10,4);
+    \draw [black, very thick] (11.5,0) to [square right brace] (11.5,4);
+        \node[draw=none,fill=none] (X) at (10.75,3.5) {\Huge X};
+    \node[draw=none,fill=none] (Xca) at (10.75,0.5) {{\huge{X}$\cdot\rm \large{Ca^{2+}}$}};
+    \draw [<->, very thick, name=K] (X) to node[anchor=west] {\huge{$K_d$}} (Xca);
+    
+    \draw [black, very thick] (5,5) to [square left brace ] (5,9);
+    \draw [black, very thick] (6.5,5) to [square right brace] (6.5,9);
+    
+    \node[draw=none,fill=none] (C) at (5.75,8.5) {\Huge C};
+    \node[draw=none,fill=none] (O) at (5.75,5.5) {\huge{O}};
+    \draw [<->, very thick, name=L] (C) to node[anchor=west] {\huge ${L}_0^{{{(\rcancel{z_L})}}}$} (O);
+        \node [draw=none,fill=none] (four) at (2.3,0) {\huge 4};
+    
+	    \node [draw=none,fill=none] (four) at (12.3,0) {\huge 4};
+    
+    %D should be at (2.5+.75,7) $5.75+2.5=8.25 10.75-2.5 = 
+    
+    %guide to locations:
+    	%J_v node is at (1.8,2)
+        %K node is at (10.8,2)
+        %L node is at (6.25,6.8)
+        %D node is at (2.5,6)
+        %C node is at (9,6)
+        %E node is at 5.75,2
+    
+    
+    \node[draw=none,fill=none,rotate=45] (D) at (2.5,6) {\Huge $ {D} $};
+    
+    \node[draw=none,fill=none,rotate=45, left of=D, xshift=.2cm] (<D) at (2.5,6) {\Huge $<$};
+    
+     \node[draw=none,fill=none,rotate=45, right of=D, xshift=-.2cm] (D>) at (2.5,6) {\Huge $>$};    
+     
+         \node[draw=none,fill=none,rotate=-45] (C) at (9,6) {\Huge $   {C} $};
+
+         
+    \node[draw=none,fill=none,rotate=45, above of=C, yshift=-.2cm] (<C) at (9,6) {\Huge $\wedge$};
+    
+     \node[draw=none,fill=none,rotate=45, below of=C, yshift=.2cm] (C>) at (9,6) {\Huge $\vee$};    
+
+    
+    \node[draw=none,fill=none] (E) at (5.75,2) {\Huge $ {E} $};
+    
+    
+        \node[draw=none,fill=none, left of=E, xshift=.2cm] (<E) at (5.75,2) {\Huge $<$};
+    
+     \node[draw=none,fill=none, right of=E, xshift=-.2cm] (E>) at (5.75,2) {\Huge $>$};    
+    
+ %   \draw [-, line width=0.7mm, red, bend left=15,dashed] (6.25,6.8) to node[anchor=east,font=\bf] {\huge$\phi_1=\sqrt[4]{L_0}E$} (5.75,2);
+    
+%    \draw [-, line width=0.7mm, red, dashed] (6.25,7.25) .. controls +(up:6cm) and +(left:1cm) .. node[above,sloped,font=\bf] {\huge$\mathbf \phi_2=\sqrt[4]{L_0}D$} (2.5,6);
+    
+ %       \draw [-, line width=0.7mm, red, dashed] (6.25,7.25) .. controls +(up:6cm) and +(right:1cm) .. node[above,sloped,font=\bf] {\huge$\phi_3=\sqrt[4]{L_0}C$} (9,6);
+\end{tikzpicture}
+}
+
+\end{subfigure}
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 6 B right %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{subfigure}[b]{0.6\linewidth}
+
+	\resizebox{\linewidth}{!}{
+\begin{tikzpicture}
+\begin{axis}
+       [
+         axis line style = { draw = none },
+         %ymode=log,
+        % xtick           = {-100,0,160}         ,
+         %ytick           = {0,.5,1}         ,
+         tick pos        = left           ,
+         xlabel={V (mv)},
+         ylabel = {$P_o$},
+       ]
+       
+\pgfplotsset{cycle list set=0}
+\foreach \i/\j in \CaSTR
+{
+\addplot +[only marks] table [x index=0, y index=1, col sep=comma] {../CSV/figure_1c_panel1_ca\i.csv};\label{\j}
+}
+\pgfplotsset{cycle list set=0}
+\foreach \i/\j in \CaSTR
+{
+\addplot +[no markers] table [x index=0, y index=1, col sep=comma, mark=circle]{../CSV/figure_6b_panel2_ca\i.csv};
+}
+
+
+%\addplot table [x index=0, y index=0, col sep=comma] {figure_3b_panel1_paramzJ.csv};
+%\addplot table [x=trila, y=st]
+    %     \node [left] at (axis cs:  6,6) {$32hhhh$};
+\end{axis}
+
+\end{tikzpicture}
+}
+
+\end{subfigure}
+
+\vspace{1cm}
+
+    \hspace{-1.5cm}
+\begin{subfigure}[b]{0.48\linewidth}
+\centering
+\begin{tikzpicture}
+    \node[draw=none, fill=none] at (-7.5, 1.2) {\Large B};
+    \matrix(dict)[matrix of nodes,%below=of game,
+        nodes={align=center,text width=1.25cm},
+        row 1/.style={anchor=south},
+        row 2/.style={color=black},
+        column 1/.style={nodes={text width=4.0cm,align=right}}
+    ]{
+        Parameter ($\theta_i)$ & $L_0$ & $J_0$ & $z_J$ & $K_d$ & $C$ & $D$ & $E$\\
+         %$P_o$ Relative error (\%)  & $5\times10^{11}$ & $4.0\times10^4$ & $7.4\times10^3$ & $71.80$ & $304.31$ &  $2.8\times10^3$ & $1.8\times10^6$ & $1.7\times10^4$\\
+        Relative error (\%)  & $68$ & $43$ & $5.6$ & $11$ &  $16$ & $52$ & $23$\\
+    };
+    \draw(dict-1-1.south west)--(dict-1-8.south east);
+    \draw(dict-1-1.north east)--(dict-2-1.south east);
+    % Data is in {../CSV/figure_3a_panel1.csv}
+\end{tikzpicture}
+\end{subfigure}
+
+
+    \vspace{1cm}
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 6 C left %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+\captionsetup{width=1.2\linewidth}
+\caption{Single reduction identifiability for $\lpo$.  A model resulting from one reduction (A, left) fits synthetic data (A, right, data legend as in Fig 1) very well (solid lines).  This model has identifiable parameters (B).}
+
+\end{figure}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2043,8 +1918,8 @@ The reduced models thereby identify which coordinated changes in parameter value
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 8 A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-    \begin{subfigure}[b]{0.48\linewidth}
+\hspace{-.9cm}
+    \begin{subfigure}[b]{0.6\linewidth}
     \centering
     \resizebox{\linewidth}{!}{
 
@@ -2060,7 +1935,7 @@ The reduced models thereby identify which coordinated changes in parameter value
          ymax = -3 ,
          tick pos        = left           ,
          xlabel={},
-         xticklabels    = {{Base}, {Diverging}},
+         xticklabels    = {{Base}, {Test}},
          ylabel = {$\log_{10}(L_0)$},
        ]
        
@@ -2083,7 +1958,7 @@ The reduced models thereby identify which coordinated changes in parameter value
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 8 B %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    \begin{subfigure}[b]{0.48\linewidth}
+    \begin{subfigure}[b]{0.6\linewidth}
     \centering
     \resizebox{\linewidth}{!}{
 
@@ -2099,7 +1974,7 @@ The reduced models thereby identify which coordinated changes in parameter value
          ymax = 3.5 ,
          tick pos        = left           ,
          xlabel={},
-         xticklabels     = {{Base}, {Diverging}},
+         xticklabels     = {{Base}, {Test}},
          ylabel = {$\log_{10}(D)$},
        ]
        
@@ -2126,7 +2001,7 @@ The reduced models thereby identify which coordinated changes in parameter value
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE 8 C %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    \begin{subfigure}[b]{0.48\linewidth}
+    \begin{subfigure}[b]{0.6\linewidth}
     \centering
     \resizebox{\linewidth}{!}{
 
@@ -2142,7 +2017,7 @@ The reduced models thereby identify which coordinated changes in parameter value
          ymax = -0.5 ,
          tick pos        = left           ,
          xlabel={},
-         xticklabels    = {{Base}, {Diverging}},
+         xticklabels    = {{Base}, {Test}},
          ylabel = {$\log_{10}(J_0)$},
        ]
        
@@ -2164,9 +2039,9 @@ The reduced models thereby identify which coordinated changes in parameter value
 
 \end{center}
 
-
-
-\caption{Identifying changes in parameters under noise via the $\log(P_o)$ assay}
+\hspace{.2cm}
+\captionsetup{width=1.2\linewidth}
+\caption{Inferred parameters from the reduced $\lpo$ model.  Values inferred by fitting the once-reduced $\lpo$ model to 100 noisy synthetic measurements generated from base (black) and test (red) parameter sets.  (A),(B),(C) correspond to inferred values of $\jo, D, \jo,$ respectively.  Solid lines connect the means of the inferred base and test values; dotted lines connect the true generating base and test values.}
 
 
 
@@ -2227,10 +2102,15 @@ The reduced models thereby identify which coordinated changes in parameter value
 }
 \end{subfigure}
 
-\caption{Same as Figure 5A, but with parameters named}
+
+\captionsetup{labelformat=empty,width=1.1\linewidth}
+\caption{Figure 8 - supplement figure 1: Parameter compensations explain discrepancy between true and inferred values.  This figure shows parameter values during the first parameter reduction, which results in the model with one reduced parameter ($\zl$ eliminated).  Note that as $\zl$ goes to zero, $\lo$ and $\jo$ must decrease, and $D$ must increase, to compensate.  We therefore expect that when the once-reduced model is fit to data generated from the full model, $\lo, \jo$ will be smaller than the true parameters, and $D$ will be larger than the true parameters.  This is what we observe in Figure 8. }
 
 
 \end{figure}
+
+\addtocounter{figure}{-1}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2247,7 +2127,7 @@ The reduced models thereby identify which coordinated changes in parameter value
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-    \begin{subfigure}[b]{0.30\linewidth}
+    \begin{subfigure}[b]{0.50\linewidth}
     \centering
     \resizebox{\linewidth}{!}{
 
@@ -2263,7 +2143,7 @@ The reduced models thereby identify which coordinated changes in parameter value
          ymax = 14 ,
          tick pos        = left           ,
          xlabel={},
-         xticklabels    = {{Base}, {Diverging}},
+         xticklabels    = {{Base}, {Test}},
          ylabel = {$\log_{10}(C)$},
        ]
        
@@ -2287,7 +2167,7 @@ The reduced models thereby identify which coordinated changes in parameter value
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE A3 B %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \hspace{0.1cm}
-    \begin{subfigure}[b]{0.30\linewidth}
+    \begin{subfigure}[b]{0.5\linewidth}
     \centering
     \resizebox{\linewidth}{!}{
 
@@ -2303,7 +2183,7 @@ The reduced models thereby identify which coordinated changes in parameter value
          ymax = 14 ,
          tick pos        = left           ,
          xlabel={},
-         xticklabels     = {{Base}, {Diverging}},
+         xticklabels     = {{Base}, {Test}},
          ylabel = {$\log_{10}(E)$},
        ]
        
@@ -2325,51 +2205,52 @@ The reduced models thereby identify which coordinated changes in parameter value
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE A3 C %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\hspace{0.1cm}
-    \begin{subfigure}[b]{0.30\linewidth}
-    \centering
-    \resizebox{\linewidth}{!}{
-
-\begin{tikzpicture}
-
-\begin{axis}
-       [
-         axis line style = { draw = none },
-         %ymode=log,
-         xtick           = {0, 1}         ,
-         ytick           = {-10, 0, 10}         ,
-         ymin = -14,
-         ymax = 14 ,
-         tick pos        = left           ,
-         xlabel={},
-         xticklabels     = {{Base}, {Diverging}},
-         ylabel = {$\log_{10}(C*E)$},
-       ]
-       
-\def\cursf{c}
-
-\addplot +[only marks, color=black, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel3.csv};
-\addplot +[only marks, color=red, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel4.csv};
-\addplot +[only marks, color=blue, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel5.csv};
-\addplot[no markers, very thick, color=black, dashed ] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel1.csv};
-\addplot[no markers, very thick, color=black] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel2.csv};
-
-
-\end{axis}
-
-\end{tikzpicture}
-}
-
-\end{subfigure}
-
-\vspace{2cm}
+%\hspace{0.1cm}
+%    \begin{subfigure}[b]{0.5\linewidth}
+%    \centering
+%    \resizebox{\linewidth}{!}{
+%
+%\begin{tikzpicture}
+%
+%\begin{axis}
+%       [
+%         axis line style = { draw = none },
+%         %ymode=log,
+%         xtick           = {0, 1}         ,
+%         ytick           = {-10, 0, 10}         ,
+%         ymin = -14,
+%         ymax = 14 ,
+%         tick pos        = left           ,
+%         xlabel={},
+%         xticklabels     = {{Base}, {Test}},
+%         ylabel = {$\log_{10}(C*E)$},
+%       ]
+%       
+%\def\cursf{c}
+%
+%\addplot +[only marks, color=black, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel3.csv};
+%\addplot +[only marks, color=red, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel4.csv};
+%\addplot +[only marks, color=blue, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel5.csv};
+%\addplot[no markers, very thick, color=black, dashed ] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel1.csv};
+%\addplot[no markers, very thick, color=black] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel2.csv};
+%
+%
+%\end{axis}
+%
+%\end{tikzpicture}
+%}
+%
+%\end{subfigure}
+%
+%\vspace{2cm}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE A3 D %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\vspace{2cm}
 
-    \begin{subfigure}[b]{0.30\linewidth}
+    \begin{subfigure}[b]{0.5\linewidth}
     \centering
     \resizebox{\linewidth}{!}{
 
@@ -2385,7 +2266,7 @@ The reduced models thereby identify which coordinated changes in parameter value
          ymax = 15 ,
          tick pos        = left           ,
          xlabel={},
-         xticklabels    = {{Base}, {Diverging}},
+         xticklabels    = {{Base}, {Test}},
          ylabel = {$\log_{10}(L_0)$},
        ]
        
@@ -2407,7 +2288,7 @@ The reduced models thereby identify which coordinated changes in parameter value
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE A3 E %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \hspace{0.1cm}
-    \begin{subfigure}[b]{0.30\linewidth}
+    \begin{subfigure}[b]{0.5\linewidth}
     \centering
     \resizebox{\linewidth}{!}{
 
@@ -2423,7 +2304,7 @@ The reduced models thereby identify which coordinated changes in parameter value
          ymax = 15 ,
          tick pos        = left           ,
          xlabel={},
-         xticklabels     = {{Base}, {Diverging}},
+         xticklabels     = {{Base}, {Test}},
          ylabel = {$\log_{10}(D)$},
        ]
        
@@ -2445,170 +2326,331 @@ The reduced models thereby identify which coordinated changes in parameter value
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE A3 F %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\hspace{0.1cm}
-    \begin{subfigure}[b]{0.30\linewidth}
-    \centering
-    \resizebox{\linewidth}{!}{
-
-\begin{tikzpicture}
-
-\begin{axis}
-       [
-         axis line style = { draw = none },
-         %ymode=log,
-         xtick           = {0, 1}         ,
-         ytick           = {-50, -40, -30, -20, -10, 0, 10}  ,
-         ymin = -57,
-         ymax = 15 ,
-         tick pos        = left           ,
-         xlabel={},
-         xticklabels     = {{Base}, {Diverging}},
-         ylabel = {$\log_{10}(L_0^{1/4}*D)$},
-       ]
-       
-\def\cursf{f}
-
-\addplot +[only marks, color=black, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel3.csv};
-\addplot +[only marks, color=red, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel4.csv};
-\addplot +[only marks, color=blue, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel5.csv};
-\addplot[no markers, very thick, color=black, dashed ] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel1.csv};
-\addplot[no markers, very thick, color=black] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel2.csv};
-
-\end{axis}
-
-\end{tikzpicture}
-}
-
-\end{subfigure}
-
-\vspace{2cm}
+%\hspace{0.1cm}
+%    \begin{subfigure}[b]{0.30\linewidth}
+%    \centering
+%    \resizebox{\linewidth}{!}{
+%
+%\begin{tikzpicture}
+%
+%\begin{axis}
+%       [
+%         axis line style = { draw = none },
+%         %ymode=log,
+%         xtick           = {0, 1}         ,
+%         ytick           = {-50, -40, -30, -20, -10, 0, 10}  ,
+%         ymin = -57,
+%         ymax = 15 ,
+%         tick pos        = left           ,
+%         xlabel={},
+%         xticklabels     = {{Base}, {Test}},
+%         ylabel = {$\log_{10}(L_0^{1/4}*D)$},
+%       ]
+%       
+%\def\cursf{f}
+%
+%\addplot +[only marks, color=black, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel3.csv};
+%\addplot +[only marks, color=red, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel4.csv};
+%\addplot +[only marks, color=blue, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel5.csv};
+%\addplot[no markers, very thick, color=black, dashed ] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel1.csv};
+%\addplot[no markers, very thick, color=black] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel2.csv};
+%
+%\end{axis}
+%
+%\end{tikzpicture}
+%}
+%
+%\end{subfigure}
+%
+%\vspace{2cm}
 
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE A3 G %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-    \begin{subfigure}[b]{0.30\linewidth}
-    \centering
-    \resizebox{\linewidth}{!}{
+%    \begin{subfigure}[b]{0.45\linewidth}
+%    \centering
+%    \resizebox{\linewidth}{!}{
+%
+%\begin{tikzpicture}
+%
+%\begin{axis}
+%       [
+%         axis line style = { draw = none },
+%         %ymode=log,
+%         xtick           = {0, 1}         ,
+%         ytick           = {-10, 0, 10}         ,
+%         ymin = -14,
+%         ymax = 14 ,
+%         tick pos        = left           ,
+%         xlabel={},
+%         xticklabels    = {{Base}, {Test}},
+%         ylabel = {$\log_{10}(J_0)$},
+%       ]
+%       
+%
+%
+%\def\cursf{g}
+%
+%\addplot +[only marks, color=black, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel3.csv};
+%\addplot +[only marks, color=red, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel4.csv};
+%\addplot +[only marks, color=blue, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel5.csv};
+%\addplot[no markers, very thick, color=black, dashed ] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel1.csv};
+%\addplot[no markers, very thick, color=black] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel2.csv};
+%
+%\end{axis}
+%
+%\end{tikzpicture}
+%}
+%
+%\end{subfigure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE A3 H %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\hspace{0.1cm}
+%    \begin{subfigure}[b]{0.45\linewidth}
+%    \centering
+%    \resizebox{\linewidth}{!}{
+%
+%\begin{tikzpicture}
+%
+%\begin{axis}
+%       [
+%         axis line style = { draw = none },
+%         %ymode=log,
+%         xtick           = {0, 1}         ,
+%         ytick           = {-10, 0, 10}         ,
+%         ymin = -14,
+%         ymax = 14 ,
+%         tick pos        = left           ,
+%         xlabel={},
+%         xticklabels     = {{Base}, {Test}},
+%         ylabel = {$\log_{10}(zJ)$},
+%       ]
+%       
+%
+%\def\cursf{h}
+%
+%\addplot +[only marks, color=black, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel3.csv};
+%\addplot +[only marks, color=red, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel4.csv};
+%\addplot +[only marks, color=blue, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel5.csv};
+%\addplot[no markers, very thick, color=black, dashed ] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel1.csv};
+%\addplot[no markers, very thick, color=black] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel2.csv};
+%
+%\end{axis}
+%
+%\end{tikzpicture}
+%}
+%
+%\end{subfigure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE A3 I %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\hspace{0.1cm}
+%    \begin{subfigure}[b]{0.45\linewidth}
+%    \centering
+%    \resizebox{\linewidth}{!}{
+%
+%\begin{tikzpicture}
+%
+%\begin{axis}
+%       [
+%         axis line style = { draw = none },
+%         %ymode=log,
+%         xtick           = {0, 1}         ,
+%         ytick           = {-10, 0, 10}         ,
+%         ymin = -14,
+%         ymax = 14 ,
+%         tick pos        = left           ,
+%         xlabel={},
+%         xticklabels     = {{Base}, {Test}},
+%         ylabel = {$\log_{10}(K_d)$},
+%       ]
+%       
+%\def\cursf{i}
+%
+%\addplot +[only marks, color=black, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel3.csv};
+%\addplot +[only marks, color=red, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel4.csv};
+%\addplot +[only marks, color=blue, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel5.csv};
+%\addplot[no markers, very thick, color=black, dashed ] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel1.csv};
+%\addplot[no markers, very thick, color=black] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel2.csv};
+%
+%
+%\end{axis}
+%
+%\end{tikzpicture}
+%}
+%
+%\end{subfigure}
 
-\begin{tikzpicture}
-
-\begin{axis}
-       [
-         axis line style = { draw = none },
-         %ymode=log,
-         xtick           = {0, 1}         ,
-         ytick           = {-10, 0, 10}         ,
-         ymin = -14,
-         ymax = 14 ,
-         tick pos        = left           ,
-         xlabel={},
-         xticklabels    = {{Base}, {Diverging}},
-         ylabel = {$\log_{10}(J_0)$},
-       ]
-       
-
-
-\def\cursf{g}
-
-\addplot +[only marks, color=black, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel3.csv};
-\addplot +[only marks, color=red, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel4.csv};
-\addplot +[only marks, color=blue, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel5.csv};
-\addplot[no markers, very thick, color=black, dashed ] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel1.csv};
-\addplot[no markers, very thick, color=black] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel2.csv};
-
-\end{axis}
-
-\end{tikzpicture}
-}
-
-\end{subfigure}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE A3 H %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\hspace{0.1cm}
-    \begin{subfigure}[b]{0.30\linewidth}
-    \centering
-    \resizebox{\linewidth}{!}{
-
-\begin{tikzpicture}
-
-\begin{axis}
-       [
-         axis line style = { draw = none },
-         %ymode=log,
-         xtick           = {0, 1}         ,
-         ytick           = {-10, 0, 10}         ,
-         ymin = -14,
-         ymax = 14 ,
-         tick pos        = left           ,
-         xlabel={},
-         xticklabels     = {{Base}, {Diverging}},
-         ylabel = {$\log_{10}(zJ)$},
-       ]
-       
-
-\def\cursf{h}
-
-\addplot +[only marks, color=black, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel3.csv};
-\addplot +[only marks, color=red, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel4.csv};
-\addplot +[only marks, color=blue, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel5.csv};
-\addplot[no markers, very thick, color=black, dashed ] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel1.csv};
-\addplot[no markers, very thick, color=black] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel2.csv};
-
-\end{axis}
-
-\end{tikzpicture}
-}
-
-\end{subfigure}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FIGURE A3 I %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\hspace{0.1cm}
-    \begin{subfigure}[b]{0.30\linewidth}
-    \centering
-    \resizebox{\linewidth}{!}{
-
-\begin{tikzpicture}
-
-\begin{axis}
-       [
-         axis line style = { draw = none },
-         %ymode=log,
-         xtick           = {0, 1}         ,
-         ytick           = {-10, 0, 10}         ,
-         ymin = -14,
-         ymax = 14 ,
-         tick pos        = left           ,
-         xlabel={},
-         xticklabels     = {{Base}, {Diverging}},
-         ylabel = {$\log_{10}(K_d)$},
-       ]
-       
-\def\cursf{i}
-
-\addplot +[only marks, color=black, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel3.csv};
-\addplot +[only marks, color=red, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel4.csv};
-\addplot +[only marks, color=blue, mark=star] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel5.csv};
-\addplot[no markers, very thick, color=black, dashed ] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel1.csv};
-\addplot[no markers, very thick, color=black] table [x index=0, y index=1, col sep=comma] {../CSV/figure_A3\cursf_panel2.csv};
-
-
-\end{axis}
-
-\end{tikzpicture}
-}
-
-\end{subfigure}
-
-
-\caption{Identifying compensating parameters under noise}
+\captionsetup{labelformat=empty,width=1.1\linewidth}
+\caption{Figure 8 - supplement figure 2: Inferred parameters from the reduced $\lpo$ model. Values inferred by fitting the once-reduced $\lpo$ model to 100 noisy synthetic measurements generated from base (black) and test (red, blue) parameter sets..  Test parameters are different from those in Figure 8.  Here, the inferred values of our compensatory parameters fall into two modes.  This is because the model is degenerate at the true `best fit' parameter values that the noisy synthetic data were generated from.  Each set of inferred parameters was labeled either red or blue.  The two clouds therefore show that the parameter compensation is consistent for all fits.  Each cloud is discernible from the base parameters, and the mean of the values is discernible from the base parameters.}
 
 
 
 \end{figure}
+
+\addtocounter{figure}{-1}
+
+\begin{figure}
+\hspace{-1.5cm}
+\begin{subfigure}[b]{0.65\linewidth}
+	\resizebox{\linewidth}{!}{
+		\begin{tikzpicture}
+            \node[draw=none, fill=none] at (-1.3,6.3) {\Large A};
+			\begin{axis}[
+						axis x line = bottom,
+			axis y line = left,
+			axis line style={-},
+				xmin = 2,
+				xmax = 4,
+				ymin = 2,
+				ymax = 80,
+				ylabel = {$p_{50}$},
+				xlabel = {$n$},
+				xtick pos=left,
+				ytick={10,20,40,80},
+				xtick={2,2.5,3,3.5,4},
+				ytick pos=left,
+				%yticklabels={\textcolor{red}{-10.6},\textcolor{black}{-7.6},\textcolor{red}{3.3},\textcolor{black}{5.3}},
+				%xmajorticks=false,
+				%yticklabels{}
+			]
+			\addplot[color=black,mark=*] plot [error bars/.cd, y dir = both, x dir = both, x explicit, y explicit] table[x index=3, y index=1, col sep=comma, y error index = 2, x error index = 4, only marks] {../CSV/clean_ph.csv};
+			%\addplot[color=red,mark=*] table[x index=0, y index=1, col sep=comma, only marks] {../CSV/figure_3c_panel1_orig.csv};
+			%\draw[scale=1,domain=0:8,dashed,variable=\x,black] plot ({\x},{-4.7+0*\x});
+			%\draw[scale=1,domain=0:8,smooth,variable=\x,red] plot ({\x},{.8488*\x-5.2838});
+			
+			
+			\end{axis}
+			
+	
+		\end{tikzpicture}
+	}
+	\end{subfigure}
+\begin{subfigure}[b]{0.65\linewidth}
+	\resizebox{\linewidth}{!}{
+		\begin{tikzpicture}
+            \node[draw=none, fill=none] at (-1.3,6.3) {\Large B};
+			\begin{axis}[
+						axis x line = bottom,
+			axis y line = left,
+			axis line style={-},
+				xmin = 2,
+				xmax = 4,
+				ymin = 2,
+				ymax = 80,
+				ytick={10,20,40,80},
+				xtick={2,2.5,3,3.5,4},
+				ylabel = {$p_{50}$},
+				xlabel = {$n$},
+				xtick pos=left,
+				%ytick={-10.6,-7.6,3.3,5.3},
+				ytick pos=left,
+				%yticklabels={\textcolor{red}{-10.6},\textcolor{black}{-7.6},\textcolor{red}{3.3},\textcolor{black}{5.3}},
+				%xmajorticks=false,
+				%yticklabels{}
+			]
+			\addplot[color=black,mark=*] plot [error bars/.cd, y dir = both, x dir = both, x explicit, y explicit] table[x index=3, y index=1, x error index = 4, y error index=2, col sep=comma, only marks] {../CSV/clean_evolution.csv};
+			%\addplot[color=red,mark=*] table[x index=0, y index=1, col sep=comma, only marks] {../CSV/figure_3c_panel1_orig.csv};
+			%\draw[scale=1,domain=0:8,dashed,variable=\x,black] plot ({\x},{-4.7+0*\x});
+			%\draw[scale=1,domain=0:8,smooth,variable=\x,red] plot ({\x},{.8488*\x-5.2838});
+			
+			
+			\end{axis}
+			
+	
+		\end{tikzpicture}
+	}
+	\end{subfigure}
+	
+	\vspace{1cm}
+	
+	\hspace{-1.5cm}
+	\begin{subfigure}[b]{0.65\linewidth}
+	\resizebox{\linewidth}{!}{
+		\begin{tikzpicture}
+            \node[draw=none, fill=none] at (-1.3,6.3) {\Large C};
+			\begin{axis}[
+			axis x line = bottom,
+			axis y line = left,
+			axis line style={-},
+				%xmax = -0.5,
+				%xmin = -1.3,
+				%axis y discontinuity=crunch,
+				enlargelimits=false,
+				ymin = 0.9,
+				ymax = 2,
+				xmin = -1.4,
+				xmax = -0.2,
+				x dir=reverse,
+				ylabel = {$\log_{10}(\rm L_{T0R4})$},
+				xlabel = {$\log_{10}(\rm L_4^{1/4})$},
+				xtick pos=left,
+				ytick={1,1.2,1.4,1.6,1.8},
+				xtick={-0.4,-0.6,-0.8,-1,-1.2},
+				ytick pos=left,
+				%yticklabels={\textcolor{red}{-10.6},\textcolor{black}{-7.6},\textcolor{red}{3.3},\textcolor{black}{5.3}},
+				%xmajorticks=false,
+				%yticklabels{}
+			]
+			\addplot[color=black,mark=*] plot [error bars/.cd, y dir = both, x dir = both, x explicit, y explicit] table[x index=7, y index=5, x error index = 8, y error index = 6, col sep=comma, only marks] {../CSV/clean_ph.csv};
+			%\addplot[color=red,mark=*] table[x index=0, y index=1, col sep=comma, only marks] {../CSV/figure_3c_panel1_orig.csv};
+			%\draw[scale=1,domain=0:8,dashed,variable=\x,black] plot ({\x},{-4.7+0*\x});
+			%\draw[scale=1,domain=0:8,smooth,variable=\x,red] plot ({\x},{.8488*\x-5.2838});
+			
+			
+			\end{axis}
+			
+	
+		\end{tikzpicture}
+	}
+	\end{subfigure}
+\begin{subfigure}[b]{0.65\linewidth}
+	\resizebox{\linewidth}{!}{
+		\begin{tikzpicture}
+            \node[draw=none, fill=none] at (-1.3,6.3) {\Large D};
+			\begin{axis}[
+			axis x line = bottom,
+			axis y line = left,
+			axis line style={-},
+				%xmax = -0.5,
+				%xmin = -1.3,
+				%axis y discontinuity=crunch,
+				enlargelimits=false,
+				ymin = 0.9,
+				ymax = 2,
+				xmin = -1.4,
+				xmax = -0.2,
+				x dir=reverse,
+				ylabel = {$\log_{10}(\rm L_{T0R4})$},
+				xlabel = {$\log_{10}(\rm L_4^{1/4})$},
+				xtick pos=left,
+				ytick={1,1.2,1.4,1.6,1.8},
+				xtick={-0.4,-0.6,-0.8,-1,-1.2},
+				ytick pos=left,
+				%yticklabels={\textcolor{red}{-10.6},\textcolor{black}{-7.6},\textcolor{red}{3.3},\textcolor{black}{5.3}},
+				%xmajorticks=false,
+				%yticklabels{}
+			]
+			\addplot[color=black,mark=*] plot [error bars/.cd, y dir = both, x dir = both, x explicit, y explicit] table[x index=7, y index=5, x error index = 8, y error index=6, col sep=comma, only marks] {../CSV/clean_evolution.csv};
+			%\addplot[color=red,mark=*] table[x index=0, y index=1, col sep=comma, only marks] {../CSV/figure_3c_panel1_orig.csv};
+			%\draw[scale=1,domain=0:8,dashed,variable=\x,black] plot ({\x},{-4.7+0*\x});
+			%\draw[scale=1,domain=0:8,smooth,variable=\x,red] plot ({\x},{.8488*\x-5.2838});
+			
+			
+			\end{axis}
+			
+	
+		\end{tikzpicture}
+	}
+	\end{subfigure}
+	
+\captionsetup{width=1.3\linewidth}
+\caption{Analysis of hemoglobin oxygen saturation curves.  These figures were generated with data published by Milo et al.  The Figures aim to reproduce Milo et al's figure 2a,b (our Figure 8A,B) and Milo et al's figure 4a,b (our Figure 8C,D).  Each point in Figures 8A,C corresponds to human hemoglobin at a different pH.  Each point in Figures 8B,D corresponds to hemoglobin from a different mammal, at the same physiological condition.  We refer the reader to the appropriate figures in Milo et al. for full descriptions of pH conditions and mammals used. }
+\end{figure}
+
 
 
 \end{document}
